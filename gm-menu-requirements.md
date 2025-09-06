@@ -30,6 +30,7 @@ Common tasks are things and workflows that make up like 99% of the usage of the 
 - [Summoning players](#summoning-players)
 - [Discreetly telling a player something without others knowing](#discretely-talking-with-players)
 - Changing global brightness of the map locally
+- Big maybe changing far clip plane (`VRCCameraSettings.ScreenCamera.FarClipPlane = 100;`)
 
 ## Pings
 
