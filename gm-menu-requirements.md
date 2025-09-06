@@ -15,7 +15,7 @@
 
 # Common Tasks
 
-Common tasks are things and workflows that make up like 99% of the usage of the GM menu. Thus feature should be built around them to reduce friction and speed up the process.
+Common tasks are things and workflows that make up like 99% of the usage of the GM menu. Thus features should be built around them to reduce friction and speed up the process.
 
 - [Pings](#pings)
 - [No Clip](#no-clip)
@@ -73,6 +73,9 @@ For GMs they are a method of communicating with players and other GMs.
 - **General**
   - Undo/Redo teleport, a stack
     - When teleporting to a player, remember both their position and which player it was, so when revisiting that entry in the undo stack it teleports you to where the player is at, not where they were. Same for locations if there is any moving locations
+  - Experiment with positioning the teleporting player in a convenient location
+    - For GMs positioning the GM in front of an facing the player they teleported to
+    - For other usage of teleports facing the same direction as the player being teleported to may be desirable, and relative positioning is currently undefined. This should likely be the default
 - **Keeping an eye on a player**
   - Pin players to the top of the player list
     - Finding players by proximity to more quickly pin them
@@ -95,7 +98,7 @@ For GMs they are a method of communicating with players and other GMs.
 - Selecting players
   - Try point and click selection of players
   - Show count of how many players are selected
-  - Sort players by selected state
+  - Option to sort players by selected state
   - Closing the UI does not clear selection
   - Potentially save and load selections
   - Select all
