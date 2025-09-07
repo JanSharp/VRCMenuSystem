@@ -59,6 +59,7 @@ For GMs they are a method of communicating with players and other GMs.
   - Option to mark as unhandled, also for edge cases
 - Old handled pings are irrelevant
   - can be deleted
+- Maybe telling other GMs that you cannot handle a ping
 
 ## No Clip
 
