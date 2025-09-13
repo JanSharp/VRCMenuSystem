@@ -60,6 +60,7 @@ For GMs they are a method of communicating with players and other GMs.
 - Old handled pings are irrelevant
   - can be deleted
 - Maybe telling other GMs that you cannot handle a ping
+- Maybe number as part of the HUD for open pings
 
 ## No Clip
 
