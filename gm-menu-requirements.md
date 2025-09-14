@@ -18,6 +18,7 @@
 Common tasks are things and workflows that make up like 99% of the usage of the GM menu. Thus features should be built around them to reduce friction and speed up the process.
 
 - [Pings](#pings)
+- [Talk Motes](#talk-modes)
 - [No Clip](#no-clip)
 - [Teleporting](#teleporting)
   - Keeping an eye on a player
@@ -29,8 +30,19 @@ Common tasks are things and workflows that make up like 99% of the usage of the 
 
 - [Summoning players](#summoning-players)
 - [Discreetly telling a player something without others knowing](#discretely-talking-with-players)
-- Changing global brightness of the map locally
+- Changing global brightness of the map locally, like night vision
 - Big maybe changing far clip plane (`VRCCameraSettings.ScreenCamera.FarClipPlane = 100;`)
+- Changing UI sound volume
+- Accessibility settings panel (might just be the general settings page)
+- Haptics settings
+- By default it opens the main menu for players
+  - Setting to have it remember, which defaults to true for GMs
+- To make this a more generic system
+  - Permission system, editable at runtime
+    - Being able to set which player is GM vs isn't
+    - Being able to change what a player can and cannot do
+    - Maybe adding custom permission levels
+- Time of day controls in some way
 
 ## Pings
 
@@ -39,10 +51,26 @@ For players they are the primary method of getting into contact with a GM.
 - Easily accessible
   - As few button presses as possible
   - Should therefore be on the same page as anything else quick and important that should be available to the players
+- Maybe state in the UI that pings do not time out
 - They let the player know when a GM has arrived
   - The ping indicator goes away
-  - Maybe play a sound too
+    - Blink for about a second before disappearing
+  - Big maybe play a sound too
+    - Concerns about it being taken in character
+    - Would need a setting to toggle it, and it would probably just be an accessibility feature - default off
 - Can undo pings, if it was an accident or assistance is no longer needed
+- Pinging should close the menu (if we go with a menu (probably will))
+  - Play (unique) sound
+  - Play haptics
+- Types of pings
+  - Request GM
+  - Urgent
+- Crazy ideas for requesting GM without pinging
+  - Down and trigger on the right controller
+    - Consume the trigger input
+    - Consume the down input, do not attach items
+    - Play (unique) sound
+    - Play haptics
 
 For GMs they are a method of communicating with players and other GMs.
 
@@ -51,8 +79,10 @@ For GMs they are a method of communicating with players and other GMs.
 - Provide methods for GMs to assist said players
   - By teleporting to them. That's it, it's the universal and best method of assisting players. Being present
 - Focus on the ones which have not received assistance yet
+  - Order Urgent to the top
   - Put them to the top of the list, oldest first (the ones that have been waiting the longest)
   - Maybe otherwise highlight them
+  - Using color to indicate how long a ping has been sitting there, like 5 minutes red
 - Communicate between GMs who is handling what
   - Auto mark pings as handled as soon as teleporting
   - Manually marking pings as handled, for edge cases
@@ -61,6 +91,23 @@ For GMs they are a method of communicating with players and other GMs.
   - can be deleted
 - Maybe telling other GMs that you cannot handle a ping
 - Maybe number as part of the HUD for open pings
+
+## Talk Modes
+
+- There's different ranges for people to pick from
+  - Whisper
+  - Quiet
+  - Talk
+  - Yell
+  - Broadcast (GM only)
+- On the main page that pings are also on
+  - Maybe on a side or bottom row just like Sylan's. Maybe
+    - If yes then buttons need to be a bit bigger compared to Sylan's to reduce UX friction
+- The mode you are in must have a lot of feedback in order to prevent users getting stuck on a mode without knowing
+- The system must not break
+  - Hah funny
+    - It's using lockstep
+    - If any system using lockstep breaks, everything breaks!
 
 ## No Clip
 
@@ -76,6 +123,8 @@ For GMs they are a method of communicating with players and other GMs.
 - **General**
   - Undo/Redo teleport, a stack
     - When teleporting to a player, remember both their position and which player it was, so when revisiting that entry in the undo stack it teleports you to where the player is at, not where they were. Same for locations if there is any moving locations
+    - Show what will be undone or redone
+    - Only record teleports to player, the top of the stack will be your last location
   - Experiment with positioning the teleporting player in a convenient location
     - For GMs positioning the GM in front of an facing the player they teleported to
     - For other usage of teleports facing the same direction as the player being teleported to may be desirable, and relative positioning is currently undefined. This should likely be the default
@@ -90,7 +139,7 @@ For GMs they are a method of communicating with players and other GMs.
 - **Keeping an eye on a scene**
   - Teleporting to locations
     - List of defined locations in the unity editor
-    - Maybe runtime placeable locations. Could also be tied into GM proxies. Uncertain
+    - ~~Maybe runtime placeable locations. Could also be tied into GM proxies. Uncertain. Probably niche~~
 
 ## Spawning GM Proxies
 
@@ -108,8 +157,14 @@ For GMs they are a method of communicating with players and other GMs.
   - Select none
   - Invert selection
 - Summoning multiple players spreads them out
+  - Better than summoning one by one as that'd waste time
+  - Prevent players clipping inside each other
   - In a circle around the summoner (must have)
-  - Maybe an alternative which spreads them out all facing the same direction as the summoner
+    - Having this as the only option makes UI and UX easier
+  - Radius should scale with the amount of players being summoned, such that people are about 1 meter apart from each other
+  - Upon hitting the summon button ones it prompts for a confirm
+    - While waiting for confirmation, a preview of the circle can be shown
+  - ~~Maybe an alternative which spreads them out all facing the same direction as the summoner~~
 - Visual indictor on the ground where somebody is about to be summoned, local only to the summoner
 
 ## Discretely Talking With Players
