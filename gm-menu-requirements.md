@@ -12,6 +12,11 @@
   - Dragging the scrollbar (must be wide enough)
   - Maybe experiment with "page down/up" buttons in the UI
 - Decent contrast between UI text and its background
+- Having some kind of color that indicates something is synced/global that is used everywhere
+  - Local would have their own color, or just be white/gray
+- Default menu open page
+  - Players - Main
+  - GMs - Last State
 
 # Common Tasks
 
@@ -51,7 +56,7 @@ For players they are the primary method of getting into contact with a GM.
 - Easily accessible
   - As few button presses as possible
   - Should therefore be on the same page as anything else quick and important that should be available to the players
-- Maybe state in the UI that pings do not time out
+- ~~Maybe state in the UI that pings do not time out~~ Muh clean UI!
 - They let the player know when a GM has arrived
   - The ping indicator goes away
     - Blink for about a second before disappearing
@@ -108,6 +113,11 @@ For GMs they are a method of communicating with players and other GMs.
   - Hah funny
     - It's using lockstep
     - If any system using lockstep breaks, everything breaks!
+- Make the voice icons on the HUD obvious, but not obnoxious
+  - Static (as it is in Sylan's menu)
+  - Slow throbbing
+  - Fast blinking
+  - Maybe expose it as a setting in the settings tab (sane defaults are better though)
 
 ## No Clip
 
@@ -117,6 +127,8 @@ For GMs they are a method of communicating with players and other GMs.
 - Speed control
   - Going slow for some things where the GM is visible to the player in some way
   - Going fast like all other times
+  - Default full speed
+- Save no clip on off state and speed in player data
 
 ## Teleporting
 
@@ -153,6 +165,8 @@ For GMs they are a method of communicating with players and other GMs.
   - Option to sort players by selected state
   - Closing the UI does not clear selection
   - Potentially save and load selections
+    - have popups for multiple slots
+    - grey everything else out while the popup is open, click anywhere to close
   - Select all
   - Select none
   - Invert selection
@@ -166,6 +180,8 @@ For GMs they are a method of communicating with players and other GMs.
     - While waiting for confirmation, a preview of the circle can be shown
   - ~~Maybe an alternative which spreads them out all facing the same direction as the summoner~~
 - Visual indictor on the ground where somebody is about to be summoned, local only to the summoner
+- Notched vs Free Flowing Scrolling
+  - Do free flowing first, think about the other later if desired
 
 ## Discretely Talking With Players
 
