@@ -48,6 +48,7 @@ Common tasks are things and workflows that make up like 99% of the usage of the 
     - Being able to change what a player can and cannot do
     - Maybe adding custom permission levels
 - Time of day controls in some way
+- help page
 
 ## Pings
 
@@ -64,6 +65,7 @@ For players they are the primary method of getting into contact with a GM.
     - Concerns about it being taken in character
     - Would need a setting to toggle it, and it would probably just be an accessibility feature - default off
 - Can undo pings, if it was an accident or assistance is no longer needed
+  - The ping buttons are toggles, therefore pressing the button again undoes the ping
 - Pinging should close the menu (if we go with a menu (probably will))
   - Play (unique) sound
   - Play haptics
@@ -109,15 +111,15 @@ For GMs they are a method of communicating with players and other GMs.
   - Maybe on a side or bottom row just like Sylan's. Maybe
     - If yes then buttons need to be a bit bigger compared to Sylan's to reduce UX friction
 - The mode you are in must have a lot of feedback in order to prevent users getting stuck on a mode without knowing
+  - Make the voice icons on the HUD obvious, but not obnoxious
+    - Static (as it is in Sylan's menu)
+    - Slow throbbing
+    - Fast blinking
+    - Maybe expose it as a setting in the settings tab (sane defaults are better though)
 - The system must not break
   - Hah funny
     - It's using lockstep
     - If any system using lockstep breaks, everything breaks!
-- Make the voice icons on the HUD obvious, but not obnoxious
-  - Static (as it is in Sylan's menu)
-  - Slow throbbing
-  - Fast blinking
-  - Maybe expose it as a setting in the settings tab (sane defaults are better though)
 
 ## No Clip
 
@@ -176,6 +178,8 @@ For GMs they are a method of communicating with players and other GMs.
   - In a circle around the summoner (must have)
     - Having this as the only option makes UI and UX easier
   - Radius should scale with the amount of players being summoned, such that people are about 1 meter apart from each other
+    - Defined as some minimum radius, a maximum radius and a preferred distance between players. Most likely hard coded constants
+    - In cases where there are so few players selected such that the circle with minimum radius has a bigger circumference than the total preferred distance between players, do not use the full circle but rather have an arc centered in front of the summoner, with players positioned using the preferred distance from each other. In terms of gaps this would mean all but one gaps between the players would be the preferred distance, the one bigger gap being behind the summoner
   - Upon hitting the summon button ones it prompts for a confirm
     - While waiting for confirmation, a preview of the circle can be shown
   - ~~Maybe an alternative which spreads them out all facing the same direction as the summoner~~
