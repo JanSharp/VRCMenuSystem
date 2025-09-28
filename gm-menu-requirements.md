@@ -17,6 +17,7 @@
 - Default menu open page
   - Players - Main
   - GMs - Last State
+- Things need to be large, as per usual
 
 # Common Tasks
 
@@ -34,7 +35,7 @@ Common tasks are things and workflows that make up like 99% of the usage of the 
 # Uncommon Tasks
 
 - [Summoning players](#summoning-players)
-- [Discreetly telling a player something without others knowing](#discretely-talking-with-players)
+<!-- - [Discreetly telling a player something without others knowing](#discretely-talking-with-players) -->
 - Changing global brightness of the map locally, like night vision
 - Big maybe changing far clip plane (`VRCCameraSettings.ScreenCamera.FarClipPlane = 100;`)
 - Changing UI sound volume
@@ -120,6 +121,11 @@ For GMs they are a method of communicating with players and other GMs.
   - Hah funny
     - It's using lockstep
     - If any system using lockstep breaks, everything breaks!
+- Voice range visualization - a sphere visible on any geometry it intersects
+  - Static (as it is in Sylan's menu)
+  - Slow throbbing
+  - Fast blinking
+  - Maybe expose it as a setting in the settings tab (sane defaults are better though)
 
 ## No Clip
 
@@ -129,7 +135,9 @@ For GMs they are a method of communicating with players and other GMs.
 - Speed control
   - Going slow for some things where the GM is visible to the player in some way
   - Going fast like all other times
-  - Default full speed
+  - 8 min
+  - 32 default
+  - 48 max
 - Save no clip on off state and speed in player data
 
 ## Teleporting
@@ -187,11 +195,18 @@ For GMs they are a method of communicating with players and other GMs.
 - Notched vs Free Flowing Scrolling
   - Do free flowing first, think about the other later if desired
 
+<!--
 ## Discretely Talking With Players
 
 - Also using the player selection system
 - While active, only selected players will be able to hear you
 - The voice range remains unchanged
+-->
+
+## Players Backend
+
+- Deleting player data for offline players
+- Deleting selection groups if it ends up not fitting anywhere else
 
 # Relevant Differences To Existing Systems
 
