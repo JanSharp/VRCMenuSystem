@@ -215,3 +215,9 @@ For GMs they are a method of communicating with players and other GMs.
   - Hardly useful in general, especially with undo teleport
 - No teleporting back to where you disconnected from
   - An out of character toggle on avatars or invisible avatars plus teleporting to players and locations solves this issue ultimately more elegantly
+
+# Ideas
+
+- Reach into and or touch a scroll view and swipe up and down and it scrolls
+  - Take it a step further and have buttons react to touch... effectively have the whole thing behave like a touch screen
+- Either have the setting for voice range visualization be a toggle for each voice range (whisper, quiet, talk, yell), or have whisper, quiet and yell grouped together and a separate one for talk
