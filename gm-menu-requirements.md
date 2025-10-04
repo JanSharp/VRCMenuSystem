@@ -192,6 +192,7 @@ For GMs they are a method of communicating with players and other GMs.
     - While waiting for confirmation, a preview of the circle can be shown
   - ~~Maybe an alternative which spreads them out all facing the same direction as the summoner~~
 - Visual indictor on the ground where somebody is about to be summoned, local only to the summoner
+  - TODO: what if it's not just local though, so everybody can see where that someone is about to be summoned in some location? :thinking:
 - Notched vs Free Flowing Scrolling
   - Do free flowing first, think about the other later if desired
 
