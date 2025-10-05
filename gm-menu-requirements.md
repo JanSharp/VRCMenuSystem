@@ -208,6 +208,7 @@ For GMs they are a method of communicating with players and other GMs.
 
 - Deleting player data for offline players
 - Deleting selection groups if it ends up not fitting anywhere else
+- Set override player names, so you can change names that don't print or sort well
 
 # Relevant Differences To Existing Systems
 
