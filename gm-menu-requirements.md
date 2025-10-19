@@ -224,3 +224,47 @@ For GMs they are a method of communicating with players and other GMs.
 - Reach into and or touch a scroll view and swipe up and down and it scrolls
   - Take it a step further and have buttons react to touch... effectively have the whole thing behave like a touch screen
 - Either have the setting for voice range visualization be a toggle for each voice range (whisper, quiet, talk, yell), or have whisper, quiet and yell grouped together and a separate one for talk
+
+# Permissions
+
+- voice range whisper
+- voice range quiet
+<!-- - voice range talk -->
+- voice range yell
+- voice range broadcast
+- request GM
+- request GM urgently
+- voice range indicator settings
+- voice range HUD settings
+- view and edit GM requests
+- view players page
+- favorite player (?) - probably not, always active instead
+- teleport to player
+  - teleport to button per player
+  - undo TP button
+  - redo TP button if we keep it
+- view player proximity
+- player selection
+  - select button per player
+  - select none button
+  - invert selection button
+- local add selection group
+- local overwrite selection group
+- local load selection group
+- local delete selection group
+- global add selection group
+- global overwrite selection group
+- global load selection group
+- global delete selection group
+- summon players
+- TODO: more
+- teleport to pre defined location
+- local add custom location
+- local overwrite custom location
+- local load custom location
+- local delete custom location
+- global add custom location
+- global overwrite custom location
+- global load custom location
+- global delete custom location
+- TODO: more
