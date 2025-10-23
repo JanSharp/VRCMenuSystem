@@ -227,27 +227,37 @@ For GMs they are a method of communicating with players and other GMs.
 
 # Permissions
 
+Pages are visible to players when they have permissions to do anything on that page. If they couldn't do anything on a page it won't be visible to them.
+
+Pages with explicit view permissions are exceptions. Even if a player has permissions to do something on that page, if they don't have the view permission they won't be able to view it. Such as the players page for example.
+
+And some pages are always visible, such as settings or help. Maybe the main/home page too.
+
+Even though your voice range mode can be set on the players page, those permissions do not cause the players page to be visible. They instead cause the main/home page to be visible.
+
 - voice range whisper
 - voice range quiet
 <!-- - voice range talk -->
 - voice range yell
 - voice range broadcast
-- request GM
-- request GM urgently
 - voice range indicator settings
 - voice range HUD settings
+- request GM
+- request GM urgently
 - view and edit GM requests
 - view players page
-- favorite player (?) - probably not, always active instead
+- favorite player (?) -- TODO: probably not, always active instead
 - teleport to player
-  - teleport to button per player
-  - undo TP button
-  - redo TP button if we keep it
+  - affects:
+    - teleport to button per player
+    - undo TP button
+    - redo TP button
 - view player proximity
 - player selection
-  - select button per player
-  - select none button
-  - invert selection button
+  - affects:
+    - select button per player
+    - select none button
+    - invert selection button
 - local add selection group
 - local overwrite selection group
 - local load selection group
@@ -257,14 +267,24 @@ For GMs they are a method of communicating with players and other GMs.
 - global load selection group
 - global delete selection group
 - summon players
-- TODO: more
 - teleport to pre defined location
 - local add custom location
 - local overwrite custom location
-- local load custom location
+- local teleport to custom location
 - local delete custom location
 - global add custom location
 - global overwrite custom location
-- global load custom location
+- global teleport to custom location
 - global delete custom location
-- TODO: more
+- spawn gm proxy
+- use no clip
+- spawn item
+- use small item option
+- use large item option
+- edit player display name
+- edit player character name
+- edit player permission group
+- delete offline player data
+- edit permissions
+- export game states
+- import game states
