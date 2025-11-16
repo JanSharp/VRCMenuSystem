@@ -87,6 +87,7 @@ For GMs they are a method of communicating with players and other GMs.
   - Undone pings completely disappear. Trust the player in their choice that they did not need assistance
 - Provide methods for GMs to assist said players
   - By teleporting to them. That's it, it's the universal and best method of assisting players. Being present
+  - TODO: Ok maybe we do need the watch feature? But maybe only for pings, not in the player list?
 - Focus on the ones which have not received assistance yet
   - Order Urgent to the top
   - Put them to the top of the list, oldest first (the ones that have been waiting the longest)
