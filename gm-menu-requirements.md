@@ -60,6 +60,7 @@ For players they are the primary method of getting into contact with a GM.
   - Should therefore be on the same page as anything else quick and important that should be available to the players
 - ~~Maybe state in the UI that pings do not time out~~ Muh clean UI!
 - They let the player know when a GM has arrived
+  - Not too soon as it takes at least 2 seconds for technical reasons (movement and voice syncing), plus extra seconds for a GM to get an idea of the current scene
   - The ping indicator goes away
     - Blink for about a second before disappearing
   - Big maybe play a sound too
