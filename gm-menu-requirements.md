@@ -225,7 +225,6 @@ For GMs they are a method of communicating with players and other GMs.
 
 - Reach into and or touch a scroll view and swipe up and down and it scrolls
   - Take it a step further and have buttons react to touch... effectively have the whole thing behave like a touch screen
-- Either have the setting for voice range visualization be a toggle for each voice range (whisper, quiet, talk, yell), or have whisper, quiet and yell grouped together and a separate one for talk
 
 # Permissions
 
