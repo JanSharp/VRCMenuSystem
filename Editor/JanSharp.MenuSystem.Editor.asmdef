@@ -1,0 +1,26 @@
+{
+    "name": "JanSharp.MenuSystem.Editor",
+    "rootNamespace": "",
+    "references": [
+        "JanSharp.MenuSystem",
+        "JanSharp.Common",
+        "JanSharp.Common.Editor",
+        "UdonSharp.Runtime",
+        "UdonSharp.Editor",
+        "VRC.SDK3",
+        "VRC.SDKBase",
+        "VRC.Udon",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

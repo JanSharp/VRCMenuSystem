@@ -1,0 +1,22 @@
+{
+  "name": "com.jansharp.menu-system",
+  "version": "0.1.0",
+  "description": "A paged menu system with runtime editable permissions.",
+  "displayName": "Menu System",
+  "unity": "2022.3",
+  "author": {
+    "name": "JanSharp",
+    "email": "steinmeister36@gmail.com",
+    "url": "https://jansharp.github.io"
+  },
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.0"
+  },
+  "license": "MIT",
+  "vpmDependencies": {
+    "com.vrchat.worlds": "^3.7.4",
+    "com.jansharp.common": ">=1.3.0"
+  },
+  "url": "https://github.com/JanSharp/VRCMenuSystem/releases/download/v0.1.0/com.jansharp.menu-system.zip",
+  "changelogUrl": "https://github.com/JanSharp/VRCMenuSystem/blob/v0.1.0/CHANGELOG.md"
+}
