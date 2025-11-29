@@ -4,8 +4,7 @@ namespace JanSharp
 {
     public class MenuConfiguration : MonoBehaviour, VRC.SDKBase.IEditorOnly
     {
+        public MenuConfigurationInternals internals;
         public MenuPageDefinition[] pages;
-
-        public MenuManager menuManager;
     }
 }

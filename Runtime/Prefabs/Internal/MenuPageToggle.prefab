@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 8604123405955121147}
   - component: {fileID: 2876602072625464597}
   m_Layer: 17
-  m_Name: PageToggle
+  m_Name: MenuPageToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
