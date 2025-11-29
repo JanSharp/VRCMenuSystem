@@ -3,6 +3,7 @@
     "rootNamespace": "",
     "references": [
         "JanSharp.Common",
+        "JanSharp.PermissionSystem",
         "UdonSharp.Runtime",
         "VRC.SDK3",
         "VRC.SDKBase",

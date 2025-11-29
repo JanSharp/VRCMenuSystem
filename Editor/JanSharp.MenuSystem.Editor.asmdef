@@ -5,6 +5,8 @@
         "JanSharp.MenuSystem",
         "JanSharp.Common",
         "JanSharp.Common.Editor",
+        "JanSharp.PermissionSystem",
+        "JanSharp.PermissionSystem.Editor",
         "UdonSharp.Runtime",
         "UdonSharp.Editor",
         "VRC.SDK3",
