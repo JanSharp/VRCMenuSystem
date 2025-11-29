@@ -1,7 +1,7 @@
 {
   "name": "com.jansharp.menu-system",
   "version": "0.1.0",
-  "description": "A paged menu system with runtime editable permissions.",
+  "description": "A paged menu system with support for the runtime editable permission system.",
   "displayName": "Menu System",
   "unity": "2022.3",
   "author": {

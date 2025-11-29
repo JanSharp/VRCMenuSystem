@@ -1,7 +1,7 @@
 
 # Menu System
 
-A paged menu system with runtime editable permissions.
+A paged menu system with support for the runtime editable permission system.
 
 # Installing
 
