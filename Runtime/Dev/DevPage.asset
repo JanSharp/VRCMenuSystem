@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da71d842920fbd518d193948d2523cd, type: 3}
+  m_Name: DevPage
+  m_EditorClassIdentifier: 
+  internalName: menu-system-dev.dev-page
+  displayName: Dev
+  icon: {fileID: 21300000, guid: 6c4de60cda58f304ca3b7c97f4d328ae, type: 3}
+  pagePrefab: {fileID: 5041281042356638769, guid: 008c25d5f0aa07dcfb00e8d1345d41c9,
+    type: 3}
