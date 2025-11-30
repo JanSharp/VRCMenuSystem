@@ -5,6 +5,7 @@ using UnityEngine.UI;
 namespace JanSharp
 {
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
+    [SingletonScript("d9be4a8a9d454bfb7ba93f4988cbe45a")]
     public class MenuManager : UdonSharpBehaviour
     {
         public string[] pageInternalNames;
