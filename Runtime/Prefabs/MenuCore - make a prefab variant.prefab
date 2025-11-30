@@ -291,6 +291,7 @@ MonoBehaviour:
   pageInternalNames: []
   pageRoots: []
   pageToggles: []
+  pageTogglesToggleGroup: {fileID: 45916931008877070}
   collapseButtonImage: {fileID: 5545636553318166425}
   collapseIcon: {fileID: 21300000, guid: 7559f0ffc20cbc6b19da1d38a239d962, type: 3}
   expandIcon: {fileID: 21300000, guid: 38f1bb5a8b1699d4fb2f823437d36e98, type: 3}
@@ -779,7 +780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AllowSwitchOff: 0
+  m_AllowSwitchOff: 1
 --- !u!1 &8361519715800897692
 GameObject:
   m_ObjectHideFlags: 0

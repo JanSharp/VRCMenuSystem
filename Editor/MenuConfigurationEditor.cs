@@ -77,7 +77,7 @@ namespace JanSharp
         {
             List<GameObject> pageToggleGos = GetPageToggles(target.pages.Length);
             for (int i = 0; i < target.pages.Length; i++)
-                ConfigurePageToggle(pageToggleGos[i], target.pages[i], isOn: i == 0);
+                ConfigurePageToggle(pageToggleGos[i], target.pages[i]);
 
             ClearPageRoots();
             GameObject[] pageRootGos = GeneratePages(target.pages);
@@ -90,7 +90,7 @@ namespace JanSharp
             EditorUtil.SetArrayProperty(
                 managerSo.FindProperty("pageRoots"),
                 pageRootGos,
-                (p, v) => p.objectReferenceValue = v.GetComponent<CanvasGroup>());
+                (p, v) => p.objectReferenceValue = v.GetComponent<MenuPageRoot>());
             EditorUtil.SetArrayProperty(
                 managerSo.FindProperty("pageToggles"),
                 pageToggleGos,
@@ -128,7 +128,7 @@ namespace JanSharp
             return pageToggleGos;
         }
 
-        private void ConfigurePageToggle(GameObject toggleGo, MenuPageDefinition pageDef, bool isOn)
+        private void ConfigurePageToggle(GameObject toggleGo, MenuPageDefinition pageDef)
         {
             Toggle toggle = toggleGo.GetComponent<Toggle>();
             SerializedObject so = new(toggle);
@@ -137,9 +137,7 @@ namespace JanSharp
                 so.FindProperty("onValueChanged"),
                 UdonSharpEditorUtility.GetBackingUdonBehaviour(Internals.menuManager),
                 nameof(MenuManager.OnPageToggleValueChanged));
-            // The toggle won't show that it is on immediately. But it is.
-            // And I didn't find a redraw/update function real quick. Rebuild with pre layout didn't do it.
-            so.FindProperty("m_IsOn").boolValue = isOn;
+            so.FindProperty("m_IsOn").boolValue = false;
             so.ApplyModifiedProperties();
 
             so = new(toggleGo.GetComponentsInChildren<Image>(includeInactive: true)
@@ -163,16 +161,23 @@ namespace JanSharp
         {
             GameObject[] pageRootGos = new GameObject[pageDefs.Length];
             for (int i = 0; i < pageDefs.Length; i++)
-                pageRootGos[i] = GeneratePage(pageDefs[i]);
+                pageRootGos[i] = GeneratePage(pageDefs[i], i);
             return pageRootGos;
         }
 
-        private GameObject GeneratePage(MenuPageDefinition pageDef)
+        private GameObject GeneratePage(MenuPageDefinition pageDef, int pageIndex)
         {
             GameObject pageRootGo = (GameObject)PrefabUtility.InstantiatePrefab(Internals.pageRootPrefab);
             pageRootGo.name = Internals.pageRootPrefab.name;
             pageRootGo.transform.SetParent(Internals.pageRootsContainer, worldPositionStays: false);
             Undo.RegisterCreatedObjectUndo(pageRootGo, "Build Menu");
+
+            MenuPageRoot pageRoot = pageRootGo.GetComponent<MenuPageRoot>();
+            SerializedObject so = new(pageRoot);
+            so.FindProperty("pageInternalName").stringValue = pageDef.internalName;
+            so.FindProperty("pageDisplayName").stringValue = pageDef.displayName;
+            so.FindProperty("pageIndex").intValue = pageIndex;
+            so.ApplyModifiedProperties();
 
             GameObject pageGo = (GameObject)PrefabUtility.InstantiatePrefab(pageDef.pagePrefab);
             pageGo.name = pageDef.pagePrefab.name;

@@ -9,8 +9,9 @@ namespace JanSharp
     public class MenuManager : UdonSharpBehaviour
     {
         public string[] pageInternalNames;
-        public CanvasGroup[] pageRoots;
+        public MenuPageRoot[] pageRoots;
         public Toggle[] pageToggles;
+        public ToggleGroup pageTogglesToggleGroup;
         public Image collapseButtonImage;
         public Sprite collapseIcon;
         public Sprite expandIcon;
@@ -21,13 +22,48 @@ namespace JanSharp
         public float expandedPosition;
         public float expandedSize;
 
-        private int pageCount;
-        private int activePageIndex = -1;
+        private int pageCount = 0;
+        private int shownPageCount = 0;
+        private int activePageIndex = IndexForUninitializedActivePage;
+
+        private const int IndexForUninitializedActivePage = -2;
+        private const int IndexForNoShownPages = -1;
 
         public void Start()
         {
             pageCount = pageRoots.Length;
-            OnPageToggleValueChanged();
+            UpdateWhichPagesAreShown();
+        }
+
+        public void UpdateWhichPagesAreShown()
+        {
+            if (pageCount == 0)
+                return;
+            pageTogglesToggleGroup.allowSwitchOff = true;
+            shownPageCount = 0;
+            int firstShownPageIndex = -1;
+            for (int i = 0; i < pageCount; i++)
+            {
+                MenuPageRoot pageRoot = pageRoots[i];
+                Toggle pageToggle = pageToggles[i];
+                pageToggle.SetIsOnWithoutNotify(false);
+                bool shouldBeShown = pageRoot.ShouldBeShown;
+                pageToggle.gameObject.SetActive(shouldBeShown);
+                if (!shouldBeShown)
+                    continue;
+                shownPageCount++;
+                if (firstShownPageIndex == -1)
+                    firstShownPageIndex = i;
+            }
+            if (shownPageCount == 0)
+            {
+                SetActivePageIndex(IndexForNoShownPages);
+                return;
+            }
+            if (activePageIndex < 0 || !pageRoots[activePageIndex].ShouldBeShown)
+                SetActivePageIndex(firstShownPageIndex);
+            pageToggles[activePageIndex].SetIsOnWithoutNotify(true);
+            pageTogglesToggleGroup.allowSwitchOff = false;
         }
 
         public void OnPageToggleValueChanged()
@@ -44,17 +80,19 @@ namespace JanSharp
         {
             if (this.activePageIndex == activePageIndex)
                 return;
-            CanvasGroup pageRoot;
             if (this.activePageIndex >= 0)
             {
-                pageRoot = pageRoots[this.activePageIndex];
+                CanvasGroup pageRoot = pageRoots[this.activePageIndex].CanvasGroup;
                 pageRoot.blocksRaycasts = false;
                 pageRoot.alpha = 0f;
-            }
+            } // TODO: else hide the special page for "no pages are shown".
             this.activePageIndex = activePageIndex;
-            pageRoot = pageRoots[activePageIndex];
-            pageRoot.blocksRaycasts = true;
-            pageRoot.alpha = 1f;
+            if (this.activePageIndex >= 0)
+            {
+                CanvasGroup pageRoot = pageRoots[this.activePageIndex].CanvasGroup;
+                pageRoot.blocksRaycasts = true;
+                pageRoot.alpha = 1f;
+            } // TODO: else show the special page for "no pages are shown".
         }
 
         public void OnCollapseClick()
