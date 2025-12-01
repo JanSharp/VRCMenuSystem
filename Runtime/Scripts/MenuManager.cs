@@ -32,6 +32,8 @@ namespace JanSharp
         public void Start()
         {
             pageCount = pageRoots.Length;
+            foreach (MenuPageRoot pageRoot in pageRoots)
+                pageRoot.Initialize();
             UpdateWhichPagesAreShown();
         }
 

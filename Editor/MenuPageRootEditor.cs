@@ -1,21 +1,25 @@
-// using UnityEditor;
+using System.Linq;
+using UnityEditor;
 
-// namespace JanSharp
-// {
-//     [InitializeOnLoad]
-//     public static class MenuPageRootOnBuild
-//     {
-//         static MenuPageRootOnBuild()
-//         {
-//             OnBuildUtil.RegisterType<MenuPageRoot>(OnBuild);
-//         }
+namespace JanSharp
+{
+    [InitializeOnLoad]
+    public static class MenuPageRootOnBuild
+    {
+        static MenuPageRootOnBuild()
+        {
+            OnBuildUtil.RegisterType<MenuPageRoot>(OnBuild);
+        }
 
-//         private static bool OnBuild(MenuPageRoot pageRoot)
-//         {
-//             SerializedObject so = new(pageRoot.GetComponentsInChildren<ShowPageByPermission>(includeInactive: true));
-//             so.FindProperty("menuPageRoot").objectReferenceValue = pageRoot;
-//             so.ApplyModifiedProperties();
-//             return true;
-//         }
-//     }
-// }
+        private static bool OnBuild(MenuPageRoot pageRoot)
+        {
+            SerializedObject so = new(pageRoot);
+            using (new EditorUtil.BatchedEditorOnlyChecksScope())
+                so.FindProperty("hasAnyShowPageByPermissionsInChildren").boolValue
+                    = pageRoot.GetComponentsInChildren<ShowPageByPermission>(includeInactive: true)
+                        .Any(s => !EditorUtil.IsEditorOnly(s));
+            so.ApplyModifiedProperties();
+            return true;
+        }
+    }
+}

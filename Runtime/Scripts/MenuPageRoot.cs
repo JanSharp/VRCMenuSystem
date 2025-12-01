@@ -17,8 +17,15 @@ namespace JanSharp
         public string PageDisplayName => pageDisplayName;
         public int PageIndex => pageIndex;
 
-        private uint shouldBeShownCounter; // TODO: Default to 1 for pages without any show page by permission scripts
+        [HideInInspector][SerializeField] private bool hasAnyShowPageByPermissionsInChildren;
+        private uint shouldBeShownCounter;
         public bool ShouldBeShown => shouldBeShownCounter != 0u;
+
+        public void Initialize()
+        {
+            if (!hasAnyShowPageByPermissionsInChildren)
+                shouldBeShownCounter++; // Do not call UpdateWhichPagesAreShown, the manager itself will run that later.
+        }
 
         public void IncrementShouldBeShown()
         {
