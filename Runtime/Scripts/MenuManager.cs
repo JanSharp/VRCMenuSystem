@@ -9,6 +9,9 @@ namespace JanSharp
     [SingletonScript("d9be4a8a9d454bfb7ba93f4988cbe45a")]
     public class MenuManager : UdonSharpBehaviour
     {
+        [HideInInspector][SerializeField][SingletonReference] private LockstepAPI lockstep;
+        private Internal.Lockstep lockstepHiddenAPI;
+
         public string[] pageInternalNames;
         public MenuPageRoot[] pageRoots;
         public Toggle[] pageToggles;
@@ -24,6 +27,17 @@ namespace JanSharp
         public float expandedPosition;
         public float expandedSize;
 
+        public CanvasGroup loadingPageRoot;
+        public TextMeshProUGUI loadingTitle;
+        public Slider loadingProgress;
+        public Image loadingProgressFill;
+        public TextMeshProUGUI loadingInfo;
+        public Color minLoadingProgressFillColor;
+        public Color maxLoadingProgressFillColor;
+        public float loadingProgressFillPulseDuration = 1f;
+        private uint firstCatchUpTick;
+        private bool loadingPageIsShown;
+
         private int pageCount = 0;
         private int shownPageCount = 0;
         private int activePageIndex = IndexForUninitializedActivePage;
@@ -33,10 +47,12 @@ namespace JanSharp
 
         public void Start()
         {
+            lockstepHiddenAPI = (Internal.Lockstep)lockstep;
             pageCount = pageRoots.Length;
             foreach (MenuPageRoot pageRoot in pageRoots)
                 pageRoot.Initialize();
             UpdateWhichPagesAreShown();
+            ShowLoadingPage();
         }
 
         public void UpdateWhichPagesAreShown()
@@ -82,25 +98,33 @@ namespace JanSharp
         {
             if (this.activePageIndex == activePageIndex)
                 return;
-            if (this.activePageIndex >= 0)
-            {
-                CanvasGroup pageRoot = pageRoots[this.activePageIndex].CanvasGroup;
-                pageRoot.blocksRaycasts = false;
-                pageRoot.alpha = 0f;
-            }
+            HideActivePage();
             this.activePageIndex = activePageIndex;
-            if (this.activePageIndex >= 0)
-            {
-                CanvasGroup pageRoot = pageRoots[this.activePageIndex].CanvasGroup;
-                pageRoot.blocksRaycasts = true;
-                pageRoot.alpha = 1f;
-            }
+            ShowActivePage();
             UpdateInfoTextOverlay();
+        }
+
+        private void HideActivePage()
+        {
+            if (activePageIndex < 0)
+                return;
+            CanvasGroup pageRoot = pageRoots[activePageIndex].CanvasGroup;
+            pageRoot.blocksRaycasts = false;
+            pageRoot.alpha = 0f;
+        }
+
+        private void ShowActivePage()
+        {
+            if (activePageIndex < 0)
+                return;
+            CanvasGroup pageRoot = pageRoots[activePageIndex].CanvasGroup;
+            pageRoot.blocksRaycasts = true;
+            pageRoot.alpha = 1f;
         }
 
         private void UpdateInfoTextOverlay()
         {
-            if (activePageIndex != IndexForNoShownPages)
+            if (loadingPageIsShown || activePageIndex != IndexForNoShownPages)
             {
                 infoTextOverlay.gameObject.SetActive(false);
                 return;
@@ -121,6 +145,72 @@ namespace JanSharp
             Vector2 size = sideCanvas.sizeDelta;
             size.x = isCollapsed ? collapsedSize : expandedSize;
             sideCanvas.sizeDelta = size;
+        }
+
+        [LockstepEvent(LockstepEventType.OnClientBeginCatchUp)]
+        public void OnClientBeginCatchUp()
+        {
+            firstCatchUpTick = lockstep.CurrentTick;
+        }
+
+        private void ShowLoadingPage()
+        {
+            if (loadingPageIsShown)
+                return;
+            loadingPageIsShown = true;
+            loadingPageRoot.alpha = 1f;
+            UpdateInfoTextOverlay();
+            HideActivePage();
+            LoadingPageUpdateLoop();
+        }
+
+        private void HideLoadingPage()
+        {
+            if (!loadingPageIsShown)
+                return;
+            loadingPageIsShown = false;
+            loadingPageRoot.alpha = 0f;
+            UpdateInfoTextOverlay();
+            ShowActivePage();
+        }
+
+        public void LoadingPageUpdateLoop()
+        {
+            if (lockstep.IsInitialized && !lockstep.IsCatchingUp)
+            {
+                HideLoadingPage();
+                return;
+            }
+            if (lockstepHiddenAPI.IsProcessingLJGameStates)
+            {
+                loadingProgressFill.color = Color.white;
+                int processingGSIndex = lockstepHiddenAPI.NextLJGameStateToProcess;
+                loadingProgress.value = lockstep.AllGameStatesCount / (processingGSIndex + 1f);
+                loadingInfo.text = $"Processing {lockstep.GetGameState(processingGSIndex).GameStateDisplayName} "
+                    + $"[{processingGSIndex + 1}/{lockstep.AllGameStatesCount}]";
+                SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
+                return;
+            }
+            if (lockstep.IsCatchingUp)
+            {
+                loadingProgressFill.color = Color.white;
+                uint goal = lockstepHiddenAPI.LastRunnableTick - firstCatchUpTick;
+                uint current = lockstep.CurrentTick - firstCatchUpTick;
+                loadingProgress.value = goal / (float)current;
+                loadingInfo.text = "Catching Up";
+                SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
+                return;
+            }
+            loadingProgress.value = 1f;
+            loadingProgressFill.color = Color.Lerp(
+                minLoadingProgressFillColor,
+                maxLoadingProgressFillColor,
+                (Mathf.Sin((Time.time % loadingProgressFillPulseDuration) * Mathf.PI * 2f / loadingProgressFillPulseDuration)
+                    + 1f) / 2f);
+            loadingInfo.text = lockstepHiddenAPI.IsWaitingForLateJoinerSync
+                ? "Waiting For Data"
+                : "Idly Waiting";
+            SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
         }
     }
 }
