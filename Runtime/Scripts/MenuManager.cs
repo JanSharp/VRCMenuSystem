@@ -1,4 +1,5 @@
-﻿using UdonSharp;
+﻿using TMPro;
+using UdonSharp;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,7 @@ namespace JanSharp
         public Sprite collapseIcon;
         public Sprite expandIcon;
         public RectTransform sideCanvas;
+        public TextMeshProUGUI infoTextOverlay;
         public bool isCollapsed;
         public float collapsedPosition;
         public float collapsedSize;
@@ -39,8 +41,6 @@ namespace JanSharp
 
         public void UpdateWhichPagesAreShown()
         {
-            if (pageCount == 0)
-                return;
             pageTogglesToggleGroup.allowSwitchOff = true;
             shownPageCount = 0;
             int firstShownPageIndex = -1;
@@ -87,14 +87,30 @@ namespace JanSharp
                 CanvasGroup pageRoot = pageRoots[this.activePageIndex].CanvasGroup;
                 pageRoot.blocksRaycasts = false;
                 pageRoot.alpha = 0f;
-            } // TODO: else hide the special page for "no pages are shown".
+            }
             this.activePageIndex = activePageIndex;
             if (this.activePageIndex >= 0)
             {
                 CanvasGroup pageRoot = pageRoots[this.activePageIndex].CanvasGroup;
                 pageRoot.blocksRaycasts = true;
                 pageRoot.alpha = 1f;
-            } // TODO: else show the special page for "no pages are shown".
+            }
+            UpdateInfoTextOverlay();
+        }
+
+        private void UpdateInfoTextOverlay()
+        {
+            if (activePageIndex != IndexForNoShownPages)
+            {
+                infoTextOverlay.gameObject.SetActive(false);
+                return;
+            }
+            infoTextOverlay.text = pageCount == 0
+                ? "No pages configured for this menu,\n"
+                    + "or the menu has not been built,\n"
+                    + "or this is the wrong menu prefab."
+                : "Missing permissions to view any pages.";
+            infoTextOverlay.gameObject.SetActive(true);
         }
 
         public void OnCollapseClick()

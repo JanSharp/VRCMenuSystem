@@ -42,7 +42,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MenuDummy - the system you are usling likely provides its own prefab
-        Variant
       objectReference: {fileID: 0}
     - target: {fileID: 6059423413621678521, guid: b30c0489bc1cef59baba23f87dd71436,
         type: 3}
@@ -82,12 +81,12 @@ PrefabInstance:
     - target: {fileID: 7786969148514677035, guid: b30c0489bc1cef59baba23f87dd71436,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 7786969148514677035, guid: b30c0489bc1cef59baba23f87dd71436,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7786969148514677035, guid: b30c0489bc1cef59baba23f87dd71436,
         type: 3}
