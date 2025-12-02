@@ -3,3 +3,22 @@
   - [x] Reuse it for imports
 - [x] When missing permissions to see any page at all, show some info text in the UI
 - [ ] Option to collapse the side panel by default, part of the menu configuration
+- [ ] Popups
+- [ ] Open close key binds
+  - [ ] Hold tab on desktop, using screen space UI
+    - [ ] Surround the player's in a cube of invisible canvases to make interaction with the screen space UI possible (yes this is a hack I found by accident)
+  - [ ] In VR, right joystick (vertical look), matching what Sylan did simply for muscle memory as it is good enough... and like what else are we supposed to use
+    - [ ] Down Up
+    - [ ] Down Down
+    - [ ] Hold Down
+- [ ] Different types of positioning of the UI
+  - [ ] In front - Appears in front of your face, moves with your avatar, does not rotate
+    - [ ] Maybe adjustable positioning? Like distance from you head? I don't think so though, it should be positioned such that it is nicely readable and comfortably interactable, which I don't believe varies much. Or so I would hope
+  - [ ] Left hand
+  - [ ] Right hand
+    - [ ] For hand attachment... adjustable relative positioning?
+- [ ] Maybe UI sidebar position switching between the left and right side
+- [ ] A close button...
+  - Maybe by putting it at the top of the side bar?
+  - Maybe at the bottom?
+  - Maybe effectively floating outside of the main UI?
