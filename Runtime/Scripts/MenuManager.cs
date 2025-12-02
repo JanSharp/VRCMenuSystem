@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace JanSharp
 {
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
-    [SingletonScript("d9be4a8a9d454bfb7ba93f4988cbe45a")]
+    [SingletonScript("d9be4a8a9d454bfb7ba93f4988cbe45a")] // Runtime/Prefabs/Internal/MenuDummy - the system you are using likely provides its own prefab.prefab
     public class MenuManager : UdonSharpBehaviour
     {
         [HideInInspector][SerializeField][SingletonReference] private LockstepAPI lockstep;
