@@ -37,6 +37,15 @@ namespace JanSharp
         public float loadingProgressFillPulseDuration = 1f;
         private uint firstCatchUpTick;
         private bool loadingPageIsShown;
+        /// <summary>
+        /// <para>Prevent import loading screens from causing a seizure when game states are small.</para>
+        /// </summary>
+        private const float ShowLoadingPageForAtLeast = 0.8f;
+        /// <summary>
+        /// <para>Short confirmation of importing being done.</para>
+        /// </summary>
+        private const float ShowLoadingPageOnceDoneForAtLeast = 0.3f;
+        private float keepLoadingPageOpenUntil;
 
         private int pageCount = 0;
         private int shownPageCount = 0;
@@ -159,6 +168,7 @@ namespace JanSharp
         public void OnImportStart()
         {
             importIsWaitingForData = true;
+            keepLoadingPageOpenUntil = Time.time + ShowLoadingPageForAtLeast;
             ShowLoadingPage();
         }
 
@@ -166,6 +176,12 @@ namespace JanSharp
         public void OnImportOptionsDeserialized()
         {
             importIsWaitingForData = false;
+        }
+
+        [LockstepEvent(LockstepEventType.OnImportFinished)]
+        public void OnImportFinished()
+        {
+            keepLoadingPageOpenUntil = Mathf.Max(keepLoadingPageOpenUntil, Time.time + ShowLoadingPageOnceDoneForAtLeast);
         }
 
         private void ShowLoadingPage()
@@ -206,6 +222,17 @@ namespace JanSharp
                 loadingProgress.value = lockstep.GameStatesBeingImportedCount / (importingGSIndex + 1f);
                 loadingInfo.text = $"Processing {lockstep.GetGameStateBeingImported(importingGSIndex).GameStateDisplayName} "
                     + $"[{importingGSIndex + 1}/{lockstep.GameStatesBeingImportedCount}]";
+                SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
+                return;
+            }
+            if (Time.time < keepLoadingPageOpenUntil)
+            {
+                loadingProgressFill.color = Color.white;
+                loadingProgress.value = 1f;
+                loadingInfo.text = "Done!";
+                // Continuing to loop like this is inefficient, but another import could technically start
+                // effectively nearly instantly after finishing one, at which point this is the easiest approach.
+                // And nobody cares about that miniscule performance impact for less than a second.
                 SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
                 return;
             }
