@@ -153,6 +153,21 @@ namespace JanSharp
             firstCatchUpTick = lockstep.CurrentTick;
         }
 
+        private bool importIsWaitingForData;
+
+        [LockstepEvent(LockstepEventType.OnImportStart)]
+        public void OnImportStart()
+        {
+            importIsWaitingForData = true;
+            ShowLoadingPage();
+        }
+
+        [LockstepEvent(LockstepEventType.OnImportOptionsDeserialized)]
+        public void OnImportOptionsDeserialized()
+        {
+            importIsWaitingForData = false;
+        }
+
         private void ShowLoadingPage()
         {
             if (loadingPageIsShown)
@@ -176,11 +191,31 @@ namespace JanSharp
 
         public void LoadingPageUpdateLoop()
         {
+            if (lockstep.IsImporting)
+            {
+                loadingTitle.text = "Importing";
+                if (importIsWaitingForData)
+                {
+                    ThrobLoadingProgressFill();
+                    loadingInfo.text = "Waiting For Data";
+                    SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
+                    return;
+                }
+                loadingProgressFill.color = Color.white;
+                int importingGSIndex = lockstepHiddenAPI.GameStatesBeingImportedFinishedCount;
+                loadingProgress.value = lockstep.GameStatesBeingImportedCount / (importingGSIndex + 1f);
+                loadingInfo.text = $"Processing {lockstep.GetGameStateBeingImported(importingGSIndex).GameStateDisplayName} "
+                    + $"[{importingGSIndex + 1}/{lockstep.GameStatesBeingImportedCount}]";
+                SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
+                return;
+            }
+
             if (lockstep.IsInitialized && !lockstep.IsCatchingUp)
             {
                 HideLoadingPage();
                 return;
             }
+            loadingTitle.text = "Loading";
             if (lockstepHiddenAPI.IsProcessingLJGameStates)
             {
                 loadingProgressFill.color = Color.white;
@@ -201,16 +236,21 @@ namespace JanSharp
                 SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
                 return;
             }
+            ThrobLoadingProgressFill();
+            loadingInfo.text = lockstepHiddenAPI.IsWaitingForLateJoinerSync
+                ? "Waiting For Data"
+                : "Idly Waiting";
+            SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
+        }
+
+        private void ThrobLoadingProgressFill()
+        {
             loadingProgress.value = 1f;
             loadingProgressFill.color = Color.Lerp(
                 minLoadingProgressFillColor,
                 maxLoadingProgressFillColor,
                 (Mathf.Sin((Time.time % loadingProgressFillPulseDuration) * Mathf.PI * 2f / loadingProgressFillPulseDuration)
                     + 1f) / 2f);
-            loadingInfo.text = lockstepHiddenAPI.IsWaitingForLateJoinerSync
-                ? "Waiting For Data"
-                : "Idly Waiting";
-            SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
         }
     }
 }
