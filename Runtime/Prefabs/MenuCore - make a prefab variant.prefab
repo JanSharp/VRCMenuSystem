@@ -639,6 +639,7 @@ MonoBehaviour:
   collapseButtonImage: {fileID: 5545636553318166425}
   collapseIcon: {fileID: 21300000, guid: 7559f0ffc20cbc6b19da1d38a239d962, type: 3}
   expandIcon: {fileID: 21300000, guid: 38f1bb5a8b1699d4fb2f823437d36e98, type: 3}
+  mainCanvas: {fileID: 8547080778814475608}
   sideCanvas: {fileID: 8834968653955850911}
   infoTextOverlay: {fileID: 8031522785326582728}
   isCollapsed: 0

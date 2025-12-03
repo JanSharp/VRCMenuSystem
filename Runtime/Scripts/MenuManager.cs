@@ -19,6 +19,7 @@ namespace JanSharp
         public Image collapseButtonImage;
         public Sprite collapseIcon;
         public Sprite expandIcon;
+        public RectTransform mainCanvas;
         public RectTransform sideCanvas;
         public TextMeshProUGUI infoTextOverlay;
         public bool isCollapsed;
@@ -313,16 +314,44 @@ namespace JanSharp
             ArrList.Add(ref popupCallbackNames, ref popupCallbackNamesCount, callbackEventName);
             popup.SetParent(popupContainer);
             popup.gameObject.SetActive(true);
-            // TODO: Push popup onto the screen, basically.
-            // Vector2 anchorPosition = popup.anchoredPosition;
-            // Vector2 anchorMin = popup.anchorMin;
-            // Vector2 anchorMax = popup.anchorMax;
+            PushOntoMainCanvas(popup, minDistanceFromPageEdge);
             if (popupCallbackInstsCount != 1)
                 return;
             foreach (Image img in popupBackgroundImages)
                 img.raycastTarget = true;
             foreach (Button btn in popupBackgroundButtons)
                 btn.interactable = true;
+        }
+
+        private void PushOntoMainCanvas(RectTransform toPush, float minDistanceFromPageEdge)
+        {
+            Vector2 normalizedAnchor = toPush.anchorMin;
+            if (toPush.anchorMax != normalizedAnchor) // Stretching is not supported.
+                return;
+            Vector2 canvasSize = mainCanvas.sizeDelta;
+            Vector2 anchoredPosition = toPush.anchoredPosition;
+            Vector2 anchor = canvasSize * normalizedAnchor + anchoredPosition;
+            Vector2 size = toPush.sizeDelta;
+            Vector2 bottomLeft = anchor - size * toPush.pivot;
+            Vector2 topRight = bottomLeft + size;
+
+            float distanceFromEdge = bottomLeft.x - minDistanceFromPageEdge;
+            if (distanceFromEdge < 0f)
+                anchoredPosition.x -= distanceFromEdge;
+
+            distanceFromEdge = bottomLeft.y - minDistanceFromPageEdge;
+            if (distanceFromEdge < 0f)
+                anchoredPosition.y -= distanceFromEdge;
+
+            distanceFromEdge = (canvasSize.x - minDistanceFromPageEdge) - topRight.x;
+            if (distanceFromEdge < 0f)
+                anchoredPosition.x += distanceFromEdge;
+
+            distanceFromEdge = (canvasSize.y - minDistanceFromPageEdge) - topRight.y;
+            if (distanceFromEdge < 0f)
+                anchoredPosition.y += distanceFromEdge;
+
+            toPush.anchoredPosition = anchoredPosition;
         }
 
         public void OnDarkPopupBackgroundClick()
