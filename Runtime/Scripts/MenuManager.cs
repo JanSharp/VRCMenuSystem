@@ -281,5 +281,67 @@ namespace JanSharp
         }
 
         #endregion
+
+        public RectTransform popupContainer;
+        public Image[] popupBackgroundImages;
+        public Button[] popupBackgroundButtons;
+        public RectTransform primaryPopupBackground;
+
+        private RectTransform[] popups = new RectTransform[ArrList.MinCapacity];
+        private UdonSharpBehaviour[] popupCallbackInsts = new UdonSharpBehaviour[ArrList.MinCapacity];
+        private string[] popupCallbackNames = new string[ArrList.MinCapacity];
+        private int popupsCount = 0;
+        private int popupCallbackInstsCount = 0;
+        private int popupCallbackNamesCount = 0;
+
+        // 99% of system will easily be able to know which popup got closed, and have a reference to it.
+        private RectTransform popupToClose;
+        /// <summary>
+        /// <para>Use inside of popup callbacks to get the popup which is being closed.</para>
+        /// </summary>
+        public RectTransform PopupToClose => popupToClose;
+
+        public void ShowPopupAtCurrentPosition(
+            RectTransform popup,
+            UdonSharpBehaviour callbackInst,
+            string callbackEventName,
+            float minDistanceFromPageEdge = 20f)
+        {
+            primaryPopupBackground.SetSiblingIndex(popupsCount);
+            ArrList.Add(ref popups, ref popupsCount, popup);
+            ArrList.Add(ref popupCallbackInsts, ref popupCallbackInstsCount, callbackInst);
+            ArrList.Add(ref popupCallbackNames, ref popupCallbackNamesCount, callbackEventName);
+            popup.SetParent(popupContainer);
+            popup.gameObject.SetActive(true);
+            // TODO: Push popup onto the screen, basically.
+            // Vector2 anchorPosition = popup.anchoredPosition;
+            // Vector2 anchorMin = popup.anchorMin;
+            // Vector2 anchorMax = popup.anchorMax;
+            if (popupCallbackInstsCount != 1)
+                return;
+            foreach (Image img in popupBackgroundImages)
+                img.raycastTarget = true;
+            foreach (Button btn in popupBackgroundButtons)
+                btn.interactable = true;
+        }
+
+        public void OnDarkPopupBackgroundClick()
+        {
+            RectTransform popup = ArrList.RemoveAt(ref popups, ref popupsCount, popupsCount - 1);
+            UdonSharpBehaviour inst = ArrList.RemoveAt(ref popupCallbackInsts, ref popupCallbackInstsCount, popupCallbackInstsCount - 1);
+            string eventName = ArrList.RemoveAt(ref popupCallbackNames, ref popupCallbackNamesCount, popupCallbackNamesCount - 1);
+            primaryPopupBackground.SetSiblingIndex(popupCallbackInstsCount);
+            if (popupCallbackInstsCount == 0)
+            {
+                foreach (Image img in popupBackgroundImages)
+                    img.raycastTarget = false;
+                foreach (Button btn in popupBackgroundButtons)
+                    btn.interactable = false;
+            }
+            popup.gameObject.SetActive(false);
+            popupToClose = popup;
+            inst.SendCustomEvent(eventName);
+            popupToClose = null;
+        }
     }
 }
