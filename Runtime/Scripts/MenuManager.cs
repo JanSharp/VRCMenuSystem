@@ -46,11 +46,11 @@ namespace JanSharp
         /// </summary>
         private const float ShowLoadingPageOnceDoneForAtLeast = 0.3f;
         private float keepLoadingPageOpenUntil;
+        private bool importIsWaitingForData;
 
         private int pageCount = 0;
         private int shownPageCount = 0;
         private int activePageIndex = IndexForUninitializedActivePage;
-
         private const int IndexForUninitializedActivePage = -2;
         private const int IndexForNoShownPages = -1;
 
@@ -156,13 +156,13 @@ namespace JanSharp
             sideCanvas.sizeDelta = size;
         }
 
+        #region Loading Page
+
         [LockstepEvent(LockstepEventType.OnClientBeginCatchUp)]
         public void OnClientBeginCatchUp()
         {
             firstCatchUpTick = lockstep.CurrentTick;
         }
-
-        private bool importIsWaitingForData;
 
         [LockstepEvent(LockstepEventType.OnImportStart)]
         public void OnImportStart()
@@ -279,5 +279,7 @@ namespace JanSharp
                 (Mathf.Sin((Time.time % loadingProgressFillPulseDuration) * Mathf.PI * 2f / loadingProgressFillPulseDuration)
                     + 1f) / 2f);
         }
+
+        #endregion
     }
 }

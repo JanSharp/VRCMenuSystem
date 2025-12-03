@@ -22,3 +22,4 @@
   - Maybe by putting it at the top of the side bar?
   - Maybe at the bottom?
   - Maybe effectively floating outside of the main UI?
+- [ ] look at rect 2d mask for scroll view masking
