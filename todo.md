@@ -5,7 +5,7 @@
 - [ ] Option to collapse the side panel by default, part of the menu configuration
 - [ ] Popups
   - [ ] hide popups when showing loading page, do not close them... probably? Systems probably should have custom special handling for when a popup is open while an import gets started
-  - [ ] API to close a popup, no matter where it is in the stack (for example when losing permission to do what the popup is related to)
+  - [x] API to close a popup, no matter where it is in the stack (for example when losing permission to do what the popup is related to)
 - [ ] Open close key binds
   - [ ] Hold tab on desktop, using screen space UI
     - [ ] Surround the player's in a cube of invisible canvases to make interaction with the screen space UI possible (yes this is a hack I found by accident)

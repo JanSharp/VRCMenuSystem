@@ -332,6 +332,11 @@ namespace JanSharp
             UdonSharpBehaviour callbackInst,
             string callbackEventName)
         {
+            if (ArrList.Contains(ref popups, ref popupsCount, popup))
+            {
+                Debug.LogError($"[MenuSystem] Attempt to show popup '{popup.name}' when it was already shown.");
+                return;
+            }
             primaryPopupBackground.SetSiblingIndex(popupsCount);
             ArrList.Add(ref popups, ref popupsCount, popup);
             ArrList.Add(ref popupCallbackInsts, ref popupCallbackInstsCount, callbackInst);
@@ -379,9 +384,30 @@ namespace JanSharp
 
         public void OnDarkPopupBackgroundClick()
         {
-            RectTransform popup = ArrList.RemoveAt(ref popups, ref popupsCount, popupsCount - 1);
-            UdonSharpBehaviour inst = ArrList.RemoveAt(ref popupCallbackInsts, ref popupCallbackInstsCount, popupCallbackInstsCount - 1);
-            string eventName = ArrList.RemoveAt(ref popupCallbackNames, ref popupCallbackNamesCount, popupCallbackNamesCount - 1);
+            ClosePopupAt(popupsCount - 1, doCallback: true);
+        }
+
+        /// <summary>
+        /// <para>Can be called recursively.</para>
+        /// </summary>
+        /// <param name="popup"></param>
+        /// <param name="doCallback"></param>
+        public void ClosePopup(RectTransform popup, bool doCallback)
+        {
+            int index = ArrList.IndexOf(ref popups, ref popupsCount, popup);
+            if (index < 0)
+            {
+                Debug.LogError($"[MenuSystem] Attempt to close popup '{popup.name}' when it was not shown.");
+                return;
+            }
+            ClosePopupAt(index, doCallback);
+        }
+
+        private void ClosePopupAt(int index, bool doCallback)
+        {
+            RectTransform popup = ArrList.RemoveAt(ref popups, ref popupsCount, index);
+            UdonSharpBehaviour inst = ArrList.RemoveAt(ref popupCallbackInsts, ref popupCallbackInstsCount, index);
+            string eventName = ArrList.RemoveAt(ref popupCallbackNames, ref popupCallbackNamesCount, index);
             primaryPopupBackground.SetSiblingIndex(popupCallbackInstsCount);
             if (popupCallbackInstsCount == 0)
             {
@@ -391,8 +417,12 @@ namespace JanSharp
                     btn.interactable = false;
             }
             popup.gameObject.SetActive(false);
+            if (!doCallback)
+                return;
             popupToClose = popup;
             inst.SendCustomEvent(eventName);
+            // TODO: I'm pretty sure since none of the local variables are used after the SendCustomEvent call
+            // recursion should work just fine even without the recursive method attribute. Requires testing.
             popupToClose = null;
         }
 
