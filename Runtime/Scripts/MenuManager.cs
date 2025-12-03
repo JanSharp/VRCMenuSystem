@@ -308,11 +308,29 @@ namespace JanSharp
 
         #region Popups
 
+        public void ShowPopupAtItsAnchor(
+            RectTransform popup,
+            UdonSharpBehaviour callbackInst,
+            string callbackEventName)
+        {
+            AddPopup(popup, callbackInst, callbackEventName);
+            popup.anchoredPosition = Vector2.zero;
+        }
+
         public void ShowPopupAtCurrentPosition(
             RectTransform popup,
             UdonSharpBehaviour callbackInst,
             string callbackEventName,
             float minDistanceFromPageEdge = 20f)
+        {
+            AddPopup(popup, callbackInst, callbackEventName);
+            PushOntoMainCanvas(popup, minDistanceFromPageEdge);
+        }
+
+        private void AddPopup(
+            RectTransform popup,
+            UdonSharpBehaviour callbackInst,
+            string callbackEventName)
         {
             primaryPopupBackground.SetSiblingIndex(popupsCount);
             ArrList.Add(ref popups, ref popupsCount, popup);
@@ -320,7 +338,6 @@ namespace JanSharp
             ArrList.Add(ref popupCallbackNames, ref popupCallbackNamesCount, callbackEventName);
             popup.SetParent(popupContainer);
             popup.gameObject.SetActive(true);
-            PushOntoMainCanvas(popup, minDistanceFromPageEdge);
             if (popupCallbackInstsCount != 1)
                 return;
             foreach (Image img in popupBackgroundImages)
