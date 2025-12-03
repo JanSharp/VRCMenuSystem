@@ -55,6 +55,29 @@ namespace JanSharp
         private const int IndexForUninitializedActivePage = -2;
         private const int IndexForNoShownPages = -1;
 
+        #region Popups
+
+        public RectTransform popupContainer;
+        public Image[] popupBackgroundImages;
+        public Button[] popupBackgroundButtons;
+        public RectTransform primaryPopupBackground;
+
+        private RectTransform[] popups = new RectTransform[ArrList.MinCapacity];
+        private UdonSharpBehaviour[] popupCallbackInsts = new UdonSharpBehaviour[ArrList.MinCapacity];
+        private string[] popupCallbackNames = new string[ArrList.MinCapacity];
+        private int popupsCount = 0;
+        private int popupCallbackInstsCount = 0;
+        private int popupCallbackNamesCount = 0;
+
+        // 99% of system will easily be able to know which popup got closed, and have a reference to it.
+        private RectTransform popupToClose;
+        /// <summary>
+        /// <para>Use inside of popup callbacks to get the popup which is being closed.</para>
+        /// </summary>
+        public RectTransform PopupToClose => popupToClose;
+
+        #endregion
+
         public void Start()
         {
             lockstepHiddenAPI = (Internal.Lockstep)lockstep;
@@ -283,24 +306,7 @@ namespace JanSharp
 
         #endregion
 
-        public RectTransform popupContainer;
-        public Image[] popupBackgroundImages;
-        public Button[] popupBackgroundButtons;
-        public RectTransform primaryPopupBackground;
-
-        private RectTransform[] popups = new RectTransform[ArrList.MinCapacity];
-        private UdonSharpBehaviour[] popupCallbackInsts = new UdonSharpBehaviour[ArrList.MinCapacity];
-        private string[] popupCallbackNames = new string[ArrList.MinCapacity];
-        private int popupsCount = 0;
-        private int popupCallbackInstsCount = 0;
-        private int popupCallbackNamesCount = 0;
-
-        // 99% of system will easily be able to know which popup got closed, and have a reference to it.
-        private RectTransform popupToClose;
-        /// <summary>
-        /// <para>Use inside of popup callbacks to get the popup which is being closed.</para>
-        /// </summary>
-        public RectTransform PopupToClose => popupToClose;
+        #region Popups
 
         public void ShowPopupAtCurrentPosition(
             RectTransform popup,
@@ -372,5 +378,7 @@ namespace JanSharp
             inst.SendCustomEvent(eventName);
             popupToClose = null;
         }
+
+        #endregion
     }
 }
