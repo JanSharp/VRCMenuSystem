@@ -21,6 +21,7 @@ namespace JanSharp
         public Sprite expandIcon;
         public RectTransform mainCanvas;
         public RectTransform sideCanvas;
+        public Transform vrPositioningRoot;
         public CanvasGroup vrCanvasGroup;
         public CanvasGroup desktopCanvasGroup;
         public Collider mainCanvasCollider;

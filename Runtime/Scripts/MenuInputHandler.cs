@@ -12,7 +12,15 @@ namespace JanSharp
         HoldDown,
     }
 
+    public enum MenuPositionType
+    {
+        InFront,
+        LeftHand,
+        RightHand,
+    }
+
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
+    [SingletonScript("d9be4a8a9d454bfb7ba93f4988cbe45a")] // Runtime/Prefabs/Internal/MenuDummy - the system you are using likely provides its own prefab.prefab
     public class MenuInputHandler : UdonSharpBehaviour
     {
         [SerializeField][HideInInspector][SingletonReference] private UpdateManager updateManager;
@@ -22,14 +30,43 @@ namespace JanSharp
 
         public MenuManager menuManager;
         public MenuOpenCloseKeyBind keyBind;
+        [SerializeField] private MenuPositionType menuPosition;
         public float pixelsFromDesktopScreenEdge = 50f;
         public Transform makeDesktopCanvasWorkWhileHoldingTab;
 
-        private const float UpThreshold = 0.3f;
-        private const float DownThreshold = -0.3f;
+        public MenuPositionType MenuPosition
+        {
+            get => menuPosition;
+            set
+            {
+                if (menuPosition == value)
+                    return;
+                menuPosition = value;
+                if (!isMenuOpen)
+                    return;
+                boneAttachment.DetachFromLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
+                UpdateMenuAttachedTrackingType();
+                boneAttachment.AttachToLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
+                UpdateMenuLocalPosition();
+            }
+        }
 
-        private const float HoldDownTimer = 1.5f;
-        private const float DoubleInputTimeout = 0.75f;
+        private VRCPlayerApi localPlayer;
+        private VRCPlayerApi.TrackingDataType menuAttachedTrackingType;
+
+        private Quaternion handRotationNormalization = Quaternion.AngleAxis(90f, Vector3.forward) * Quaternion.AngleAxis(45f, Vector3.right);
+        public Vector3 leftHandOffsetPosition;
+        public Vector3 leftHandOffsetRotation;
+        public Vector3 rightHandOffsetPosition;
+        public Vector3 rightHandOffsetRotation;
+        public Vector3 headOffsetPosition;
+        public Vector3 headOffsetRotation;
+
+        public float upThreshold = 0.3f;
+        public float downThreshold = -0.3f;
+
+        public float holdDownTimer = 1.5f;
+        public float doubleInputTimeout = 0.75f;
 
         // Down as in "input key down" equivalent
         // Down as in "look down"
@@ -44,6 +81,7 @@ namespace JanSharp
         private bool isMenuOpen;
 
         private CanvasGroup vrCanvasGroup;
+        private Transform vrPositioningRoot;
         private CanvasGroup desktopCanvasGroup;
         private Collider mainCanvasCollider;
         private Collider sideCanvasCollider;
@@ -52,13 +90,17 @@ namespace JanSharp
 
         public void Start()
         {
+            localPlayer = Networking.LocalPlayer;
+            isInVR = localPlayer.IsUserInVR();
+
+            UpdateMenuAttachedTrackingType();
             vrCanvasGroup = menuManager.vrCanvasGroup;
+            vrPositioningRoot = menuManager.vrPositioningRoot;
             desktopCanvasGroup = menuManager.desktopCanvasGroup;
             mainCanvasCollider = menuManager.mainCanvasCollider;
             sideCanvasCollider = menuManager.sideCanvasCollider;
             desktopCanvas = menuManager.desktopCanvas;
 
-            isInVR = Networking.LocalPlayer.IsUserInVR();
             if (isInVR)
             {
                 Destroy(menuManager.desktopCanvas.gameObject);
@@ -77,9 +119,9 @@ namespace JanSharp
 
             if (isHoldingDown)
             {
-                if (value <= DownThreshold)
+                if (value <= downThreshold)
                 {
-                    if (holdDownActuated || Time.time > (currentDownDownTime + HoldDownTimer))
+                    if (holdDownActuated || Time.time > (currentDownDownTime + holdDownTimer))
                         return;
                     holdDownActuated = true;
                     if (keyBind == MenuOpenCloseKeyBind.HoldDown)
@@ -94,15 +136,15 @@ namespace JanSharp
 
             // Not holding down.
 
-            if (value <= DownThreshold)
+            if (value <= downThreshold)
             {
                 isHoldingDown = true;
                 currentDownDownTime = Time.time;
-                if (keyBind == MenuOpenCloseKeyBind.DownDown && currentDownDownTime < previousDownDownTime + DoubleInputTimeout)
+                if (keyBind == MenuOpenCloseKeyBind.DownDown && currentDownDownTime < previousDownDownTime + doubleInputTimeout)
                     OpenCloseInVR();
                 return;
             }
-            if (value >= UpThreshold && keyBind == MenuOpenCloseKeyBind.DownUp && Time.time < previousDownDownTime + DoubleInputTimeout)
+            if (value >= upThreshold && keyBind == MenuOpenCloseKeyBind.DownUp && Time.time < previousDownDownTime + doubleInputTimeout)
                 OpenCloseInVR();
         }
 
@@ -113,6 +155,45 @@ namespace JanSharp
             vrCanvasGroup.blocksRaycasts = isMenuOpen; // For good measure.
             mainCanvasCollider.enabled = isMenuOpen;
             sideCanvasCollider.enabled = isMenuOpen;
+
+            boneAttachment.AttachToLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
+            UpdateMenuLocalPosition();
+        }
+
+        private void UpdateMenuAttachedTrackingType()
+        {
+            switch (menuPosition)
+            {
+                case MenuPositionType.InFront:
+                    menuAttachedTrackingType = VRCPlayerApi.TrackingDataType.Origin;
+                    break;
+                case MenuPositionType.LeftHand:
+                    menuAttachedTrackingType = VRCPlayerApi.TrackingDataType.LeftHand;
+                    break;
+                case MenuPositionType.RightHand:
+                    menuAttachedTrackingType = VRCPlayerApi.TrackingDataType.RightHand;
+                    break;
+            }
+        }
+
+        private void UpdateMenuLocalPosition()
+        {
+            switch (menuPosition)
+            {
+                case MenuPositionType.InFront:
+                    var head = localPlayer.GetTrackingData(VRCPlayerApi.TrackingDataType.Head);
+                    vrPositioningRoot.position = head.position + headOffsetPosition;
+                    vrPositioningRoot.rotation = head.rotation * Quaternion.Euler(headOffsetRotation);
+                    break;
+                case MenuPositionType.LeftHand:
+                    vrPositioningRoot.localPosition = handRotationNormalization * leftHandOffsetPosition;
+                    vrPositioningRoot.localRotation = handRotationNormalization * Quaternion.Euler(leftHandOffsetRotation);
+                    break;
+                case MenuPositionType.RightHand:
+                    vrPositioningRoot.localPosition = handRotationNormalization * rightHandOffsetPosition;
+                    vrPositioningRoot.localRotation = handRotationNormalization * Quaternion.Euler(rightHandOffsetRotation);
+                    break;
+            }
         }
 
         private void MoveMenuIntoScreenCanvas()

@@ -15,11 +15,11 @@
     - [x] Down Down
     - [x] Hold Down
     - [ ] test in VR
-- [ ] Different types of positioning of the UI in VR
-  - [ ] In front - Appears in front of your face, moves with your avatar, does not rotate
+- [x] Different types of positioning of the UI in VR
+  - [x] In front - Appears in front of your face, moves with your avatar, does not rotate
     - [ ] Maybe adjustable positioning? Like distance from you head? I don't think so though, it should be positioned such that it is nicely readable and comfortably interactable, which I don't believe varies much. Or so I would hope
-  - [ ] Left hand
-  - [ ] Right hand
+  - [x] Left hand
+  - [x] Right hand
     - [ ] For hand attachment... adjustable relative positioning?
 - [ ] Maybe UI sidebar position switching between the left and right side
 - [ ] A close button...
@@ -32,3 +32,10 @@
   - [ ] make the open and close key bind handling an option on the menu configuration, which puts a prefab of required scripts into that menu
   - [ ] have an attribute which makes a MenuManager field get auto populated via finding a manager in parent hierarchy (could even make a generic FindInParent attribute and make it part of the common package)
 - BUG: collapse the side bar, gain permission to view the home page, see the Home text even though it is collapsed. Specifically when this is the first time the home page toggle is being shown, if it was expanded and collapsed in between, gaining and losing permission does not cause the issue a second time
+- MenuInputHandler issues
+  - [ ] flickering input of down up, due to not getting reset
+  - [ ] down down actuates twice when doing 3 down inputs
+  - [ ] head scaling
+  - [ ] hand scaling
+  - [ ] rotate the head offset by head rotation
+  - [ ] project "in front" rotation such that there is no rotation around the x axis
