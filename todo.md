@@ -35,3 +35,37 @@
   - [ ] make the open and close key bind handling an option on the menu configuration, which puts a prefab of required scripts into that menu
   - [ ] have an attribute which makes a MenuManager field get auto populated via finding a manager in parent hierarchy (could even make a generic FindInParent attribute and make it part of the common package)
 - BUG: collapse the side bar, gain permission to view the home page, see the Home text even though it is collapsed. Specifically when this is the first time the home page toggle is being shown, if it was expanded and collapsed in between, gaining and losing permission does not cause the issue a second time
+- [ ] menu open and close events for systems to listen to
+
+
+
+# Things I would like input on
+
+- Styling
+  - The width of the lines
+  - Are any lines missing or too much?
+  - ~~The highlight color~~ Actually with the UI styling system that should theoretically be stupid easy to adjust later
+  - The size of the buttons in the main UI
+  - The size of the scroll bar
+  - The size of the sidebar buttons (note the amount that there could - like up to 16)
+  - The font size in relation to their containers
+  - The darkness of the popup background
+  - The transparency of the UI as a whole
+    - [ ] Make a toggle between opaque and transparent to help test this. Or a slider even
+- Positioning
+  - In front
+    - It moving with your play space but not with you is the right move, right?
+    - Should the rotation be normalized/projected as it is now or should it just match the head rotation no matter the tilt/yaw (whatever you call it)
+  - On hand
+    - Close on the hand, like VRC's quick menu as well as Sylan's menu
+    - Further away, similar to it being in front, but attached to the hand rather than the "world" (actually your play space)
+  - Should positioning be adjustable by users (see how you can adjust overlay windows)? Or is it possible to have a default that is good enough for everybody? It is a bit different to the quick menu and Sylan's menu as it is larger
+- Key binds
+  - Are thresholds good enough - do you accidentally open the menu, or do you try to open it and fail to do so?
+    - how's that experience here compared to Sylan's?
+  - Is hold down 1.5 seconds really necessary? (maybe ask Sylan about that too, hm)
+- A close button...
+  - Maybe by putting it at the top of the side bar?
+  - Maybe at the bottom of the side bar?
+  - Maybe effectively floating outside of the main UI?
+  - Maybe none?
