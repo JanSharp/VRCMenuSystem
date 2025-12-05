@@ -17,7 +17,7 @@
     - [x] Down Down
     - [x] Hold Down
     - [x] test in VR
-    - [ ] ignore joystick movement while pointing at a scroll view (use the on cursor enter/exist events)
+    - [x] ignore joystick movement while pointing at a scroll view (use the on pointer enter/exit events)
 - [x] Different types of positioning of the UI in VR
   - [x] In front - Appears in front of your face, moves with your avatar, does not rotate
     - [ ] Maybe adjustable positioning? Like distance from you head? I don't think so though, it should be positioned such that it is nicely readable and comfortably interactable, which I don't believe varies much. Or so I would hope

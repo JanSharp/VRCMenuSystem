@@ -77,6 +77,7 @@ namespace JanSharp
 
         private bool isHoldingDown;
         private bool holdDownActuated;
+        private int ignoreJoystickInputCounter;
 
         private bool isInVR;
 
@@ -113,6 +114,25 @@ namespace JanSharp
             MoveMenuIntoScreenCanvas();
         }
 
+        public void IgnoreJoystickInput()
+        {
+            ignoreJoystickInputCounter++;
+            isHoldingDown = false;
+            holdDownActuated = false;
+            previousPressDownTime = 0f;
+            currentPressDownTime = 0f;
+        }
+
+        public void UnignoreJoystickInput()
+        {
+            if (ignoreJoystickInputCounter == 0)
+            {
+                Debug.LogError("[MenuSystem] Attempt to UnignoreJoystickInput more often than IgnoreJoystickInput.");
+                return;
+            }
+            ignoreJoystickInputCounter--;
+        }
+
         public override void InputLookVertical(float value, UdonInputEventArgs args)
         {
             // Only gets raised if the value changed it would seem.
@@ -121,6 +141,9 @@ namespace JanSharp
 
         private void UpdateVRInput()
         {
+            if (ignoreJoystickInputCounter != 0)
+                return;
+
             if (isHoldingDown)
             {
                 if (lookVerticalValue <= downThreshold)
