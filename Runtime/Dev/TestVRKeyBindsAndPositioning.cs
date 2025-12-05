@@ -7,6 +7,7 @@ namespace JanSharp
     public class TestVRKeyBindsAndPositioning : UdonSharpBehaviour
     {
         [SerializeField][HideInInspector][SingletonReference] private MenuInputHandler menuInputHandler;
+        [SerializeField][HideInInspector][SingletonReference] private MenuManager menuManager;
         [SerializeField][HideInInspector][SingletonReference] private WidgetManager widgetManager;
 
         public GenericValueEditor valueEditor;
@@ -79,6 +80,12 @@ namespace JanSharp
                 .NewToggleField("Right Hand", menuInputHandler.MenuPosition == MenuPositionType.RightHand)
                 .SetListener(this, nameof(SetToRightHand)));
 
+            ArrList.Add(ref widgets, ref widgetsCount, widgetManager.NewSpace());
+
+            ArrList.Add(ref widgets, ref widgetsCount, widgetManager
+                .NewSliderField("Opaqueness", menuManager.mainOpaqueImage.color.a, 0f, 1f)
+                .SetListener(this, nameof(OnOpaquenessValueChanged)));
+
             valueEditor.Draw(widgets, widgetsCount);
         }
 
@@ -140,6 +147,14 @@ namespace JanSharp
             leftHeldToggle.SetValueWithoutNotify(false);
             rightHeldToggle.SetValueWithoutNotify(true);
             menuInputHandler.MenuPosition = MenuPositionType.RightHand;
+        }
+
+        public void OnOpaquenessValueChanged()
+        {
+            Color color = menuManager.mainOpaqueImage.color;
+            color.a = valueEditor.GetSendingSliderField().Value;
+            menuManager.mainOpaqueImage.color = color;
+            menuManager.sideOpaqueImage.color = color;
         }
     }
 }

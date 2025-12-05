@@ -34,6 +34,8 @@ namespace JanSharp
         public RectTransform desktopMainPanel;
         public RectTransform desktopSidePanel;
         public TextMeshProUGUI infoTextOverlay;
+        public Image mainOpaqueImage;
+        public Image sideOpaqueImage;
         public bool isCollapsed;
         public float collapsedPosition;
         public float collapsedSize;

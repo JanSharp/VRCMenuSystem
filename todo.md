@@ -50,7 +50,7 @@
   - The font size in relation to their containers
   - The darkness of the popup background
   - The transparency of the UI as a whole
-    - [ ] Make a toggle between opaque and transparent to help test this. Or a slider even
+    - [x] Make a toggle between opaque and transparent to help test this. Or a slider even
 - Positioning
   - In front
     - It moving with your play space but not with you is the right move, right?
