@@ -15,6 +15,7 @@ namespace JanSharp
         public string[] pageInternalNames;
         public MenuPageRoot[] pageRoots;
         public Toggle[] pageToggles;
+        public GameObject[] pageToggleLabels;
         public ToggleGroup pageTogglesToggleGroup;
         public Image collapseButtonImage;
         public Sprite collapseIcon;
@@ -189,6 +190,8 @@ namespace JanSharp
             Vector2 size = sideCanvas.sizeDelta;
             size.x = isCollapsed ? collapsedSize : expandedSize;
             sideCanvas.sizeDelta = size;
+            foreach (GameObject label in pageToggleLabels)
+                label.SetActive(!isCollapsed);
         }
 
         #region Loading Page

@@ -34,7 +34,6 @@
 - [ ] maybe don't make the manager a singleton, so multiple in world UIs could use the menu system
   - [ ] make the open and close key bind handling an option on the menu configuration, which puts a prefab of required scripts into that menu
   - [ ] have an attribute which makes a MenuManager field get auto populated via finding a manager in parent hierarchy (could even make a generic FindInParent attribute and make it part of the common package)
-- BUG: collapse the side bar, gain permission to view the home page, see the Home text even though it is collapsed. Specifically when this is the first time the home page toggle is being shown, if it was expanded and collapsed in between, gaining and losing permission does not cause the issue a second time
 - [ ] menu open and close events for systems to listen to
 
 

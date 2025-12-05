@@ -95,6 +95,10 @@ namespace JanSharp
                 managerSo.FindProperty("pageToggles"),
                 pageToggleGos,
                 (p, v) => p.objectReferenceValue = v.GetComponent<Toggle>());
+            EditorUtil.SetArrayProperty(
+                managerSo.FindProperty("pageToggleLabels"),
+                pageToggleGos,
+                (p, v) => p.objectReferenceValue = v.GetComponentInChildren<TextMeshProUGUI>(includeInactive: true).gameObject);
             managerSo.ApplyModifiedProperties();
         }
 
