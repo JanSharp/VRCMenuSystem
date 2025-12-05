@@ -35,6 +35,13 @@ namespace JanSharp
             }
         }
 
+        public override void InitializeInstantiated()
+        {
+#if MENU_SYSTEM_DEBUG
+            Debug.Log($"[MenuSystemDebug] ShowPageByPermission  InitializeInstantiated");
+#endif
+        }
+
         public override void Resolve()
         {
 #if MENU_SYSTEM_DEBUG
