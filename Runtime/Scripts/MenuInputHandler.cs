@@ -163,8 +163,13 @@ namespace JanSharp
             mainCanvasCollider.enabled = isMenuOpen;
             sideCanvasCollider.enabled = isMenuOpen;
 
-            boneAttachment.AttachToLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
-            UpdateMenuLocalPosition();
+            if (isMenuOpen)
+            {
+                boneAttachment.AttachToLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
+                UpdateMenuLocalPosition();
+            }
+            else
+                boneAttachment.DetachFromLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
         }
 
         private void UpdateMenuAttachedTrackingType()
