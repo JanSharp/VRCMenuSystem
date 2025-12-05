@@ -56,20 +56,21 @@ namespace JanSharp
         private VRCPlayerApi.TrackingDataType menuAttachedTrackingType;
 
         private Quaternion handRotationNormalization = Quaternion.AngleAxis(90f, Vector3.forward) * Quaternion.AngleAxis(45f, Vector3.right);
-        public Vector3 leftHandOffsetPosition;
-        public Vector3 leftHandOffsetRotation;
-        public Vector3 rightHandOffsetPosition;
-        public Vector3 rightHandOffsetRotation;
-        public Vector3 headOffsetPosition;
-        public Vector3 headOffsetRotation;
-        public float headAttachedScale = 1f;
-        public float handAttachedScale = 1f;
+        [System.NonSerialized] public Vector3 headOffsetPosition = new Vector3(0f, 0f, 0.9f);
+        [System.NonSerialized] public Vector3 headOffsetRotation = new Vector3(0f, 0f, 0f);
+        [System.NonSerialized] public Vector3 leftHandOffsetPosition = new Vector3(0.1f, 0.55f, 0.15f);
+        [System.NonSerialized] public Vector3 leftHandOffsetRotation = new Vector3(-35f, -15f, 0f);
+        [System.NonSerialized] public Vector3 rightHandOffsetPosition = new Vector3(-0.125f, 0.18f, 0.24f);
+        [System.NonSerialized] public Vector3 rightHandOffsetRotation = new Vector3(55f, 5f, -10f);
+        [System.NonSerialized] public float headAttachedScale = 0.001f;
+        [System.NonSerialized] public float leftHandAttachedScale = 0.00075f;
+        [System.NonSerialized] public float rightHandAttachedScale = 0.0005f;
 
-        public float upThreshold = 0.3f;
-        public float downThreshold = -0.3f;
+        [System.NonSerialized] public float upThreshold = 0.1f;
+        [System.NonSerialized] public float downThreshold = -0.1f;
 
-        public float holdDownTimer = 1.5f;
-        public float doubleInputTimeout = 0.75f;
+        [System.NonSerialized] public float holdDownTimer = 1.5f;
+        [System.NonSerialized] public float doubleInputTimeout = 0.75f;
 
         // Down as in "input key down" equivalent
         // Down as in "look down"
@@ -206,12 +207,12 @@ namespace JanSharp
                 case MenuPositionType.LeftHand:
                     vrPositioningRoot.localPosition = handRotationNormalization * leftHandOffsetPosition;
                     vrPositioningRoot.localRotation = handRotationNormalization * Quaternion.Euler(leftHandOffsetRotation);
-                    vrPositioningRoot.localScale = Vector3.one * handAttachedScale;
+                    vrPositioningRoot.localScale = Vector3.one * leftHandAttachedScale;
                     break;
                 case MenuPositionType.RightHand:
                     vrPositioningRoot.localPosition = handRotationNormalization * rightHandOffsetPosition;
                     vrPositioningRoot.localRotation = handRotationNormalization * Quaternion.Euler(rightHandOffsetRotation);
-                    vrPositioningRoot.localScale = Vector3.one * handAttachedScale;
+                    vrPositioningRoot.localScale = Vector3.one * rightHandAttachedScale;
                     break;
             }
         }

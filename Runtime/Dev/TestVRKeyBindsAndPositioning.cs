@@ -26,12 +26,12 @@ namespace JanSharp
 
             string[] vectors = new string[]
             {
+                nameof(MenuInputHandler.headOffsetPosition),
+                nameof(MenuInputHandler.headOffsetRotation),
                 nameof(MenuInputHandler.leftHandOffsetPosition),
                 nameof(MenuInputHandler.leftHandOffsetRotation),
                 nameof(MenuInputHandler.rightHandOffsetPosition),
                 nameof(MenuInputHandler.rightHandOffsetRotation),
-                nameof(MenuInputHandler.headOffsetPosition),
-                nameof(MenuInputHandler.headOffsetRotation),
             };
             foreach (string vector in vectors)
                 ArrList.Add(ref widgets, ref widgetsCount, widgetManager
@@ -46,7 +46,8 @@ namespace JanSharp
                 nameof(MenuInputHandler.holdDownTimer),
                 nameof(MenuInputHandler.doubleInputTimeout),
                 nameof(MenuInputHandler.headAttachedScale),
-                nameof(MenuInputHandler.handAttachedScale),
+                nameof(MenuInputHandler.leftHandAttachedScale),
+                nameof(MenuInputHandler.rightHandAttachedScale),
             };
             foreach (string floatField in floats)
                 ArrList.Add(ref widgets, ref widgetsCount, widgetManager
