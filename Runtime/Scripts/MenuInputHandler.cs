@@ -141,11 +141,18 @@ namespace JanSharp
                 isHoldingDown = true;
                 currentDownDownTime = Time.time;
                 if (keyBind == MenuOpenCloseKeyBind.DownDown && currentDownDownTime < previousDownDownTime + doubleInputTimeout)
+                {
+                    currentDownDownTime = 0f; // Consume this down input, to prevent 3 downs being treated as 2 down downs.
                     OpenCloseInVR();
+                }
                 return;
             }
+
             if (value >= upThreshold && keyBind == MenuOpenCloseKeyBind.DownUp && Time.time < previousDownDownTime + doubleInputTimeout)
+            {
+                previousDownDownTime = 0f; // Consume this down up input.
                 OpenCloseInVR();
+            }
         }
 
         private void OpenCloseInVR()

@@ -33,8 +33,8 @@
   - [ ] have an attribute which makes a MenuManager field get auto populated via finding a manager in parent hierarchy (could even make a generic FindInParent attribute and make it part of the common package)
 - BUG: collapse the side bar, gain permission to view the home page, see the Home text even though it is collapsed. Specifically when this is the first time the home page toggle is being shown, if it was expanded and collapsed in between, gaining and losing permission does not cause the issue a second time
 - MenuInputHandler issues
-  - [ ] flickering input of down up, due to not getting reset
-  - [ ] down down actuates twice when doing 3 down inputs
+  - [x] flickering input of down up, due to not getting reset
+  - [x] down down actuates twice when doing 3 down inputs
   - [ ] head scaling
   - [ ] hand scaling
   - [ ] rotate the head offset by head rotation
