@@ -124,7 +124,7 @@ namespace JanSharp
             {
                 if (value <= downThreshold)
                 {
-                    if (holdDownActuated || Time.time > (currentDownDownTime + holdDownTimer))
+                    if (holdDownActuated || Time.time < (currentDownDownTime + holdDownTimer))
                         return;
                     holdDownActuated = true;
                     if (keyBind == MenuOpenCloseKeyBind.HoldDown)
