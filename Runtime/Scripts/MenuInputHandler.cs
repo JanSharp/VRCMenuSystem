@@ -42,10 +42,11 @@ namespace JanSharp
                 if (menuPosition == value)
                     return;
                 menuPosition = value;
+                if (isMenuOpen)
+                    boneAttachment.DetachFromLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
+                UpdateMenuAttachedTrackingType();
                 if (!isMenuOpen)
                     return;
-                boneAttachment.DetachFromLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
-                UpdateMenuAttachedTrackingType();
                 boneAttachment.AttachToLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
                 UpdateMenuLocalPosition();
             }
