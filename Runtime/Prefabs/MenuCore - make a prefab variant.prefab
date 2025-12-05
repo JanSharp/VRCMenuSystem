@@ -585,8 +585,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8547080778814475608}
   - {fileID: 8834968653955850911}
@@ -879,16 +879,6 @@ MonoBehaviour:
   menuPosition: 0
   pixelsFromDesktopScreenEdge: 50
   makeDesktopCanvasWorkWhileHoldingTab: {fileID: 7541282349182406529}
-  leftHandOffsetPosition: {x: 0, y: 0, z: 0}
-  leftHandOffsetRotation: {x: 0, y: 0, z: 0}
-  rightHandOffsetPosition: {x: 0, y: 0, z: 0}
-  rightHandOffsetRotation: {x: 0, y: 0, z: 0}
-  headOffsetPosition: {x: 0, y: 0, z: 0}
-  headOffsetRotation: {x: 0, y: 0, z: 0}
-  upThreshold: 0.3
-  downThreshold: -0.3
-  holdDownTimer: 1.5
-  doubleInputTimeout: 0.75
 --- !u!114 &1132713384942628391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2005,7 +1995,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.25, z: 0}
-  m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6112293568580616513}
