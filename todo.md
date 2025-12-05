@@ -9,7 +9,7 @@
 - [x] Open close key binds
   - [x] Hold tab on desktop, using screen space UI
     - [x] Surround the player's in a cube of invisible canvases to make interaction with the screen space UI possible (yes this is a hack I found by accident)
-    - [ ] maybe make it double tap hold, to allow regular usage of holding tab to interact with world UIs
+    - [ ] maybe make it double tap hold, to allow regular usage of holding tab to interact with world UIs. Or maybe the inverse of that, hold tab to open the menu, double tap tab and hold and the menu does not open
   - [x] In VR, right joystick (vertical look), matching what Sylan did simply for muscle memory as it is good enough... and like what else are we supposed to use
     - [x] Down Up
     - [x] Down Down
