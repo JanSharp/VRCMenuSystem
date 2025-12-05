@@ -23,10 +23,7 @@ namespace JanSharp
     [SingletonScript("d9be4a8a9d454bfb7ba93f4988cbe45a")] // Runtime/Prefabs/Internal/MenuDummy - the system you are using likely provides its own prefab.prefab
     public class MenuInputHandler : UdonSharpBehaviour
     {
-        [SerializeField][HideInInspector][SingletonReference] private UpdateManager updateManager;
         [HideInInspector][SerializeField][SingletonReference] private BoneAttachmentManager boneAttachment;
-        /// <summary>For the <see cref="UpdateManager"/>.</summary>
-        [System.NonSerialized] public int customUpdateInternalIndex;
 
         public MenuManager menuManager;
         public MenuOpenCloseKeyBind keyBind;
@@ -72,10 +69,11 @@ namespace JanSharp
         [System.NonSerialized] public float holdDownTimer = 1.5f;
         [System.NonSerialized] public float doubleInputTimeout = 0.75f;
 
-        // Down as in "input key down" equivalent
-        // Down as in "look down"
-        private float previousDownDownTime;
-        private float currentDownDownTime;
+        private float lookVerticalValue;
+        // Press as in "input key down" equivalent
+        // Down as in "vertical look input down/negative"
+        private float previousPressDownTime;
+        private float currentPressDownTime;
 
         private bool isHoldingDown;
         private bool holdDownActuated;
@@ -112,20 +110,22 @@ namespace JanSharp
                 OpenCloseInVR(); // Close.
                 return;
             }
-            updateManager.Register(this);
             MoveMenuIntoScreenCanvas();
         }
 
         public override void InputLookVertical(float value, UdonInputEventArgs args)
         {
-            if (!isInVR)
-                return;
+            // Only gets raised if the value changed it would seem.
+            lookVerticalValue = value;
+        }
 
+        private void UpdateVRInput()
+        {
             if (isHoldingDown)
             {
-                if (value <= downThreshold)
+                if (lookVerticalValue <= downThreshold)
                 {
-                    if (holdDownActuated || Time.time < (currentDownDownTime + holdDownTimer))
+                    if (holdDownActuated || Time.time < currentPressDownTime + holdDownTimer)
                         return;
                     holdDownActuated = true;
                     if (keyBind == MenuOpenCloseKeyBind.HoldDown)
@@ -134,27 +134,24 @@ namespace JanSharp
                 }
                 isHoldingDown = false;
                 holdDownActuated = false;
-                previousDownDownTime = currentDownDownTime;
-                return;
+                previousPressDownTime = currentPressDownTime;
             }
 
-            // Not holding down.
-
-            if (value <= downThreshold)
+            else if (lookVerticalValue <= downThreshold) // && was not not holding down.
             {
                 isHoldingDown = true;
-                currentDownDownTime = Time.time;
-                if (keyBind == MenuOpenCloseKeyBind.DownDown && currentDownDownTime < previousDownDownTime + doubleInputTimeout)
+                currentPressDownTime = Time.time;
+                if (keyBind == MenuOpenCloseKeyBind.DownDown && currentPressDownTime < previousPressDownTime + doubleInputTimeout)
                 {
-                    currentDownDownTime = 0f; // Consume this down input, to prevent 3 downs being treated as 2 down downs.
+                    currentPressDownTime = 0f; // Consume this down input, to prevent 3 downs being treated as 2 down downs.
                     OpenCloseInVR();
                 }
                 return;
             }
 
-            if (value >= upThreshold && keyBind == MenuOpenCloseKeyBind.DownUp && Time.time < previousDownDownTime + doubleInputTimeout)
+            if (lookVerticalValue >= upThreshold && keyBind == MenuOpenCloseKeyBind.DownUp && Time.time < previousPressDownTime + doubleInputTimeout)
             {
-                previousDownDownTime = 0f; // Consume this down up input.
+                previousPressDownTime = 0f; // Consume this down up input.
                 OpenCloseInVR();
             }
         }
@@ -250,8 +247,14 @@ namespace JanSharp
             menuManager.desktopScalingRoot.localScale = scale * Vector3.one;
         }
 
-        public void CustomUpdate()
+        public void Update()
         {
+            if (isInVR)
+            {
+                UpdateVRInput();
+                return;
+            }
+
             UpdateDesktopMenuScale();
             if (Input.GetKeyDown(KeyCode.Tab))
             {
