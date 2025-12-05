@@ -21,6 +21,16 @@ namespace JanSharp
         public Sprite expandIcon;
         public RectTransform mainCanvas;
         public RectTransform sideCanvas;
+        public CanvasGroup vrCanvasGroup;
+        public CanvasGroup desktopCanvasGroup;
+        public Collider mainCanvasCollider;
+        public Collider sideCanvasCollider;
+        public RectTransform mainRoot;
+        public RectTransform sideRoot;
+        public RectTransform desktopCanvas;
+        public RectTransform desktopScalingRoot;
+        public RectTransform desktopMainPanel;
+        public RectTransform desktopSidePanel;
         public TextMeshProUGUI infoTextOverlay;
         public bool isCollapsed;
         public float collapsedPosition;

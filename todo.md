@@ -6,14 +6,16 @@
 - [ ] Popups
   - [ ] hide popups when showing loading page, do not close them... probably? Systems probably should have custom special handling for when a popup is open while an import gets started
   - [x] API to close a popup, no matter where it is in the stack (for example when losing permission to do what the popup is related to)
-- [ ] Open close key binds
-  - [ ] Hold tab on desktop, using screen space UI
-    - [ ] Surround the player's in a cube of invisible canvases to make interaction with the screen space UI possible (yes this is a hack I found by accident)
-  - [ ] In VR, right joystick (vertical look), matching what Sylan did simply for muscle memory as it is good enough... and like what else are we supposed to use
-    - [ ] Down Up
-    - [ ] Down Down
-    - [ ] Hold Down
-- [ ] Different types of positioning of the UI
+- [x] Open close key binds
+  - [x] Hold tab on desktop, using screen space UI
+    - [x] Surround the player's in a cube of invisible canvases to make interaction with the screen space UI possible (yes this is a hack I found by accident)
+    - [ ] maybe make it double tap hold, to allow regular usage of holding tab to interact with world UIs
+  - [x] In VR, right joystick (vertical look), matching what Sylan did simply for muscle memory as it is good enough... and like what else are we supposed to use
+    - [x] Down Up
+    - [x] Down Down
+    - [x] Hold Down
+    - [ ] test in VR
+- [ ] Different types of positioning of the UI in VR
   - [ ] In front - Appears in front of your face, moves with your avatar, does not rotate
     - [ ] Maybe adjustable positioning? Like distance from you head? I don't think so though, it should be positioned such that it is nicely readable and comfortably interactable, which I don't believe varies much. Or so I would hope
   - [ ] Left hand
@@ -26,3 +28,7 @@
   - Maybe effectively floating outside of the main UI?
 - [ ] look at rect 2d mask for scroll view masking
 - [ ] the loading bar when disappearing seems to stick around for longer than it should, as it is still visible while the page is also already visible
+- [ ] maybe don't make the manager a singleton, so multiple in world UIs could use the menu system
+  - [ ] make the open and close key bind handling an option on the menu configuration, which puts a prefab of required scripts into that menu
+  - [ ] have an attribute which makes a MenuManager field get auto populated via finding a manager in parent hierarchy (could even make a generic FindInParent attribute and make it part of the common package)
+- BUG: collapse the side bar, gain permission to view the home page, see the Home text even though it is collapsed. Specifically when this is the first time the home page toggle is being shown, if it was expanded and collapsed in between, gaining and losing permission does not cause the issue a second time
