@@ -9,12 +9,15 @@
 - [x] Open close key binds
   - [x] Hold tab on desktop, using screen space UI
     - [x] Surround the player's in a cube of invisible canvases to make interaction with the screen space UI possible (yes this is a hack I found by accident)
+      - [ ] maybe move the dummy canvases further away so there isn't a 200 pixel dragging dead zone in VRChat
+      - [ ] probably make it clamp rather than elastic, which would likely be better for desktop mousewheel scrolling
     - [ ] maybe make it double tap hold, to allow regular usage of holding tab to interact with world UIs. Or maybe the inverse of that, hold tab to open the menu, double tap tab and hold and the menu does not open
   - [x] In VR, right joystick (vertical look), matching what Sylan did simply for muscle memory as it is good enough... and like what else are we supposed to use
     - [x] Down Up
     - [x] Down Down
     - [x] Hold Down
-    - [ ] test in VR
+    - [x] test in VR
+    - [ ] ignore joystick movement while pointing at a scroll view (use the on cursor enter/exist events)
 - [x] Different types of positioning of the UI in VR
   - [x] In front - Appears in front of your face, moves with your avatar, does not rotate
     - [ ] Maybe adjustable positioning? Like distance from you head? I don't think so though, it should be positioned such that it is nicely readable and comfortably interactable, which I don't believe varies much. Or so I would hope
