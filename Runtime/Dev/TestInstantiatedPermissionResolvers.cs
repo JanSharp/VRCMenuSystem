@@ -14,8 +14,6 @@ namespace JanSharp
         {
             GameObject go = Instantiate((rowContainer.childCount % 2) == 1 ? evenRow : oddRow);
             go.transform.SetParent(rowContainer, worldPositionStays: false);
-            foreach (PermissionResolver resolver in go.GetComponentsInChildren<PermissionResolver>(includeInactive: true))
-                resolver.InitializeInstantiated();
             go.SetActive(true);
         }
     }
