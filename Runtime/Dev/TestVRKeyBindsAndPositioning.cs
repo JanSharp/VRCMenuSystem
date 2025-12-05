@@ -45,6 +45,8 @@ namespace JanSharp
                 nameof(MenuInputHandler.downThreshold),
                 nameof(MenuInputHandler.holdDownTimer),
                 nameof(MenuInputHandler.doubleInputTimeout),
+                nameof(MenuInputHandler.headAttachedScale),
+                nameof(MenuInputHandler.handAttachedScale),
             };
             foreach (string floatField in floats)
                 ArrList.Add(ref widgets, ref widgetsCount, widgetManager

@@ -61,6 +61,8 @@ namespace JanSharp
         public Vector3 rightHandOffsetRotation;
         public Vector3 headOffsetPosition;
         public Vector3 headOffsetRotation;
+        public float headAttachedScale = 1f;
+        public float handAttachedScale = 1f;
 
         public float upThreshold = 0.3f;
         public float downThreshold = -0.3f;
@@ -194,16 +196,21 @@ namespace JanSharp
             {
                 case MenuPositionType.InFront:
                     var head = localPlayer.GetTrackingData(VRCPlayerApi.TrackingDataType.Head);
-                    vrPositioningRoot.position = head.position + headOffsetPosition;
-                    vrPositioningRoot.rotation = head.rotation * Quaternion.Euler(headOffsetRotation);
+                    Vector3 forward = head.rotation * Vector3.forward;
+                    Quaternion projected = Quaternion.LookRotation(forward, Vector3.up);
+                    vrPositioningRoot.position = head.position + projected * headOffsetPosition;
+                    vrPositioningRoot.rotation = projected * Quaternion.Euler(headOffsetRotation);
+                    vrPositioningRoot.localScale = Vector3.one * headAttachedScale;
                     break;
                 case MenuPositionType.LeftHand:
                     vrPositioningRoot.localPosition = handRotationNormalization * leftHandOffsetPosition;
                     vrPositioningRoot.localRotation = handRotationNormalization * Quaternion.Euler(leftHandOffsetRotation);
+                    vrPositioningRoot.localScale = Vector3.one * handAttachedScale;
                     break;
                 case MenuPositionType.RightHand:
                     vrPositioningRoot.localPosition = handRotationNormalization * rightHandOffsetPosition;
                     vrPositioningRoot.localRotation = handRotationNormalization * Quaternion.Euler(rightHandOffsetRotation);
+                    vrPositioningRoot.localScale = Vector3.one * handAttachedScale;
                     break;
             }
         }

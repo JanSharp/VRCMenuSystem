@@ -35,7 +35,7 @@
 - MenuInputHandler issues
   - [x] flickering input of down up, due to not getting reset
   - [x] down down actuates twice when doing 3 down inputs
-  - [ ] head scaling
-  - [ ] hand scaling
-  - [ ] rotate the head offset by head rotation
-  - [ ] project "in front" rotation such that there is no rotation around the x axis
+  - [x] head scaling
+  - [x] hand scaling
+  - [x] rotate the head offset by head rotation
+  - [x] project "in front" rotation such that there is no rotation around the x axis
