@@ -372,6 +372,7 @@ namespace JanSharp
             Vector2 normalizedAnchor = toPush.anchorMin;
             if (toPush.anchorMax != normalizedAnchor) // Stretching is not supported.
                 return;
+            // TODO: Try using the `rect` property rather than doing the math manually.
             Vector2 canvasSize = mainCanvas.sizeDelta;
             Vector2 anchoredPosition = toPush.anchoredPosition;
             Vector2 anchor = canvasSize * normalizedAnchor + anchoredPosition;
