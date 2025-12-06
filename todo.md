@@ -56,8 +56,8 @@
     - It moving with your play space but not with you is the right move, right?
     - Should the rotation be normalized/projected as it is now or should it just match the head rotation no matter the tilt/yaw (whatever you call it)
   - On hand
-    - Close on the hand, like VRC's quick menu as well as Sylan's menu
-    - Further away, similar to it being in front, but attached to the hand rather than the "world" (actually your play space)
+    - (the way the right hand is setup currently) Close on the hand, like VRC's quick menu as well as Sylan's menu
+    - (the way the left hand is setup currently) Further away, similar to it being in front, but attached to the hand rather than the "world" (actually your play space)
   - Should positioning be adjustable by users (see how you can adjust overlay windows)? Or is it possible to have a default that is good enough for everybody? It is a bit different to the quick menu and Sylan's menu as it is larger
 - Key binds
   - Are thresholds good enough - do you accidentally open the menu, or do you try to open it and fail to do so?
