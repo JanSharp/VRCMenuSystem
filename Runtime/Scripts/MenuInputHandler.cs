@@ -217,9 +217,15 @@ namespace JanSharp
             switch (menuPosition)
             {
                 case MenuPositionType.InFront:
+                    // TODO: What if this calculates the deviation from head rotation and projected rotation,
+                    // and if it deviates too much it just uses the head rotation. So it's effectively snapping
+                    // to the projected rotation, but supports unusual head rotations.
                     var head = localPlayer.GetTrackingData(VRCPlayerApi.TrackingDataType.Head);
-                    Vector3 forward = head.rotation * Vector3.forward;
-                    Quaternion projected = Quaternion.LookRotation(forward, Vector3.up);
+                    Quaternion headRotation = head.rotation;
+                    Vector3 forward = headRotation * Vector3.forward;
+                    Quaternion projected = Mathf.Abs(Vector3.Dot(forward, Vector3.up)) >= 0.95f
+                        ? headRotation
+                        : Quaternion.LookRotation(forward, (headRotation * Vector3.up).y >= 0f ? Vector3.up : Vector3.down);
                     vrPositioningRoot.position = head.position + projected * headOffsetPosition;
                     vrPositioningRoot.rotation = projected * Quaternion.Euler(headOffsetRotation);
                     vrPositioningRoot.localScale = Vector3.one * headAttachedScale;
