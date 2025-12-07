@@ -35,6 +35,8 @@
   - [ ] make the open and close key bind handling an option on the menu configuration, which puts a prefab of required scripts into that menu
   - [ ] have an attribute which makes a MenuManager field get auto populated via finding a manager in parent hierarchy (could even make a generic FindInParent attribute and make it part of the common package)
 - [ ] menu open and close events for systems to listen to
+- [ ] think about if and how the menu system can or should have support surrounding a help page
+- [ ] think about a partially generated credits page, containing links and licenses for software used in a scene
 
 
 
