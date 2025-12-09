@@ -5,6 +5,8 @@
         "JanSharp.MenuSystem",
         "JanSharp.Common",
         "JanSharp.Common.Editor",
+        "JanSharp.UIStyling",
+        "JanSharp.UIStyling.Editor",
         "JanSharp.Lockstep",
         "JanSharp.PermissionSystem",
         "JanSharp.PermissionSystem.Editor",

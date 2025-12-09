@@ -3,6 +3,7 @@
     "rootNamespace": "",
     "references": [
         "JanSharp.Common",
+        "JanSharp.UIStyling",
         "JanSharp.Lockstep",
         "JanSharp.PermissionSystem",
         "UdonSharp.Runtime",
