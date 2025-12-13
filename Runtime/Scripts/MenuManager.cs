@@ -3,14 +3,15 @@ using UdonSharp;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace JanSharp
+namespace JanSharp.Internal
 {
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
+    // Both the API and this type have the SingletonScript so that internal scripts can directly reference the internal type.
     [SingletonScript("d9be4a8a9d454bfb7ba93f4988cbe45a")] // Runtime/Prefabs/Internal/MenuDummy - the system you are using likely provides its own prefab.prefab
-    public class MenuManager : UdonSharpBehaviour
+    public class MenuManager : MenuManagerAPI
     {
         [HideInInspector][SerializeField][SingletonReference] private LockstepAPI lockstep;
-        private Internal.Lockstep lockstepHiddenAPI;
+        private Lockstep lockstepHiddenAPI;
 
         public string[] pageInternalNames;
         public MenuPageRoot[] pageRoots;
@@ -83,18 +84,16 @@ namespace JanSharp
         private int popupCallbackInstsCount = 0;
         private int popupCallbackNamesCount = 0;
 
-        // 99% of system will easily be able to know which popup got closed, and have a reference to it.
+        // 99% of system will easily be able to know which popup got closed, and have a reference to it,
+        // making this useful only for edge cases. But still, might as well have it.
         private RectTransform popupToClose;
-        /// <summary>
-        /// <para>Use inside of popup callbacks to get the popup which is being closed.</para>
-        /// </summary>
-        public RectTransform PopupToClose => popupToClose;
+        public override RectTransform PopupToClose => popupToClose;
 
         #endregion
 
         public void Start()
         {
-            lockstepHiddenAPI = (Internal.Lockstep)lockstep;
+            lockstepHiddenAPI = (Lockstep)lockstep;
             pageCount = pageRoots.Length;
             foreach (MenuPageRoot pageRoot in pageRoots)
                 pageRoot.Initialize();
@@ -324,7 +323,7 @@ namespace JanSharp
 
         #region Popups
 
-        public void ShowPopupAtItsAnchor(
+        public override void ShowPopupAtItsAnchor(
             RectTransform popup,
             UdonSharpBehaviour callbackInst,
             string callbackEventName)
@@ -333,7 +332,7 @@ namespace JanSharp
             popup.anchoredPosition = Vector2.zero;
         }
 
-        public void ShowPopupAtCurrentPosition(
+        public override void ShowPopupAtCurrentPosition(
             RectTransform popup,
             UdonSharpBehaviour callbackInst,
             string callbackEventName,
@@ -409,7 +408,7 @@ namespace JanSharp
         /// </summary>
         /// <param name="popup"></param>
         /// <param name="doCallback"></param>
-        public void ClosePopup(RectTransform popup, bool doCallback)
+        public override void ClosePopup(RectTransform popup, bool doCallback)
         {
             int index = ArrList.IndexOf(ref popups, ref popupsCount, popup);
             if (index < 0)

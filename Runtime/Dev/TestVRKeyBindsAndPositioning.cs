@@ -1,4 +1,5 @@
-﻿using UdonSharp;
+﻿using JanSharp.Internal;
+using UdonSharp;
 using UnityEngine;
 
 namespace JanSharp
@@ -7,7 +8,8 @@ namespace JanSharp
     public class TestVRKeyBindsAndPositioning : UdonSharpBehaviour
     {
         [SerializeField][HideInInspector][SingletonReference] private MenuInputHandler menuInputHandler;
-        [SerializeField][HideInInspector][SingletonReference] private MenuManager menuManager;
+        [SerializeField][HideInInspector][SingletonReference] private MenuManagerAPI menuManager;
+        [SerializeField][HideInInspector][SingletonReference] private MenuManager menuManagerInternal;
         [SerializeField][HideInInspector][SingletonReference] private WidgetManager widgetManager;
 
         public GenericValueEditor valueEditor;
@@ -83,7 +85,7 @@ namespace JanSharp
             ArrList.Add(ref widgets, ref widgetsCount, widgetManager.NewSpace());
 
             ArrList.Add(ref widgets, ref widgetsCount, widgetManager
-                .NewSliderField("Opaqueness", menuManager.mainOpaqueImage.color.a, 0f, 1f)
+                .NewSliderField("Opaqueness", menuManagerInternal.mainOpaqueImage.color.a, 0f, 1f)
                 .SetListener(this, nameof(OnOpaquenessValueChanged)));
 
             valueEditor.Draw(widgets, widgetsCount);
@@ -151,10 +153,10 @@ namespace JanSharp
 
         public void OnOpaquenessValueChanged()
         {
-            Color color = menuManager.mainOpaqueImage.color;
+            Color color = menuManagerInternal.mainOpaqueImage.color;
             color.a = valueEditor.GetSendingSliderField().Value;
-            menuManager.mainOpaqueImage.color = color;
-            menuManager.sideOpaqueImage.color = color;
+            menuManagerInternal.mainOpaqueImage.color = color;
+            menuManagerInternal.sideOpaqueImage.color = color;
         }
     }
 }

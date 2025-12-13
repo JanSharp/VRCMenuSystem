@@ -6,7 +6,7 @@ namespace JanSharp
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
     public class TestClosePopup : UdonSharpBehaviour
     {
-        [HideInInspector][SerializeField][SingletonReference] private MenuManager menuManager;
+        [HideInInspector][SerializeField][SingletonReference] private MenuManagerAPI menuManager;
         public RectTransform popup;
 
         public void OnClick()
