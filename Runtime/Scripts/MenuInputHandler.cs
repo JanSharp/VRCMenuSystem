@@ -183,6 +183,7 @@ namespace JanSharp
         private void OpenCloseInVR()
         {
             isMenuOpen = !isMenuOpen;
+            menuManager.IsMenuOpen = isMenuOpen;
             vrCanvasGroup.alpha = isMenuOpen ? 1f : 0f;
             vrCanvasGroup.blocksRaycasts = isMenuOpen; // For good measure.
             mainCanvasCollider.enabled = isMenuOpen;
@@ -260,6 +261,7 @@ namespace JanSharp
             Destroy(vrRootToDestroy);
             UpdateDesktopMenuScale();
             isMenuOpen = false;
+            menuManager.IsMenuOpen = isMenuOpen;
             desktopCanvasGroup.alpha = 0f;
             desktopCanvasGroup.blocksRaycasts = false;
         }
@@ -289,6 +291,7 @@ namespace JanSharp
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 isMenuOpen = true;
+                menuManager.IsMenuOpen = isMenuOpen;
                 desktopCanvasGroup.alpha = 1f;
                 desktopCanvasGroup.blocksRaycasts = true;
                 boneAttachment.AttachToLocalTrackingData(VRCPlayerApi.TrackingDataType.Head, makeDesktopCanvasWorkWhileHoldingTab);
@@ -299,6 +302,7 @@ namespace JanSharp
             else if (Input.GetKeyUp(KeyCode.Tab))
             {
                 isMenuOpen = false;
+                menuManager.IsMenuOpen = isMenuOpen;
                 desktopCanvasGroup.alpha = 0f;
                 desktopCanvasGroup.blocksRaycasts = false;
                 makeDesktopCanvasWorkWhileHoldingTab.gameObject.SetActive(false);

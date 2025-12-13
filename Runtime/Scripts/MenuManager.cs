@@ -91,6 +91,21 @@ namespace JanSharp.Internal
 
         #endregion
 
+        public override string ActivePageInternalName => activePageIndex < 0 ? null : pageInternalNames[activePageIndex];
+
+        public bool isMenuOpen = true;
+        public override bool IsMenuOpen
+        {
+            get => isMenuOpen;
+            set
+            {
+                if (isMenuOpen == value)
+                    return;
+                isMenuOpen = value;
+                RaiseOnMenuOpenStateChanged();
+            }
+        }
+
         public void Start()
         {
             lockstepHiddenAPI = (Lockstep)lockstep;
@@ -148,6 +163,7 @@ namespace JanSharp.Internal
             this.activePageIndex = activePageIndex;
             ShowActivePage();
             UpdateInfoTextOverlay();
+            RaiseOnDefaultMusicChanged();
         }
 
         private void HideActivePage()
@@ -440,6 +456,45 @@ namespace JanSharp.Internal
             // TODO: I'm pretty sure since none of the local variables are used after the SendCustomEvent call
             // recursion should work just fine even without the recursive method attribute. Requires testing.
             popupToClose = null;
+        }
+
+        #endregion
+
+        #region Events
+
+        private UdonSharpBehaviour[] onMenuActivePageChangedListeners = new UdonSharpBehaviour[ArrList.MinCapacity];
+        private int onMenuActivePageChangedListenersCount = 0;
+        private UdonSharpBehaviour[] onMenuOpenStateChangedListeners = new UdonSharpBehaviour[ArrList.MinCapacity];
+        private int onMenuOpenStateChangedListenersCount = 0;
+
+        public override void RegisterOnMenuActivePageChanged(UdonSharpBehaviour listener)
+        {
+            ArrList.Add(ref onMenuActivePageChangedListeners, ref onMenuActivePageChangedListenersCount, listener);
+        }
+
+        private void RaiseOnDefaultMusicChanged()
+        {
+            for (int i = 0; i < onMenuActivePageChangedListenersCount; i++)
+            {
+                UdonSharpBehaviour listener = onMenuActivePageChangedListeners[i];
+                if (listener != null) // Listeners should not get destroyed, but there is no way do deregister so I guess.
+                    listener.SendCustomEvent(OnMenuActivePageChangedEventName);
+            }
+        }
+
+        public override void RegisterOnMenuOpenStateChanged(UdonSharpBehaviour listener)
+        {
+            ArrList.Add(ref onMenuOpenStateChangedListeners, ref onMenuOpenStateChangedListenersCount, listener);
+        }
+
+        private void RaiseOnMenuOpenStateChanged()
+        {
+            for (int i = 0; i < onMenuOpenStateChangedListenersCount; i++)
+            {
+                UdonSharpBehaviour listener = onMenuOpenStateChangedListeners[i];
+                if (listener != null) // Listeners should not get destroyed, but there is no way do deregister so I guess.
+                    listener.SendCustomEvent(OnMenuOpenStateChangedEventName);
+            }
         }
 
         #endregion

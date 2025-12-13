@@ -38,8 +38,10 @@
 - [ ] think about if and how the menu system can or should have support surrounding a help page
 - [ ] think about a partially generated credits page, containing links and licenses for software used in a scene
 - [ ] option for pages to not revert all prefab overrides when rebuilding the menu, to support custom pages which have references to outside of the menu. Even though that is discouraged and should be done using editor scripting to resolve such external references. But most people wouldn't do that so I have to support it, plus there is a case such as a teleports page with an image of the map and buttons placed upon that where it honestly makes sense to have references to outside of the menu, since that is legitimately specific to the current scene. Unlike other cases, since the intent is for the menu prefab to be put into multiple scenes and have it "just work" (within reason)
-- [ ] expose which page is the active page as part of an api
-- [ ] raise event when active page changes
+- [x] expose which page is the active page as part of an api
+- [x] raise event when active page changes
+- [ ] API to change active page
+- [x] raise event when menu open state changes
 
 
 
