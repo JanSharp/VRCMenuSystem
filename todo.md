@@ -42,6 +42,8 @@
 - [x] raise event when active page changes
 - [ ] API to change active page
 - [x] raise event when menu open state changes
+- [ ] switch showing and hiding of pages as well as the whole menu to disabling objects, removing all canvas groups (see the RP Menu repo for [ui-performance.md](https://github.com/JanSharp/VRCRPMenu/blob/main/ui-performance.md))
+- [ ] put each page into its own sub canvas, primarily to prevent the O(n * log(n)) scaling of building batches from becoming unreasonable
 
 
 
