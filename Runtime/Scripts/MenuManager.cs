@@ -265,7 +265,7 @@ namespace JanSharp.Internal
                 }
                 loadingProgressFill.color = Color.white;
                 int importingGSIndex = lockstepHiddenAPI.GameStatesBeingImportedFinishedCount;
-                loadingProgress.value = lockstep.GameStatesBeingImportedCount / (importingGSIndex + 1f);
+                loadingProgress.value = (importingGSIndex + 1f) / lockstep.GameStatesBeingImportedCount;
                 loadingInfo.text = $"Processing {lockstep.GetGameStateBeingImported(importingGSIndex).GameStateDisplayName} "
                     + $"[{importingGSIndex + 1}/{lockstep.GameStatesBeingImportedCount}]";
                 SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
@@ -293,7 +293,7 @@ namespace JanSharp.Internal
             {
                 loadingProgressFill.color = Color.white;
                 int processingGSIndex = lockstepHiddenAPI.NextLJGameStateToProcess;
-                loadingProgress.value = lockstep.AllGameStatesCount / (processingGSIndex + 1f);
+                loadingProgress.value = (processingGSIndex + 1f) / lockstep.AllGameStatesCount;
                 loadingInfo.text = $"Processing {lockstep.GetGameState(processingGSIndex).GameStateDisplayName} "
                     + $"[{processingGSIndex + 1}/{lockstep.AllGameStatesCount}]";
                 SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
