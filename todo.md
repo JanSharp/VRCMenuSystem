@@ -45,7 +45,7 @@
 - [x] switch showing and hiding of pages as well as the whole menu to disabling objects, removing all canvas groups (see the RP Menu repo for [ui-performance.md](https://github.com/JanSharp/VRCRPMenu/blob/main/ui-performance.md))
 - [x] put each page into its own sub canvas, primarily to prevent the O(n * log(n)) scaling of building batches from becoming unreasonable
 - [ ] the loading progress bar shows full when saying \[1/2\], something is wrong
-- [ ] change all of the additional shader channels to remove normal and tangent when moving canvases to the screen space one
+- [x] change all of the additional shader channels to remove normal and tangent when moving canvases to the screen space one
 - [ ] reduce raycast targets
 
 

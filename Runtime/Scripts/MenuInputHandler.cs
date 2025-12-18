@@ -250,6 +250,14 @@ namespace JanSharp
             while (source.childCount != 0)
                 source.GetChild(0).SetParent(destination, worldPositionStays: false);
             menuManager.vrRootCanvas = menuManager.desktopElementsRoot;
+            int channelsMask = (int)(~(AdditionalCanvasShaderChannels.Normal | AdditionalCanvasShaderChannels.Tangent));
+            foreach (Canvas canvas in destination.GetComponentsInChildren<Canvas>(includeInactive: true))
+            {
+                // Doing `canvas.additionalShaderChannels & channelsMask` made UdonSharp create a bool heap
+                // variable, even with temp variables in between which then gets attempted to get accessed as
+                // the AdditionalCanvasShaderChannels type when assigning back. I guess ints work.
+                canvas.additionalShaderChannels = (AdditionalCanvasShaderChannels)(((int)canvas.additionalShaderChannels) & channelsMask);
+            }
             Destroy(vrPositioningRoot.gameObject);
             UpdateDesktopMenuScale();
             isMenuOpen = false;
