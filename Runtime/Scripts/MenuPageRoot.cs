@@ -9,11 +9,9 @@ namespace JanSharp
     {
         [HideInInspector][SerializeField][SingletonReference] private MenuManager menuManager;
 
-        [SerializeField] private CanvasGroup canvasGroup;
         [HideInInspector][SerializeField] private string pageInternalName;
         [HideInInspector][SerializeField] private string pageDisplayName;
         [HideInInspector][SerializeField] private int pageIndex;
-        public CanvasGroup CanvasGroup => canvasGroup;
         public string PageInternalName => pageInternalName;
         public string PageDisplayName => pageDisplayName;
         public int PageIndex => pageIndex;

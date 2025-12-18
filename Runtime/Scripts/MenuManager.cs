@@ -21,29 +21,21 @@ namespace JanSharp.Internal
         public Image collapseButtonImage;
         public Sprite collapseIcon;
         public Sprite expandIcon;
-        public RectTransform mainCanvas;
-        public RectTransform sideCanvas;
+        public RectTransform vrRootCanvas;
         public Transform vrPositioningRoot;
-        public CanvasGroup vrCanvasGroup;
-        public CanvasGroup desktopCanvasGroup;
-        public Collider mainCanvasCollider;
-        public Collider sideCanvasCollider;
-        public RectTransform mainRoot;
-        public RectTransform sideRoot;
         public RectTransform desktopCanvas;
         public RectTransform desktopScalingRoot;
-        public RectTransform desktopMainPanel;
-        public RectTransform desktopSidePanel;
+        public RectTransform desktopElementsRoot;
         public TextMeshProUGUI infoTextOverlay;
         public Image mainOpaqueImage;
         public Image sideOpaqueImage;
         public bool isCollapsed;
-        public float collapsedPosition;
-        public float collapsedSize;
-        public float expandedPosition;
-        public float expandedSize;
+        public float canvasHeight;
+        public float mainPanelWidth;
+        public float collapsedSideSize;
+        public float expandedSideSize;
 
-        public CanvasGroup loadingPageRoot;
+        public GameObject loadingPageRoot;
         public TextMeshProUGUI loadingTitle;
         public Slider loadingProgress;
         public Image loadingProgressFill;
@@ -73,9 +65,9 @@ namespace JanSharp.Internal
         #region Popups
 
         public RectTransform popupContainer;
-        public Image[] popupBackgroundImages;
-        public Button[] popupBackgroundButtons;
-        public RectTransform primaryPopupBackground;
+        public GameObject popupContainerGo;
+        public RectTransform popupBackground;
+        public Image popupBackgroundImage;
 
         private RectTransform[] popups = new RectTransform[ArrList.MinCapacity];
         private UdonSharpBehaviour[] popupCallbackInsts = new UdonSharpBehaviour[ArrList.MinCapacity];
@@ -93,7 +85,7 @@ namespace JanSharp.Internal
 
         public override string ActivePageInternalName => activePageIndex < 0 ? null : pageInternalNames[activePageIndex];
 
-        public bool isMenuOpen = true;
+        [System.NonSerialized] public bool isMenuOpen = true;
         public override bool IsMenuOpen
         {
             get => isMenuOpen;
@@ -112,6 +104,7 @@ namespace JanSharp.Internal
             pageCount = pageRoots.Length;
             foreach (MenuPageRoot pageRoot in pageRoots)
                 pageRoot.Initialize();
+            InitPopupBlockingBackground();
             UpdateWhichPagesAreShown();
             ShowLoadingPage();
         }
@@ -170,18 +163,14 @@ namespace JanSharp.Internal
         {
             if (activePageIndex < 0)
                 return;
-            CanvasGroup pageRoot = pageRoots[activePageIndex].CanvasGroup;
-            pageRoot.blocksRaycasts = false;
-            pageRoot.alpha = 0f;
+            pageRoots[activePageIndex].gameObject.SetActive(false);
         }
 
         private void ShowActivePage()
         {
             if (activePageIndex < 0)
                 return;
-            CanvasGroup pageRoot = pageRoots[activePageIndex].CanvasGroup;
-            pageRoot.blocksRaycasts = true;
-            pageRoot.alpha = 1f;
+            pageRoots[activePageIndex].gameObject.SetActive(true);
         }
 
         private void UpdateInfoTextOverlay()
@@ -203,10 +192,12 @@ namespace JanSharp.Internal
         {
             isCollapsed = !isCollapsed;
             collapseButtonImage.sprite = isCollapsed ? expandIcon : collapseIcon;
-            sideCanvas.localPosition = new Vector3(isCollapsed ? collapsedPosition : expandedPosition, 0f, 0f);
-            Vector2 size = sideCanvas.sizeDelta;
-            size.x = isCollapsed ? collapsedSize : expandedSize;
-            sideCanvas.sizeDelta = size;
+            float sideSize = isCollapsed ? collapsedSideSize : expandedSideSize;
+            Vector2 negatedHalfSideSizeWide = new Vector2(sideSize / -2f, 0f);
+            vrRootCanvas.anchoredPosition = negatedHalfSideSizeWide;
+            vrRootCanvas.sizeDelta = new Vector2(mainPanelWidth + sideSize, canvasHeight);
+            popupBackground.anchoredPosition = negatedHalfSideSizeWide;
+            popupBackground.sizeDelta = new Vector2(sideSize, 0f);
             foreach (GameObject label in pageToggleLabels)
                 label.SetActive(!isCollapsed);
         }
@@ -244,10 +235,10 @@ namespace JanSharp.Internal
             if (loadingPageIsShown)
                 return;
             loadingPageIsShown = true;
-            loadingPageRoot.alpha = 1f;
             UpdateInfoTextOverlay();
             HideActivePage();
             LoadingPageUpdateLoop();
+            loadingPageRoot.SetActive(true);
         }
 
         private void HideLoadingPage()
@@ -255,7 +246,7 @@ namespace JanSharp.Internal
             if (!loadingPageIsShown)
                 return;
             loadingPageIsShown = false;
-            loadingPageRoot.alpha = 0f;
+            loadingPageRoot.SetActive(false);
             UpdateInfoTextOverlay();
             ShowActivePage();
         }
@@ -368,18 +359,14 @@ namespace JanSharp.Internal
                 Debug.LogError($"[MenuSystem] Attempt to show popup '{popup.name}' when it was already shown.");
                 return;
             }
-            primaryPopupBackground.SetSiblingIndex(popupsCount);
+            popupBackground.SetSiblingIndex(popupsCount);
             ArrList.Add(ref popups, ref popupsCount, popup);
             ArrList.Add(ref popupCallbackInsts, ref popupCallbackInstsCount, callbackInst);
             ArrList.Add(ref popupCallbackNames, ref popupCallbackNamesCount, callbackEventName);
             popup.SetParent(popupContainer);
             popup.gameObject.SetActive(true);
-            if (popupCallbackInstsCount != 1)
-                return;
-            foreach (Image img in popupBackgroundImages)
-                img.raycastTarget = true;
-            foreach (Button btn in popupBackgroundButtons)
-                btn.interactable = true;
+            if (popupsCount == 1)
+                EnablePopupBlockingBackground();
         }
 
         private void PushOntoMainCanvas(RectTransform toPush, float minDistanceFromPageEdge)
@@ -388,7 +375,7 @@ namespace JanSharp.Internal
             if (toPush.anchorMax != normalizedAnchor) // Stretching is not supported.
                 return;
             // TODO: Try using the `rect` property rather than doing the math manually.
-            Vector2 canvasSize = mainCanvas.sizeDelta;
+            Vector2 canvasSize = new Vector2(mainPanelWidth, canvasHeight);
             Vector2 anchoredPosition = toPush.anchoredPosition;
             Vector2 anchor = canvasSize * normalizedAnchor + anchoredPosition;
             Vector2 size = toPush.sizeDelta;
@@ -440,14 +427,9 @@ namespace JanSharp.Internal
             RectTransform popup = ArrList.RemoveAt(ref popups, ref popupsCount, index);
             UdonSharpBehaviour inst = ArrList.RemoveAt(ref popupCallbackInsts, ref popupCallbackInstsCount, index);
             string eventName = ArrList.RemoveAt(ref popupCallbackNames, ref popupCallbackNamesCount, index);
-            primaryPopupBackground.SetSiblingIndex(popupCallbackInstsCount);
-            if (popupCallbackInstsCount == 0)
-            {
-                foreach (Image img in popupBackgroundImages)
-                    img.raycastTarget = false;
-                foreach (Button btn in popupBackgroundButtons)
-                    btn.interactable = false;
-            }
+            popupBackground.SetSiblingIndex(popupCallbackInstsCount);
+            if (popupsCount == 0)
+                DisablePopupBlockingBackground();
             popup.gameObject.SetActive(false);
             if (!doCallback)
                 return;
@@ -456,6 +438,33 @@ namespace JanSharp.Internal
             // TODO: I'm pretty sure since none of the local variables are used after the SendCustomEvent call
             // recursion should work just fine even without the recursive method attribute. Requires testing.
             popupToClose = null;
+        }
+
+        private void InitPopupBlockingBackground()
+        {
+            popupBackgroundImage.CrossFadeAlpha(0f, 0f, ignoreTimeScale: true);
+        }
+
+        private void EnablePopupBlockingBackground()
+        {
+            popupContainerGo.SetActive(true);
+            popupBackgroundImage.raycastTarget = true;
+            popupBackgroundImage.CrossFadeAlpha(1f, 0.1f, ignoreTimeScale: true);
+        }
+
+        private void DisablePopupBlockingBackground()
+        {
+            popupBackgroundImage.raycastTarget = false;
+            popupBackgroundImage.CrossFadeAlpha(0f, 0.1f, ignoreTimeScale: true);
+            SendCustomEventDelayedSeconds(nameof(DisablePopupBlockingBackgroundDelayed), 0.11f);
+        }
+
+        public void DisablePopupBlockingBackgroundDelayed()
+        {
+            if (popupsCount != 0)
+                return;
+            // Disable entirely to remove overdraw from the now invisible Image and disabling the Graphics Raycaster.
+            popupContainerGo.SetActive(false);
         }
 
         #endregion

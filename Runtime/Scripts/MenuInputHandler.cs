@@ -84,12 +84,10 @@ namespace JanSharp
 
         private bool isMenuOpen;
 
-        private CanvasGroup vrCanvasGroup;
         private Transform vrPositioningRoot;
-        private CanvasGroup desktopCanvasGroup;
-        private Collider mainCanvasCollider;
-        private Collider sideCanvasCollider;
+        private GameObject vrRootGo;
         private RectTransform desktopCanvas;
+        private GameObject desktopCanvasGo;
         private Vector2 lastDesktopCanvasSize = -Vector2.one;
 
         public void Start()
@@ -98,16 +96,14 @@ namespace JanSharp
             isInVR = localPlayer.IsUserInVR();
 
             UpdateMenuAttachedTrackingType();
-            vrCanvasGroup = menuManager.vrCanvasGroup;
             vrPositioningRoot = menuManager.vrPositioningRoot;
-            desktopCanvasGroup = menuManager.desktopCanvasGroup;
-            mainCanvasCollider = menuManager.mainCanvasCollider;
-            sideCanvasCollider = menuManager.sideCanvasCollider;
+            vrRootGo = vrPositioningRoot.gameObject;
             desktopCanvas = menuManager.desktopCanvas;
+            desktopCanvasGo = desktopCanvas.gameObject;
 
             if (isInVR)
             {
-                Destroy(menuManager.desktopCanvas.gameObject);
+                Destroy(desktopCanvasGo);
                 isMenuOpen = true;
                 OpenCloseInVR(); // Close.
                 return;
@@ -184,18 +180,18 @@ namespace JanSharp
         {
             isMenuOpen = !isMenuOpen;
             menuManager.IsMenuOpen = isMenuOpen;
-            vrCanvasGroup.alpha = isMenuOpen ? 1f : 0f;
-            vrCanvasGroup.blocksRaycasts = isMenuOpen; // For good measure.
-            mainCanvasCollider.enabled = isMenuOpen;
-            sideCanvasCollider.enabled = isMenuOpen;
 
             if (isMenuOpen)
             {
                 boneAttachment.AttachToLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
                 UpdateMenuLocalPosition();
+                vrRootGo.SetActive(true);
             }
             else
+            {
+                vrRootGo.SetActive(false);
                 boneAttachment.DetachFromLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
+            }
         }
 
         private void UpdateMenuAttachedTrackingType()
@@ -247,23 +243,17 @@ namespace JanSharp
 
         private void MoveMenuIntoScreenCanvas()
         {
-            desktopCanvas.gameObject.SetActive(true);
-            menuManager.desktopMainPanel.sizeDelta = menuManager.mainCanvas.sizeDelta;
-            menuManager.desktopMainPanel.anchoredPosition = menuManager.mainCanvas.anchoredPosition;
-            menuManager.desktopSidePanel.sizeDelta = menuManager.sideCanvas.sizeDelta;
-            menuManager.desktopSidePanel.anchoredPosition = menuManager.sideCanvas.anchoredPosition;
-            menuManager.mainRoot.SetParent(menuManager.desktopMainPanel, worldPositionStays: false);
-            menuManager.sideRoot.SetParent(menuManager.desktopSidePanel, worldPositionStays: false);
-            GameObject vrRootToDestroy = menuManager.vrCanvasGroup.gameObject;
-            menuManager.vrCanvasGroup = menuManager.desktopCanvasGroup;
-            menuManager.mainCanvas = menuManager.desktopMainPanel;
-            menuManager.sideCanvas = menuManager.desktopSidePanel;
-            Destroy(vrRootToDestroy);
+            vrRootGo.SetActive(false); // Prevent needless UI layout.
+            desktopCanvasGo.SetActive(false); // Ensure it's off. Also intentional order of operation.
+            Transform source = menuManager.vrRootCanvas;
+            Transform destination = menuManager.desktopElementsRoot;
+            while (source.childCount != 0)
+                source.GetChild(0).SetParent(destination, worldPositionStays: false);
+            menuManager.vrRootCanvas = menuManager.desktopElementsRoot;
+            Destroy(vrPositioningRoot.gameObject);
             UpdateDesktopMenuScale();
             isMenuOpen = false;
             menuManager.IsMenuOpen = isMenuOpen;
-            desktopCanvasGroup.alpha = 0f;
-            desktopCanvasGroup.blocksRaycasts = false;
         }
 
         private void UpdateDesktopMenuScale()
@@ -273,8 +263,8 @@ namespace JanSharp
                 return;
             lastDesktopCanvasSize = size;
             Vector2 availableSize = size - Vector2.one * pixelsFromDesktopScreenEdge * 2f;
-            float contentWidth = menuManager.mainCanvas.sizeDelta.x + menuManager.expandedSize * 2f;
-            float contentHeight = menuManager.mainCanvas.sizeDelta.y;
+            float contentWidth = menuManager.mainPanelWidth + menuManager.expandedSideSize * 2f;
+            float contentHeight = menuManager.canvasHeight;
             float scale = Mathf.Max(0.1f, Mathf.Min(availableSize.x / contentWidth, availableSize.y / contentHeight));
             menuManager.desktopScalingRoot.localScale = scale * Vector3.one;
         }
@@ -290,23 +280,21 @@ namespace JanSharp
             UpdateDesktopMenuScale();
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                isMenuOpen = true;
-                menuManager.IsMenuOpen = isMenuOpen;
-                desktopCanvasGroup.alpha = 1f;
-                desktopCanvasGroup.blocksRaycasts = true;
                 boneAttachment.AttachToLocalTrackingData(VRCPlayerApi.TrackingDataType.Head, makeDesktopCanvasWorkWhileHoldingTab);
                 makeDesktopCanvasWorkWhileHoldingTab.localPosition = Vector3.zero;
                 makeDesktopCanvasWorkWhileHoldingTab.localRotation = Quaternion.identity;
                 makeDesktopCanvasWorkWhileHoldingTab.gameObject.SetActive(true);
+                isMenuOpen = true;
+                menuManager.IsMenuOpen = isMenuOpen; // Go still inactive to prevent needless layout any custom scripts would trigger.
+                desktopCanvasGo.SetActive(true); // Intentional order of operation.
             }
             else if (Input.GetKeyUp(KeyCode.Tab))
             {
-                isMenuOpen = false;
-                menuManager.IsMenuOpen = isMenuOpen;
-                desktopCanvasGroup.alpha = 0f;
-                desktopCanvasGroup.blocksRaycasts = false;
+                desktopCanvasGo.SetActive(false); // Intentional order of operation.
                 makeDesktopCanvasWorkWhileHoldingTab.gameObject.SetActive(false);
                 boneAttachment.DetachFromLocalTrackingData(VRCPlayerApi.TrackingDataType.Head, makeDesktopCanvasWorkWhileHoldingTab);
+                isMenuOpen = false;
+                menuManager.IsMenuOpen = isMenuOpen;
             }
         }
     }
