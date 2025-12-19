@@ -7,7 +7,7 @@ namespace JanSharp
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
     public class MenuPageRoot : UdonSharpBehaviour
     {
-        [HideInInspector][SerializeField][SingletonReference] private MenuManager menuManager;
+        [HideInInspector][SerializeField][FindInParent] private MenuManager menuManager;
 
         [HideInInspector][SerializeField] private string pageInternalName;
         [HideInInspector][SerializeField] private string pageDisplayName;

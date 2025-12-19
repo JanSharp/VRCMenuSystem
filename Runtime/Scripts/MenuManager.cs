@@ -6,8 +6,6 @@ using UnityEngine.UI;
 namespace JanSharp.Internal
 {
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
-    // Both the API and this type have the SingletonScript so that internal scripts can directly reference the internal type.
-    [SingletonScript("d9be4a8a9d454bfb7ba93f4988cbe45a")] // Runtime/Prefabs/Internal/MenuDummy - the system you are using likely provides its own prefab.prefab
     public class MenuManager : MenuManagerAPI
     {
         [HideInInspector][SerializeField][SingletonReference] private LockstepAPI lockstep;

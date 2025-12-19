@@ -31,10 +31,11 @@
   - Maybe effectively floating outside of the main UI?
 - [ ] look at rect 2d mask for scroll view masking
 - [ ] the loading bar when disappearing seems to stick around for longer than it should, as it is still visible while the page is also already visible
-- [ ] maybe don't make the manager a singleton, so multiple in world UIs could use the menu system
+- [x] maybe don't make the manager a singleton, so multiple in world UIs could use the menu system
   - [ ] make the open and close key bind handling an option on the menu configuration, which puts a prefab of required scripts into that menu
-  - [ ] have an attribute which makes a MenuManager field get auto populated via finding a manager in parent hierarchy (could even make a generic FindInParent attribute and make it part of the common package)
-- [ ] menu open and close events for systems to listen to
+  - [x] have an attribute which makes a MenuManager field get auto populated via finding a manager in parent hierarchy (could even make a generic FindInParent attribute and make it part of the common package)
+  - [ ] have an attribute very similar to the event dispatcher one, but rather than requiring a singleton it requires for the listeners to have an associated dispatcher in their parent hierarchy
+- [x] ~~menu open and close events for systems to listen to~~ duplicated, already done
 - [ ] think about if and how the menu system can or should have support surrounding a help page
 - [ ] think about a partially generated credits page, containing links and licenses for software used in a scene
 - [ ] option for pages to not revert all prefab overrides when rebuilding the menu, to support custom pages which have references to outside of the menu. Even though that is discouraged and should be done using editor scripting to resolve such external references. But most people wouldn't do that so I have to support it, plus there is a case such as a teleports page with an image of the map and buttons placed upon that where it honestly makes sense to have references to outside of the menu, since that is legitimately specific to the current scene. Unlike other cases, since the intent is for the menu prefab to be put into multiple scenes and have it "just work" (within reason)

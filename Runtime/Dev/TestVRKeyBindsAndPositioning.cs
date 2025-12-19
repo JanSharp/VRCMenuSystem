@@ -8,9 +8,9 @@ namespace JanSharp
     public class TestVRKeyBindsAndPositioning : UdonSharpBehaviour
     {
         [SerializeField][HideInInspector][SingletonReference] private MenuInputHandler menuInputHandler;
-        [SerializeField][HideInInspector][SingletonReference] private MenuManagerAPI menuManager;
-        [SerializeField][HideInInspector][SingletonReference] private MenuManager menuManagerInternal;
         [SerializeField][HideInInspector][SingletonReference] private WidgetManager widgetManager;
+        [SerializeField] private MenuManagerAPI menuManager;
+        private MenuManager menuManagerInternal;
 
         public GenericValueEditor valueEditor;
 
@@ -24,6 +24,7 @@ namespace JanSharp
 
         public void Start()
         {
+            menuManagerInternal = (MenuManager)menuManager;
             WidgetData[] widgets = new WidgetData[ArrList.MinCapacity];
             int widgetsCount = 0;
 

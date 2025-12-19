@@ -6,7 +6,7 @@ namespace JanSharp
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
     public class TestCustomPositionedPopup : UdonSharpBehaviour
     {
-        [HideInInspector][SerializeField][SingletonReference] private MenuManagerAPI menuManager;
+        [HideInInspector][SerializeField][FindInParent] private MenuManagerAPI menuManager;
         public RectTransform popup;
         private Transform popupParent;
         private Vector2 localPosition;

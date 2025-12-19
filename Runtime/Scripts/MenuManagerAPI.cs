@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace JanSharp
 {
-    [SingletonScript("d9be4a8a9d454bfb7ba93f4988cbe45a")] // Runtime/Prefabs/Internal/MenuDummy - the system you are using likely provides its own prefab.prefab
     public abstract class MenuManagerAPI : UdonSharpBehaviour
     {
         public abstract void ShowPopupAtItsAnchor(
