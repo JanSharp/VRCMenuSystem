@@ -21,6 +21,7 @@
 - [x] Different types of positioning of the UI in VR
   - [x] In front - Appears in front of your face, moves with your avatar, does not rotate
     - [ ] Maybe adjustable positioning? Like distance from you head? I don't think so though, it should be positioned such that it is nicely readable and comfortably interactable, which I don't believe varies much. Or so I would hope
+  - [ ] Maybe Static - Appears in front just like the In Front option, but is fixed to the world, not moving with the play space. Would be more performant than any of the other options for VR because the UI not moving means it is not constantly rebuilding batches which can be 1 ms per update depending on the page that is open. But also maybe the UI actually doesn't move all that much with it being set to attached to the origin, as the origin only moves when the player uses the joysticks. Also maybe I should not care about this performance hit and focus on what is the most user friendly, and I think In Front is more user friendly than Static
   - [x] Left hand
   - [x] Right hand
     - [ ] For hand attachment... adjustable relative positioning?
