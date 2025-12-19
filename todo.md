@@ -34,7 +34,7 @@
 - [x] maybe don't make the manager a singleton, so multiple in world UIs could use the menu system
   - [ ] make the open and close key bind handling an option on the menu configuration, which puts a prefab of required scripts into that menu
   - [x] have an attribute which makes a MenuManager field get auto populated via finding a manager in parent hierarchy (could even make a generic FindInParent attribute and make it part of the common package)
-  - [ ] have an attribute very similar to the event dispatcher one, but rather than requiring a singleton it requires for the listeners to have an associated dispatcher in their parent hierarchy
+  - [x] have an attribute very similar to the event dispatcher one, but rather than requiring a singleton it requires for the listeners to have an associated dispatcher in their parent hierarchy
 - [x] ~~menu open and close events for systems to listen to~~ duplicated, already done
 - [ ] think about if and how the menu system can or should have support surrounding a help page
 - [ ] think about a partially generated credits page, containing links and licenses for software used in a scene

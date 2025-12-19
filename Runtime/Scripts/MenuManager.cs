@@ -6,6 +6,7 @@ using UnityEngine.UI;
 namespace JanSharp.Internal
 {
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
+    [CustomRaisedEventsDispatcher(typeof(MenuManagerEventAttribute), typeof(MenuManagerEventType), FindListenersInChildrenOnly = true)]
     public class MenuManager : MenuManagerAPI
     {
         [HideInInspector][SerializeField][SingletonReference] private LockstepAPI lockstep;
@@ -105,6 +106,7 @@ namespace JanSharp.Internal
             InitPopupBlockingBackground();
             UpdateWhichPagesAreShown();
             ShowLoadingPage();
+            RaiseOnMenuManagerStart();
         }
 
         public void UpdateWhichPagesAreShown()
@@ -502,6 +504,18 @@ namespace JanSharp.Internal
                 if (listener != null) // Listeners should not get destroyed, but there is no way do deregister so I guess.
                     listener.SendCustomEvent(OnMenuOpenStateChangedEventName);
             }
+        }
+
+        #endregion
+
+        #region EventDispatcher
+
+        [HideInInspector][SerializeField] private UdonSharpBehaviour[] onMenuManagerStartListeners;
+
+        private void RaiseOnMenuManagerStart()
+        {
+            // For some reason UdonSharp needs the 'JanSharp.' namespace name here to resolve the Raise function call.
+            JanSharp.CustomRaisedEvents.Raise(ref onMenuManagerStartListeners, nameof(MenuManagerEventType.OnMenuManagerStart));
         }
 
         #endregion
