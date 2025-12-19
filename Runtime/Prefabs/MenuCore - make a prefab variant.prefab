@@ -3611,6 +3611,7 @@ MonoBehaviour:
   popupContainerGo: {fileID: 5303856165422541960}
   popupBackground: {fileID: 2367997226424574738}
   popupBackgroundImage: {fileID: 431369109924961878}
+  onMenuManagerStartListeners: []
 --- !u!114 &1295867481323116806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7259,7 +7260,7 @@ MonoBehaviour:
   fontSize: 36
   autoSize: 1
   autoSizeMin: 10
-  autoSizeMax: 72
+  autoSizeMax: 26
   autoSizeMaxCharacterAdjust: 0
   autoSizeMaxLineAdjust: 0
   vertexColor: invisible-button-text
