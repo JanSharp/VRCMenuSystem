@@ -54,6 +54,7 @@ namespace JanSharp.Internal
         private const float ShowLoadingPageOnceDoneForAtLeast = 0.3f;
         private float keepLoadingPageOpenUntil;
         private bool importIsWaitingForData;
+        private bool importGotCancelled;
 
         private int pageCount = 0;
         private int shownPageCount = 0;
@@ -227,11 +228,17 @@ namespace JanSharp.Internal
         [LockstepEvent(LockstepEventType.OnImportFinished)]
         public void OnImportFinished()
         {
+            if (lockstep.GameStatesBeingImportedFinishedCount == 0) // Got cancelled due to the importing player leaving.
+            {
+                importIsWaitingForData = false;
+                importGotCancelled = true;
+            }
             keepLoadingPageOpenUntil = Mathf.Max(keepLoadingPageOpenUntil, Time.time + ShowLoadingPageOnceDoneForAtLeast);
         }
 
         private void ShowLoadingPage()
         {
+            importGotCancelled = false; // Reset unconditionally.
             if (loadingPageIsShown)
                 return;
             loadingPageIsShown = true;
@@ -275,7 +282,7 @@ namespace JanSharp.Internal
             {
                 loadingProgressFill.color = Color.white;
                 loadingProgress.value = 1f;
-                loadingInfo.text = "Done!";
+                loadingInfo.text = importGotCancelled ? "Import Cancelled" : "Done!";
                 // Continuing to loop like this is inefficient, but another import could technically start
                 // effectively nearly instantly after finishing one, at which point this is the easiest approach.
                 // And nobody cares about that miniscule performance impact for less than a second.
