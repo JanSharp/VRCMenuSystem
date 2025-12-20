@@ -322,6 +322,8 @@ namespace JanSharp.Internal
             ThrobLoadingProgressFill();
             loadingInfo.text = lockstepHiddenAPI.IsWaitingForLateJoinerSync
                 ? "Waiting For Data"
+                : lockstepHiddenAPI.SuspendedInOnInit
+                ? "Running Initial Setup"
                 : "Waiting";
             SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
         }

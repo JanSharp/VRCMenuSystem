@@ -50,8 +50,8 @@
 - [x] change all of the additional shader channels to remove normal and tangent when moving canvases to the screen space one
 - [x] reduce raycast targets
 - [x] add a last stage to the import loading bar for OnImportFinished
-- [ ] does on init need its own loading stage now?
-- [ ] does on client begin catch up being spread out across frames affect the loading screen at all?
+- [x] does on init need its own loading stage now?
+- [x] does on client begin catch up being spread out across frames affect the loading screen at all? - Nope, it is simply part of the catching up phase
 
 
 
