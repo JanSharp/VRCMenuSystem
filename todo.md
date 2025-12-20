@@ -49,7 +49,9 @@
 - [x] the loading progress bar shows full when saying \[1/2\], something is wrong
 - [x] change all of the additional shader channels to remove normal and tangent when moving canvases to the screen space one
 - [x] reduce raycast targets
-- [ ] add a last stage to the import loading bar for OnImportFinished
+- [x] add a last stage to the import loading bar for OnImportFinished
+- [ ] does on init need its own loading stage now?
+- [ ] does on client begin catch up being spread out across frames affect the loading screen at all?
 
 
 

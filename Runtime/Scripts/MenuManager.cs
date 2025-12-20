@@ -271,10 +271,13 @@ namespace JanSharp.Internal
                     return;
                 }
                 loadingProgressFill.color = Color.white;
-                int importingGSIndex = lockstepHiddenAPI.GameStatesBeingImportedFinishedCount;
-                loadingProgress.value = (importingGSIndex + 1f) / lockstep.GameStatesBeingImportedCount;
-                loadingInfo.text = $"Processing {lockstep.GetGameStateBeingImported(importingGSIndex).GameStateDisplayName} "
-                    + $"[{importingGSIndex + 1}/{lockstep.GameStatesBeingImportedCount}]";
+                int currentStep = lockstep.GameStatesBeingImportedFinishedCount + 1;
+                int totalStepsCount = lockstep.GameStatesBeingImportedCount + 1;
+                loadingProgress.value = currentStep / (float)totalStepsCount;
+                loadingInfo.text = currentStep == totalStepsCount
+                    ? $"Finishing Up [{currentStep}/{totalStepsCount}]"
+                    : $"Processing {lockstep.GetGameStateBeingImported(currentStep - 1).GameStateDisplayName} "
+                        + $"[{currentStep}/{totalStepsCount}]";
                 SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
                 return;
             }
@@ -319,7 +322,7 @@ namespace JanSharp.Internal
             ThrobLoadingProgressFill();
             loadingInfo.text = lockstepHiddenAPI.IsWaitingForLateJoinerSync
                 ? "Waiting For Data"
-                : "Idly Waiting";
+                : "Waiting";
             SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
         }
 
