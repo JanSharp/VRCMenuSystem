@@ -1671,10 +1671,10 @@ MonoBehaviour:
   marginBottom: 0
   geometrySorting: 0
   isScaleStatic: 0
-  richText: 1
+  richText: 0
   raycastTarget: 0
   maskable: 1
-  parseEscapeCharacters: 1
+  parseEscapeCharacters: 0
   visibleDescender: 1
   spriteAsset: {fileID: 0}
   styleSheetAsset: {fileID: 0}
@@ -3784,10 +3784,10 @@ MonoBehaviour:
   marginBottom: 0
   geometrySorting: 0
   isScaleStatic: 0
-  richText: 1
+  richText: 0
   raycastTarget: 0
   maskable: 1
-  parseEscapeCharacters: 1
+  parseEscapeCharacters: 0
   visibleDescender: 1
   spriteAsset: {fileID: 0}
   styleSheetAsset: {fileID: 0}
@@ -5548,8 +5548,8 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
+  m_isRichText: 0
+  m_parseCtrlCharacters: 0
   m_isOrthographic: 1
   m_isCullingEnabled: 0
   m_horizontalMapping: 0
@@ -5870,8 +5870,8 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
+  m_isRichText: 0
+  m_parseCtrlCharacters: 0
   m_isOrthographic: 1
   m_isCullingEnabled: 0
   m_horizontalMapping: 0
@@ -6460,8 +6460,8 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
+  m_isRichText: 0
+  m_parseCtrlCharacters: 0
   m_isOrthographic: 1
   m_isCullingEnabled: 0
   m_horizontalMapping: 0
@@ -6994,12 +6994,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.85
+  m_fontSize: 26
   m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 10
-  m_fontSizeMax: 72
+  m_fontSizeMax: 26
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -7018,8 +7018,8 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
+  m_isRichText: 0
+  m_parseCtrlCharacters: 0
   m_isOrthographic: 1
   m_isCullingEnabled: 0
   m_horizontalMapping: 0
@@ -7291,10 +7291,10 @@ MonoBehaviour:
   marginBottom: 0
   geometrySorting: 0
   isScaleStatic: 0
-  richText: 1
+  richText: 0
   raycastTarget: 0
   maskable: 1
-  parseEscapeCharacters: 1
+  parseEscapeCharacters: 0
   visibleDescender: 1
   spriteAsset: {fileID: 0}
   styleSheetAsset: {fileID: 0}
