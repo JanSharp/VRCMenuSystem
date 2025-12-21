@@ -52,9 +52,8 @@
 - [x] add a last stage to the import loading bar for OnImportFinished
 - [x] does on init need its own loading stage now?
 - [x] does on client begin catch up being spread out across frames affect the loading screen at all? - Nope, it is simply part of the catching up phase
-- [ ] collapse button no longer works?
-
-
+- [x] collapse button no longer works?
+- [ ] the Build Menu button undoes all prefab overrides of the root prefab?
 
 # Things I would like input on
 
