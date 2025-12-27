@@ -170,7 +170,8 @@ namespace JanSharp.Internal
                 return;
             HideActivePage();
             this.activePageIndex = activePageIndex;
-            ShowActivePage();
+            if (!loadingPageIsShown)
+                ShowActivePage();
             UpdateInfoTextOverlay();
             RaiseOnMenuActivePageChanged();
         }

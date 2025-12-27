@@ -31,7 +31,7 @@
   - Maybe at the bottom?
   - Maybe effectively floating outside of the main UI?
 - [ ] look at rect 2d mask for scroll view masking
-- [ ] the loading bar when disappearing seems to stick around for longer than it should, as it is still visible while the page is also already visible
+- [x] the loading bar when disappearing seems to stick around for longer than it should, as it is still visible while the page is also already visible
 - [x] maybe don't make the manager a singleton, so multiple in world UIs could use the menu system
   - [ ] make the open and close key bind handling an option on the menu configuration, which puts a prefab of required scripts into that menu
   - [x] have an attribute which makes a MenuManager field get auto populated via finding a manager in parent hierarchy (could even make a generic FindInParent attribute and make it part of the common package)
