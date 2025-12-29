@@ -7,8 +7,8 @@ namespace JanSharp
     {
         /// <summary>
         /// <para>Raised inside of regular Unity <c>Start</c>, after the <see cref="MenuManagerAPI"/> has been
-        /// initialized, though notably before <see cref="LockstepAPI.IsInitialized"/>. Which is normal for
-        /// <c>Start</c> anyway to be clear.</para>
+        /// initialized, though notably before <see cref="LockstepAPI.IsInitialized"/> becomes
+        /// <see langword="true"/>. Which is normal for <c>Start</c> anyway to be clear.</para>
         /// <para>Useful in order to initialize page specific scripts without having to worry about timing
         /// issues due to pages being disabled until they get shown, which would make <c>Start</c> run likely
         /// after the page script had already received other events.</para>

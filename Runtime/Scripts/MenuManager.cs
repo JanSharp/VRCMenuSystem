@@ -262,11 +262,11 @@ namespace JanSharp.Internal
             importIsWaitingForData = false;
         }
 
-        [LockstepEvent(LockstepEventType.OnPostImportFinished)]
-        public void OnPostImportFinished()
+        [LockstepEvent(LockstepEventType.OnImportFinished)]
+        public void OnImportFinished()
         {
 #if PERMISSION_SYSTEM_DEBUG
-            Debug.Log($"[MenuSystemDebug] Manager {this.name}  OnPostImportFinished");
+            Debug.Log($"[MenuSystemDebug] Manager {this.name}  OnImportFinished");
 #endif
             if (lockstep.GameStatesBeingImportedFinishedCount == 0) // Got cancelled due to the importing player leaving.
             {
