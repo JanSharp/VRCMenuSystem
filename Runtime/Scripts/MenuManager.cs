@@ -56,6 +56,11 @@ namespace JanSharp.Internal
         private bool importIsWaitingForData;
         private bool importGotCancelled;
 
+        /// <summary>
+        /// <para>Gets set to <see langword="true"/> the first time the loading page disappears.</para>
+        /// </summary>
+        private bool pageTogglesShouldBeShown = false;
+
         private int pageCount = 0;
         private int shownPageCount = 0;
         private int activePageIndex = IndexForUninitializedActivePage;
@@ -121,6 +126,12 @@ namespace JanSharp.Internal
 #if PERMISSION_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  UpdateWhichPagesAreShown");
 #endif
+            if (!pageTogglesShouldBeShown)
+            {
+                HideAllPageToggles();
+                return;
+            }
+
             pageTogglesToggleGroup.allowSwitchOff = true;
             shownPageCount = 0;
             int firstShownPageIndex = -1;
@@ -146,6 +157,21 @@ namespace JanSharp.Internal
                 SetActivePageIndex(firstShownPageIndex);
             pageToggles[activePageIndex].SetIsOnWithoutNotify(true);
             pageTogglesToggleGroup.allowSwitchOff = false;
+        }
+
+        private void HideAllPageToggles()
+        {
+#if PERMISSION_SYSTEM_DEBUG
+            Debug.Log($"[MenuSystemDebug] Manager {this.name}  HideAllPageToggles");
+#endif
+            pageTogglesToggleGroup.allowSwitchOff = true;
+            for (int i = 0; i < pageCount; i++)
+            {
+                Toggle pageToggle = pageToggles[i];
+                pageToggle.SetIsOnWithoutNotify(false);
+                pageToggle.gameObject.SetActive(false);
+            }
+            SetActivePageIndex(IndexForNoShownPages);
         }
 
         public void OnPageToggleValueChanged()
@@ -301,7 +327,13 @@ namespace JanSharp.Internal
             loadingPageIsShown = false;
             loadingPageRoot.SetActive(false);
             UpdateInfoTextOverlay();
-            ShowActivePage();
+            if (pageTogglesShouldBeShown)
+                ShowActivePage();
+            else
+            {
+                pageTogglesShouldBeShown = true;
+                UpdateWhichPagesAreShown();
+            }
         }
 
         public void LoadingPageUpdateLoop()

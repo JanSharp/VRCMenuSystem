@@ -54,7 +54,7 @@
 - [x] does on client begin catch up being spread out across frames affect the loading screen at all? - Nope, it is simply part of the catching up phase
 - [x] collapse button no longer works?
 - [ ] the Build Menu button undoes all prefab overrides of the root prefab?
-- [ ] ensure to automatically show the top page that the local player has permission to view, rather than depending on the random order that show page by permission scripts resolve in
+- [x] ensure to automatically show the top page that the local player has permission to view, rather than depending on the random order that show page by permission scripts resolve in
 
 # Things I would like input on
 
