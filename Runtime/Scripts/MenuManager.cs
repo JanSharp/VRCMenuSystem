@@ -360,7 +360,7 @@ namespace JanSharp.Internal
                 loadingProgressFill.color = Color.white;
                 uint goal = lockstepHiddenAPI.LastRunnableTick - firstCatchUpTick;
                 uint current = lockstep.CurrentTick - firstCatchUpTick;
-                loadingProgress.value = goal / (float)current;
+                loadingProgress.value = current / (float)goal;
                 loadingInfo.text = "Catching Up";
                 SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
                 return;
