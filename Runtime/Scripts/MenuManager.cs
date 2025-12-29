@@ -423,7 +423,7 @@ namespace JanSharp.Internal
 #endif
             if (ArrList.Contains(ref popups, ref popupsCount, popup))
             {
-                Debug.LogError($"[MenuSystemDebug] Attempt to show popup '{popup.name}' when it was already shown.");
+                Debug.LogError($"[MenuSystemDebug] Attempt to show popup '{popup.name}' when it was already shown.", popup);
                 return;
             }
             popupBackground.SetSiblingIndex(popupsCount);
@@ -492,7 +492,7 @@ namespace JanSharp.Internal
             int index = ArrList.IndexOf(ref popups, ref popupsCount, popup);
             if (index < 0)
             {
-                Debug.LogError($"[MenuSystemDebug] Attempt to close popup '{popup.name}' when it was not shown.");
+                Debug.LogError($"[MenuSystemDebug] Attempt to close popup '{popup.name}' when it was not shown.", popup);
                 return;
             }
             ClosePopupAt(index, doCallback);
