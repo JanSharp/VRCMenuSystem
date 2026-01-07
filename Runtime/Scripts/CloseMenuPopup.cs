@@ -4,7 +4,7 @@ using UnityEngine;
 namespace JanSharp
 {
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
-    public class TestClosePopup : UdonSharpBehaviour
+    public class CloseMenuPopup : UdonSharpBehaviour
     {
         [HideInInspector][SerializeField][FindInParent] private MenuManagerAPI menuManager;
         public RectTransform popup;
