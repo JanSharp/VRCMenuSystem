@@ -248,6 +248,8 @@ Even though your voice range mode can be set on the players page, those permissi
 - view and edit GM requests
 - view players page
 - favorite player (?) -- TODO: probably not, always active instead
+- view character name
+  - affects just the column on the players page, nothing in backend nor gm requests
 - teleport to player
   - affects:
     - teleport to button per player
