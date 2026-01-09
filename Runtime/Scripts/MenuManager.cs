@@ -73,6 +73,7 @@ namespace JanSharp.Internal
         public GameObject popupContainerGo;
         public RectTransform popupBackground;
         public Image popupBackgroundImage;
+        public Button popupBackgroundButton;
 
         private RectTransform[] popups = new RectTransform[ArrList.MinCapacity];
         private UdonSharpBehaviour[] popupCallbackInsts = new UdonSharpBehaviour[ArrList.MinCapacity];
@@ -556,7 +557,7 @@ namespace JanSharp.Internal
 #if PERMISSION_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  InitPopupBlockingBackground");
 #endif
-            popupBackgroundImage.CrossFadeAlpha(0f, 0f, ignoreTimeScale: true);
+            popupBackgroundButton.interactable = false;
         }
 
         private void EnablePopupBlockingBackground()
@@ -566,7 +567,7 @@ namespace JanSharp.Internal
 #endif
             popupContainerGo.SetActive(true);
             popupBackgroundImage.raycastTarget = true;
-            popupBackgroundImage.CrossFadeAlpha(1f, 0.1f, ignoreTimeScale: true);
+            popupBackgroundButton.interactable = true;
         }
 
         private void DisablePopupBlockingBackground()
@@ -575,7 +576,7 @@ namespace JanSharp.Internal
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  DisablePopupBlockingBackground");
 #endif
             popupBackgroundImage.raycastTarget = false;
-            popupBackgroundImage.CrossFadeAlpha(0f, 0.1f, ignoreTimeScale: true);
+            popupBackgroundButton.interactable = false;
             SendCustomEventDelayedSeconds(nameof(DisablePopupBlockingBackgroundDelayed), 0.11f);
         }
 

@@ -797,7 +797,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 35630e38b4e5ffb40b44ec5348b4333f, type: 2}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -826,7 +826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a4b5978b64b4bfb2a03616a40e976f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profileName: image-filled-popup-background-targetable
+  profileName: image-full-tintable-targetable
   controlSourceImage: 1
   controlColor: 1
   controlMaterial: 1
@@ -864,13 +864,13 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 0
+  m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0, g: 0, b: 0, a: 0.5019608}
+    m_HighlightedColor: {r: 0, g: 0, b: 0, a: 0.5019608}
+    m_PressedColor: {r: 0, g: 0, b: 0, a: 0.5019608}
+    m_SelectedColor: {r: 0, g: 0, b: 0, a: 0.5019608}
+    m_DisabledColor: {r: 0, g: 0, b: 0, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -975,6 +975,8 @@ MonoBehaviour:
   colors:
   - name: popup-background
     color: {r: 0, g: 0, b: 0, a: 0.5019608}
+  - name: popup-background-invisible
+    color: {r: 0, g: 0, b: 0, a: 0}
   - name: sidebar-icon
     color: {r: 1, g: 1, b: 1, a: 1}
   - name: invisible-button-normal
@@ -2398,7 +2400,7 @@ GameObject:
   - component: {fileID: 6827373786323419694}
   - component: {fileID: 780126247257490248}
   m_Layer: 17
-  m_Name: image-filled-popup-background-targetable
+  m_Name: image-full-tintable-targetable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2431,9 +2433,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d93d7530f4c07f2c9076f8387e524b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profileName: image-filled-popup-background-targetable
+  profileName: image-full-tintable-targetable
   sourceImage: full
-  color: popup-background
+  color: 
   material: {fileID: 2100000, guid: 35630e38b4e5ffb40b44ec5348b4333f, type: 2}
   raycastTarget: 1
   raycastPaddingLeft: 0
@@ -3611,6 +3613,7 @@ MonoBehaviour:
   popupContainerGo: {fileID: 5303856165422541960}
   popupBackground: {fileID: 2367997226424574738}
   popupBackgroundImage: {fileID: 431369109924961878}
+  popupBackgroundButton: {fileID: 4134814481330339569}
   onMenuManagerStartListeners: []
 --- !u!114 &1295867481323116806
 MonoBehaviour:
@@ -6715,12 +6718,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   profileName: button-dark-popup-background
   interactable: 1
-  transition: 0
-  normalColor: 
-  highlightedColor: 
-  pressedColor: 
-  selectedColor: 
-  disabledColor: 
+  transition: 1
+  normalColor: popup-background
+  highlightedColor: popup-background
+  pressedColor: popup-background
+  selectedColor: popup-background
+  disabledColor: popup-background-invisible
   colorMultiplier: 1
   fadeDuration: 0.1
   highlightedSprite: 
