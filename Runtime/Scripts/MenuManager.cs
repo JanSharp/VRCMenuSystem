@@ -446,6 +446,20 @@ namespace JanSharp.Internal
             PushOntoMainCanvas(popup, minDistanceFromPageEdge);
         }
 
+        public override void PushShownPopupOntoPage(RectTransform popup, float minDistanceFromPageEdge = 20f)
+        {
+#if MENU_SYSTEM_DEBUG
+            Debug.Log($"[MenuSystemDebug] Manager {this.name}  PushShownPopupOntoPage");
+#endif
+            int index = ArrList.IndexOf(ref popups, ref popupsCount, popup);
+            if (index < 0)
+            {
+                Debug.LogError($"[MenuSystemDebug] Attempt to push popup '{popup.name}' onto page while it is not shown.", popup);
+                return;
+            }
+            PushOntoMainCanvas(popup, minDistanceFromPageEdge);
+        }
+
         private void AddPopup(
             RectTransform popup,
             UdonSharpBehaviour callbackInst,

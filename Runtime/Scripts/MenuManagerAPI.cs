@@ -46,6 +46,7 @@ namespace JanSharp
             UdonSharpBehaviour callbackInst,
             string callbackEventName,
             float minDistanceFromPageEdge = 20f);
+        public abstract void PushShownPopupOntoPage(RectTransform popup, float minDistanceFromPageEdge = 20f);
 
         /// <summary>
         /// <para>Can be <see langword="null"/> in which case no pages are visible at all.</para>
