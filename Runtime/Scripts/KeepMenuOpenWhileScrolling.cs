@@ -18,6 +18,13 @@ namespace JanSharp
         /// </summary>
         private const float ForceResetAfter = 120f;
 
+        private void OnDisable()
+        {
+            // The exit event does not get raised if the pointer is
+            // inside of the element while it gets deactivated.
+            OnPointerExit();
+        }
+
         public void OnPointerEnter()
         {
             if (isIgnoring)
