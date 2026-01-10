@@ -97,7 +97,7 @@ namespace JanSharp.Internal
             get => isMenuOpen;
             set
             {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
                 Debug.Log($"[MenuSystemDebug] Manager {this.name}  IsMenuOpen.set - isMenuOpen: {isMenuOpen}, value: {value}");
 #endif
                 if (isMenuOpen == value)
@@ -109,7 +109,7 @@ namespace JanSharp.Internal
 
         public void Start()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  Start");
 #endif
             lockstepHiddenAPI = (Lockstep)lockstep;
@@ -124,7 +124,7 @@ namespace JanSharp.Internal
 
         public void UpdateWhichPagesAreShown()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  UpdateWhichPagesAreShown");
 #endif
             if (!pageTogglesShouldBeShown)
@@ -162,7 +162,7 @@ namespace JanSharp.Internal
 
         private void HideAllPageToggles()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  HideAllPageToggles");
 #endif
             pageTogglesToggleGroup.allowSwitchOff = true;
@@ -177,7 +177,7 @@ namespace JanSharp.Internal
 
         public void OnPageToggleValueChanged()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  OnPageToggleValueChanged");
 #endif
             for (int i = 0; i < pageCount; i++)
@@ -190,7 +190,7 @@ namespace JanSharp.Internal
 
         private void SetActivePageIndex(int activePageIndex)
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  SetActivePageIndex");
 #endif
             if (this.activePageIndex == activePageIndex)
@@ -205,7 +205,7 @@ namespace JanSharp.Internal
 
         private void HideActivePage()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  HideActivePage");
 #endif
             if (activePageIndex < 0)
@@ -215,7 +215,7 @@ namespace JanSharp.Internal
 
         private void ShowActivePage()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  ShowActivePage");
 #endif
             if (activePageIndex < 0)
@@ -225,7 +225,7 @@ namespace JanSharp.Internal
 
         private void UpdateInfoTextOverlay()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  UpdateInfoTextOverlay");
 #endif
             if (loadingPageIsShown || activePageIndex != IndexForNoShownPages)
@@ -243,7 +243,7 @@ namespace JanSharp.Internal
 
         public void OnCollapseClick()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  OnCollapseClick");
 #endif
             isCollapsed = !isCollapsed;
@@ -263,7 +263,7 @@ namespace JanSharp.Internal
         [LockstepEvent(LockstepEventType.OnClientBeginCatchUp)]
         public void OnClientBeginCatchUp()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  OnClientBeginCatchUp");
 #endif
             firstCatchUpTick = lockstep.CurrentTick;
@@ -272,7 +272,7 @@ namespace JanSharp.Internal
         [LockstepEvent(LockstepEventType.OnImportStart)]
         public void OnImportStart()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  OnImportStart");
 #endif
             importIsWaitingForData = true;
@@ -283,7 +283,7 @@ namespace JanSharp.Internal
         [LockstepEvent(LockstepEventType.OnImportOptionsDeserialized)]
         public void OnImportOptionsDeserialized()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  OnImportOptionsDeserialized");
 #endif
             importIsWaitingForData = false;
@@ -292,7 +292,7 @@ namespace JanSharp.Internal
         [LockstepEvent(LockstepEventType.OnImportFinished)]
         public void OnImportFinished()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  OnImportFinished");
 #endif
             if (lockstep.GameStatesBeingImportedFinishedCount == 0) // Got cancelled due to the importing player leaving.
@@ -305,7 +305,7 @@ namespace JanSharp.Internal
 
         private void ShowLoadingPage()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  ShowLoadingPage");
 #endif
             importGotCancelled = false; // Reset unconditionally.
@@ -320,7 +320,7 @@ namespace JanSharp.Internal
 
         private void HideLoadingPage()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  HideLoadingPage");
 #endif
             if (!loadingPageIsShown)
@@ -426,7 +426,7 @@ namespace JanSharp.Internal
             UdonSharpBehaviour callbackInst,
             string callbackEventName)
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  ShowPopupAtItsAnchor");
 #endif
             AddPopup(popup, callbackInst, callbackEventName);
@@ -439,7 +439,7 @@ namespace JanSharp.Internal
             string callbackEventName,
             float minDistanceFromPageEdge = 20f)
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  ShowPopupAtCurrentPosition");
 #endif
             AddPopup(popup, callbackInst, callbackEventName);
@@ -451,7 +451,7 @@ namespace JanSharp.Internal
             UdonSharpBehaviour callbackInst,
             string callbackEventName)
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  AddPopup");
 #endif
             if (ArrList.Contains(ref popups, ref popupsCount, popup))
@@ -471,7 +471,7 @@ namespace JanSharp.Internal
 
         private void PushOntoMainCanvas(RectTransform toPush, float minDistanceFromPageEdge)
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  PushOntoMainCanvas");
 #endif
             Vector2 normalizedAnchor = toPush.anchorMin;
@@ -506,7 +506,7 @@ namespace JanSharp.Internal
 
         public void OnDarkPopupBackgroundClick()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  OnDarkPopupBackgroundClick");
 #endif
             ClosePopupAt(popupsCount - 1, doCallback: true);
@@ -519,7 +519,7 @@ namespace JanSharp.Internal
         /// <param name="doCallback"></param>
         public override void ClosePopup(RectTransform popup, bool doCallback)
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  ClosePopup");
 #endif
             int index = ArrList.IndexOf(ref popups, ref popupsCount, popup);
@@ -533,7 +533,7 @@ namespace JanSharp.Internal
 
         private void ClosePopupAt(int index, bool doCallback)
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  ClosePopupAt");
 #endif
             RectTransform popup = ArrList.RemoveAt(ref popups, ref popupsCount, index);
@@ -554,7 +554,7 @@ namespace JanSharp.Internal
 
         private void InitPopupBlockingBackground()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  InitPopupBlockingBackground");
 #endif
             popupBackgroundButton.interactable = false;
@@ -562,7 +562,7 @@ namespace JanSharp.Internal
 
         private void EnablePopupBlockingBackground()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  EnablePopupBlockingBackground");
 #endif
             popupContainerGo.SetActive(true);
@@ -572,7 +572,7 @@ namespace JanSharp.Internal
 
         private void DisablePopupBlockingBackground()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  DisablePopupBlockingBackground");
 #endif
             popupBackgroundImage.raycastTarget = false;
@@ -582,7 +582,7 @@ namespace JanSharp.Internal
 
         public void DisablePopupBlockingBackgroundDelayed()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  DisablePopupBlockingBackgroundDelayed");
 #endif
             if (popupsCount != 0)
@@ -602,7 +602,7 @@ namespace JanSharp.Internal
 
         public override void RegisterOnMenuActivePageChanged(UdonSharpBehaviour listener)
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  RegisterOnMenuActivePageChanged");
 #endif
             ArrList.Add(ref onMenuActivePageChangedListeners, ref onMenuActivePageChangedListenersCount, listener);
@@ -610,7 +610,7 @@ namespace JanSharp.Internal
 
         private void RaiseOnMenuActivePageChanged()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  RaiseOnMenuActivePageChanged");
 #endif
             for (int i = 0; i < onMenuActivePageChangedListenersCount; i++)
@@ -623,7 +623,7 @@ namespace JanSharp.Internal
 
         public override void RegisterOnMenuOpenStateChanged(UdonSharpBehaviour listener)
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  RegisterOnMenuOpenStateChanged");
 #endif
             ArrList.Add(ref onMenuOpenStateChangedListeners, ref onMenuOpenStateChangedListenersCount, listener);
@@ -631,7 +631,7 @@ namespace JanSharp.Internal
 
         private void RaiseOnMenuOpenStateChanged()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  RaiseOnMenuOpenStateChanged");
 #endif
             for (int i = 0; i < onMenuOpenStateChangedListenersCount; i++)
@@ -650,7 +650,7 @@ namespace JanSharp.Internal
 
         private void RaiseOnMenuManagerStart()
         {
-#if PERMISSION_SYSTEM_DEBUG
+#if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] Manager {this.name}  RaiseOnMenuManagerStart");
 #endif
             // For some reason UdonSharp needs the 'JanSharp.' namespace name here to resolve the Raise function call.
