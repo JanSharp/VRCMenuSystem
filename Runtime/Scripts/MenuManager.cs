@@ -20,6 +20,8 @@ namespace JanSharp.Internal
         public Image collapseButtonImage;
         public Sprite collapseIcon;
         public Sprite expandIcon;
+        public Transform containmentCanvas;
+        public Transform pagesContainer;
         public RectTransform vrRootCanvas;
         public Transform vrPositioningRoot;
         public RectTransform desktopCanvas;
@@ -115,7 +117,10 @@ namespace JanSharp.Internal
             lockstepHiddenAPI = (Lockstep)lockstep;
             pageCount = pageRoots.Length;
             foreach (MenuPageRoot pageRoot in pageRoots)
+            {
                 pageRoot.Initialize();
+                HidePageRoot(pageRoot); // Ensure it is properly hidden.
+            }
             InitPopupBlockingBackground();
             UpdateWhichPagesAreShown();
             ShowLoadingPage();
@@ -210,7 +215,16 @@ namespace JanSharp.Internal
 #endif
             if (activePageIndex < 0)
                 return;
-            pageRoots[activePageIndex].gameObject.SetActive(false);
+            HidePageRoot(pageRoots[activePageIndex]);
+        }
+
+        private void HidePageRoot(MenuPageRoot root)
+        {
+#if MENU_SYSTEM_DEBUG
+            Debug.Log($"[MenuSystemDebug] Manager {this.name}  HidePageRoot");
+#endif
+            root.gameObject.SetActive(false);
+            root.transform.SetParent(containmentCanvas, worldPositionStays: false);
         }
 
         private void ShowActivePage()
@@ -220,7 +234,9 @@ namespace JanSharp.Internal
 #endif
             if (activePageIndex < 0)
                 return;
-            pageRoots[activePageIndex].gameObject.SetActive(true);
+            MenuPageRoot root = pageRoots[activePageIndex];
+            root.transform.SetParent(pagesContainer, worldPositionStays: false);
+            root.gameObject.SetActive(true);
         }
 
         private void UpdateInfoTextOverlay()
