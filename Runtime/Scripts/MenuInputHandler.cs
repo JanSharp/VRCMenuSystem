@@ -6,18 +6,24 @@ using VRC.Udon.Common;
 
 namespace JanSharp
 {
-    public enum MenuOpenCloseKeyBind
+    /// <summary>
+    /// <para>Values are guaranteed to never change with updates, making them save for serialization.</para>
+    /// </summary>
+    public enum MenuOpenCloseKeyBind : byte
     {
-        DownUp,
-        DownDown,
-        HoldDown,
+        DownUp = 0,
+        DownDown = 1,
+        HoldDown = 2,
     }
 
-    public enum MenuPositionType
+    /// <summary>
+    /// <para>Values are guaranteed to never change with updates, making them save for serialization.</para>
+    /// </summary>
+    public enum MenuPositionType : byte
     {
-        InFront,
-        LeftHand,
-        RightHand,
+        InFront = 0,
+        LeftHand = 1,
+        RightHand = 2,
     }
 
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
@@ -40,6 +46,8 @@ namespace JanSharp
                 if (menuPosition == value)
                     return;
                 menuPosition = value;
+                if (!isInVR)
+                    return;
                 if (isMenuOpen)
                     boneAttachment.DetachFromLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
                 UpdateMenuAttachedTrackingType();
