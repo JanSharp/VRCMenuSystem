@@ -57,17 +57,6 @@ namespace JanSharp
 
     public abstract class MenuManagerAPI : UdonSharpBehaviour
     {
-        public abstract void ShowPopupAtItsAnchor(
-            RectTransform popup,
-            UdonSharpBehaviour callbackInst,
-            string callbackEventName);
-        public abstract void ShowPopupAtCurrentPosition(
-            RectTransform popup,
-            UdonSharpBehaviour callbackInst,
-            string callbackEventName,
-            float minDistanceFromPageEdge = 20f);
-        public abstract void PushShownPopupOntoPage(RectTransform popup, float minDistanceFromPageEdge = 20f);
-
         /// <summary>
         /// <para>Can be <see langword="null"/> in which case no pages are visible at all.</para>
         /// <para>Whenever this value has been changed
@@ -106,6 +95,17 @@ namespace JanSharp
         /// <paramref name="pageRoot"/> is currently <see langword="true"/>. <see langword="false"/> means
         /// nothing happened.</returns>
         public abstract bool SetActivePage(MenuPageRoot pageRoot);
+
+        public abstract void ShowPopupAtItsAnchor(
+            RectTransform popup,
+            UdonSharpBehaviour callbackInst,
+            string callbackEventName);
+        public abstract void ShowPopupAtCurrentPosition(
+            RectTransform popup,
+            UdonSharpBehaviour callbackInst,
+            string callbackEventName,
+            float minDistanceFromPageEdge = 20f);
+        public abstract void PushShownPopupOntoPage(RectTransform popup, float minDistanceFromPageEdge = 20f);
 
         /// <summary>
         /// <para>Can be called recursively.</para>
