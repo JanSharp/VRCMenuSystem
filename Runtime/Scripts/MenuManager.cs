@@ -2,6 +2,7 @@
 using UdonSharp;
 using UnityEngine;
 using UnityEngine.UI;
+using VRC.SDK3.Data;
 
 namespace JanSharp.Internal
 {
@@ -91,6 +92,8 @@ namespace JanSharp.Internal
 
         #endregion
 
+        private DataDictionary pageRootsByInternalName = new DataDictionary();
+        public override MenuPageRoot ActivePage => activePageIndex < 0 ? null : pageRoots[activePageIndex];
         public override string ActivePageInternalName => activePageIndex < 0 ? null : pageInternalNames[activePageIndex];
 
         [System.NonSerialized] public bool isMenuOpen = true;
@@ -118,6 +121,7 @@ namespace JanSharp.Internal
             pageCount = pageRoots.Length;
             foreach (MenuPageRoot pageRoot in pageRoots)
             {
+                pageRootsByInternalName.Add(pageRoot.PageInternalName, pageRoot);
                 pageRoot.Initialize();
                 HidePageRoot(pageRoot); // Ensure it is properly hidden.
             }
@@ -191,6 +195,42 @@ namespace JanSharp.Internal
                     SetActivePageIndex(i);
                     break;
                 }
+        }
+
+        public override MenuPageRoot GetPageRoot(string internalName)
+        {
+#if MENU_SYSTEM_DEBUG
+            Debug.Log($"[MenuSystemDebug] Manager {this.name}  SetActivePage");
+#endif
+            return pageRootsByInternalName.TryGetValue(internalName, out DataToken pageRootToken)
+                ? (MenuPageRoot)pageRootToken.Reference
+                : null;
+        }
+
+        public override bool SetActivePage(string internalName)
+        {
+#if MENU_SYSTEM_DEBUG
+            Debug.Log($"[MenuSystemDebug] Manager {this.name}  SetActivePage");
+#endif
+            MenuPageRoot pageRoot = GetPageRoot(internalName);
+            if (pageRoot == null)
+                return false;
+            return SetActivePage(pageRoot);
+        }
+
+        public override bool SetActivePage(MenuPageRoot pageRoot)
+        {
+#if MENU_SYSTEM_DEBUG
+            Debug.Log($"[MenuSystemDebug] Manager {this.name}  SetActivePage");
+#endif
+            if (!pageRoot.ShouldBeShown)
+                return false;
+            pageTogglesToggleGroup.allowSwitchOff = true;
+            for (int i = 0; i < pageCount; i++)
+                pageToggles[i].SetIsOnWithoutNotify(pageRoots[i] == pageRoot);
+            pageTogglesToggleGroup.allowSwitchOff = false;
+            SetActivePageIndex(pageRoot.PageIndex);
+            return true;
         }
 
         private void SetActivePageIndex(int activePageIndex)

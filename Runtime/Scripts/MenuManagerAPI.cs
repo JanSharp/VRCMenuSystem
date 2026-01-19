@@ -53,6 +53,8 @@ namespace JanSharp
         /// <para>Whenever this value has been changed
         /// <see cref="RegisterOnMenuActivePageChanged(UdonSharpBehaviour)"/> gets raised.</para>
         /// </summary>
+        public abstract MenuPageRoot ActivePage { get; }
+        /// <inheritdoc cref="ActivePage"/>
         public abstract string ActivePageInternalName { get; }
         /// <summary>
         /// <para>Is the menu as a whole currently open/visible?</para>
@@ -63,6 +65,27 @@ namespace JanSharp
         /// that wish to check the open state.</para>
         /// </summary>
         public abstract bool IsMenuOpen { get; set; }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="internalName"></param>
+        /// <returns><see langword="null"/> if there is no page with the given
+        /// <paramref name="internalName"/>.</returns>
+        public abstract MenuPageRoot GetPageRoot(string internalName);
+        /// <summary>
+        /// </summary>
+        /// <param name="internalName"></param>
+        /// <returns><see langword="true"/> if a page with the given <paramref name="internalName"/> exists
+        /// and its <see cref="MenuPageRoot.ShouldBeShown"/> is currently <see langword="true"/>.
+        /// <see langword="false"/> means nothing happened.</returns>
+        public abstract bool SetActivePage(string internalName);
+        /// <summary>
+        /// </summary>
+        /// <param name="pageRoot"></param>
+        /// <returns><see langword="true"/> if <see cref="MenuPageRoot.ShouldBeShown"/> for
+        /// <paramref name="pageRoot"/> is currently <see langword="true"/>. <see langword="false"/> means
+        /// nothing happened.</returns>
+        public abstract bool SetActivePage(MenuPageRoot pageRoot);
 
         /// <summary>
         /// <para>Can be called recursively.</para>
