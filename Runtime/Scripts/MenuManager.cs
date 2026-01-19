@@ -84,6 +84,7 @@ namespace JanSharp.Internal
         private int popupsCount = 0;
         private int popupCallbackInstsCount = 0;
         private int popupCallbackNamesCount = 0;
+        public override int OpenPopupsCount => popupsCount;
 
         // 99% of system will easily be able to know which popup got closed, and have a reference to it,
         // making this useful only for edge cases. But still, might as well have it.

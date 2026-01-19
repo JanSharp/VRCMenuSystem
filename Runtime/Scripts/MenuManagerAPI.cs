@@ -117,5 +117,10 @@ namespace JanSharp
         /// <para>Use inside of popup callbacks to get the popup which is being closed.</para>
         /// </summary>
         public abstract RectTransform PopupToClose { get; }
+
+        /// <summary>
+        /// <para>Simply the amount of popups that are currently open.</para>
+        /// </summary>
+        public abstract int OpenPopupsCount { get; }
     }
 }
