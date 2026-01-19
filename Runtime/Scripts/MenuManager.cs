@@ -663,60 +663,11 @@ namespace JanSharp.Internal
 
         #endregion
 
-        #region Events
-
-        private UdonSharpBehaviour[] onMenuActivePageChangedListeners = new UdonSharpBehaviour[ArrList.MinCapacity];
-        private int onMenuActivePageChangedListenersCount = 0;
-        private UdonSharpBehaviour[] onMenuOpenStateChangedListeners = new UdonSharpBehaviour[ArrList.MinCapacity];
-        private int onMenuOpenStateChangedListenersCount = 0;
-
-        public override void RegisterOnMenuActivePageChanged(UdonSharpBehaviour listener)
-        {
-#if MENU_SYSTEM_DEBUG
-            Debug.Log($"[MenuSystemDebug] Manager {this.name}  RegisterOnMenuActivePageChanged");
-#endif
-            ArrList.Add(ref onMenuActivePageChangedListeners, ref onMenuActivePageChangedListenersCount, listener);
-        }
-
-        private void RaiseOnMenuActivePageChanged()
-        {
-#if MENU_SYSTEM_DEBUG
-            Debug.Log($"[MenuSystemDebug] Manager {this.name}  RaiseOnMenuActivePageChanged");
-#endif
-            for (int i = 0; i < onMenuActivePageChangedListenersCount; i++)
-            {
-                UdonSharpBehaviour listener = onMenuActivePageChangedListeners[i];
-                if (listener != null) // Listeners should not get destroyed, but there is no way do deregister so I guess.
-                    listener.SendCustomEvent(OnMenuActivePageChangedEventName);
-            }
-        }
-
-        public override void RegisterOnMenuOpenStateChanged(UdonSharpBehaviour listener)
-        {
-#if MENU_SYSTEM_DEBUG
-            Debug.Log($"[MenuSystemDebug] Manager {this.name}  RegisterOnMenuOpenStateChanged");
-#endif
-            ArrList.Add(ref onMenuOpenStateChangedListeners, ref onMenuOpenStateChangedListenersCount, listener);
-        }
-
-        private void RaiseOnMenuOpenStateChanged()
-        {
-#if MENU_SYSTEM_DEBUG
-            Debug.Log($"[MenuSystemDebug] Manager {this.name}  RaiseOnMenuOpenStateChanged");
-#endif
-            for (int i = 0; i < onMenuOpenStateChangedListenersCount; i++)
-            {
-                UdonSharpBehaviour listener = onMenuOpenStateChangedListeners[i];
-                if (listener != null) // Listeners should not get destroyed, but there is no way do deregister so I guess.
-                    listener.SendCustomEvent(OnMenuOpenStateChangedEventName);
-            }
-        }
-
-        #endregion
-
         #region EventDispatcher
 
         [HideInInspector][SerializeField] private UdonSharpBehaviour[] onMenuManagerStartListeners;
+        [HideInInspector][SerializeField] private UdonSharpBehaviour[] onMenuActivePageChangedListeners;
+        [HideInInspector][SerializeField] private UdonSharpBehaviour[] onMenuOpenStateChangedListeners;
 
         private void RaiseOnMenuManagerStart()
         {
@@ -725,6 +676,24 @@ namespace JanSharp.Internal
 #endif
             // For some reason UdonSharp needs the 'JanSharp.' namespace name here to resolve the Raise function call.
             JanSharp.CustomRaisedEvents.Raise(ref onMenuManagerStartListeners, nameof(MenuManagerEventType.OnMenuManagerStart));
+        }
+
+        private void RaiseOnMenuActivePageChanged()
+        {
+#if MENU_SYSTEM_DEBUG
+            Debug.Log($"[MenuSystemDebug] Manager {this.name}  RaiseOnMenuActivePageChanged");
+#endif
+            // For some reason UdonSharp needs the 'JanSharp.' namespace name here to resolve the Raise function call.
+            JanSharp.CustomRaisedEvents.Raise(ref onMenuActivePageChangedListeners, nameof(MenuManagerEventType.OnMenuActivePageChanged));
+        }
+
+        private void RaiseOnMenuOpenStateChanged()
+        {
+#if MENU_SYSTEM_DEBUG
+            Debug.Log($"[MenuSystemDebug] Manager {this.name}  RaiseOnMenuOpenStateChanged");
+#endif
+            // For some reason UdonSharp needs the 'JanSharp.' namespace name here to resolve the Raise function call.
+            JanSharp.CustomRaisedEvents.Raise(ref onMenuOpenStateChangedListeners, nameof(MenuManagerEventType.OnMenuOpenStateChanged));
         }
 
         #endregion
