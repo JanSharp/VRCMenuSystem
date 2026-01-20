@@ -17,7 +17,8 @@ namespace JanSharp
             using (new EditorUtil.BatchedEditorOnlyChecksScope())
                 so.FindProperty("hasAnyShowPageByPermissionsInChildren").boolValue
                     = pageRoot.GetComponentsInChildren<ShowPageByPermission>(includeInactive: true)
-                        .Any(s => !EditorUtil.IsEditorOnly(s));
+                        .Any(s => !EditorUtil.IsEditorOnly(s)
+                            && s.GetComponentInParent<IgnoreShowPageByPermissionInChildren>(includeInactive: true) == null);
             so.ApplyModifiedProperties();
             return true;
         }

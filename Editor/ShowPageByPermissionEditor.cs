@@ -20,6 +20,7 @@ namespace JanSharp
             {
                 SerializedObject so = new(showPageByPermission);
                 so.FindProperty("menuPageRoot").objectReferenceValue = showPageByPermission.GetComponentInParent<MenuPageRoot>(includeInactive: true);
+                so.FindProperty("isIgnored").boolValue = showPageByPermission.GetComponentInParent<IgnoreShowPageByPermissionInChildren>(includeInactive: true) != null;
                 so.ApplyModifiedProperties();
 
                 if (!PermissionSystemEditorUtil.OnPermissionConditionsListBuild(
