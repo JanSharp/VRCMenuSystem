@@ -51,8 +51,10 @@ namespace JanSharp
                 targets: targets,
                 header: new GUIContent("Conditions"),
                 logicalAndsFieldName: "logicalAnds",
+                invertsFieldName: "inverts",
                 assetGuidsFieldName: "assetGuids",
                 getLogicalAnds: t => ((ShowPageByPermission)t).logicalAnds,
+                getInverts: t => ((ShowPageByPermission)t).inverts,
                 getAssetGuids: t => ((ShowPageByPermission)t).AssetGuids);
         }
 

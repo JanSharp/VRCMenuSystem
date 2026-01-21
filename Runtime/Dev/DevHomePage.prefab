@@ -63,9 +63,11 @@ MonoBehaviour:
   menuPageRoot: {fileID: 0}
   whenConditionsAreMet: 0
   logicalAnds: 00
+  inverts: 00
   assetGuids:
   - 7f717391deda0401db2fdd02bed0306b
   permissionDefs: []
+  isIgnored: 0
 --- !u!114 &8750904057156047079
 MonoBehaviour:
   m_ObjectHideFlags: 0

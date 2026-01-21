@@ -11,6 +11,7 @@ namespace JanSharp
         public WhenConditionsAreMetType whenConditionsAreMet;
 
         public bool[] logicalAnds;
+        public bool[] inverts;
         [SerializeField] private string[] assetGuids;
 #if UNITY_EDITOR && !COMPILER_UDONSHARP
         public string[] AssetGuids => assetGuids;
@@ -58,7 +59,7 @@ namespace JanSharp
 #endif
             if (isIgnored)
                 return;
-            bool conditionsMatching = PermissionsUtil.ResolveConditionsList(logicalAnds, permissionDefs);
+            bool conditionsMatching = PermissionsUtil.ResolveConditionsList(logicalAnds, inverts, permissionDefs);
             PageShouldBeShown = (whenConditionsAreMet == WhenConditionsAreMetType.Show) == conditionsMatching;
         }
     }
