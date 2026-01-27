@@ -58,6 +58,7 @@
 - [ ] in front needs to be smaller
   - [ ] after making that change see if it still feels off with the menu not taking the side bar into consideration for centering
 - [x] maybe an "ignore show page by permission in children" script
+- [ ] revert prefab overrides before deleting page prefabs to prevent added objects from getting moved to the root
 
 # Things I would like input on
 
