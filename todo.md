@@ -61,6 +61,7 @@
 - [ ] revert prefab overrides before deleting page prefabs to prevent added objects from getting moved to the root
 - [ ] the collapse button shows text while collapsed after changing menu position
 - [ ] update the offset and scale values from testing (see screenshot)
+- [ ] move the makeDesktopCanvasWorkWhileHoldingTab logic out into its own thing, probably into the common package
 
 # Things I would like input on
 
