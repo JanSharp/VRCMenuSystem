@@ -999,8 +999,12 @@ MonoBehaviour:
     color: {r: 1, g: 1, b: 1, a: 1}
   - name: progress-outline
     color: {r: 1, g: 1, b: 1, a: 1}
-  - name: progress-fill
+  - name: progress-fill-static
     color: {r: 1, g: 1, b: 1, a: 1}
+  - name: progress-fill-min
+    color: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
+  - name: progress-fill-max
+    color: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 1}
 --- !u!1 &844128128163169634
 GameObject:
   m_ObjectHideFlags: 0
@@ -3693,8 +3697,12 @@ MonoBehaviour:
   loadingProgress: {fileID: 7561357440504022744}
   loadingProgressFill: {fileID: 4195743342055951588}
   loadingInfo: {fileID: 7290268677618742387}
-  minLoadingProgressFillColor: {r: 0.25, g: 0.25, b: 0.25, a: 1}
-  maxLoadingProgressFillColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
+  staticLoadingProgressFillColorName: progress-fill-static
+  staticLoadingProgressFillColor: {r: 1, g: 1, b: 1, a: 1}
+  minLoadingProgressFillColorName: progress-fill-min
+  minLoadingProgressFillColor: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
+  maxLoadingProgressFillColorName: progress-fill-max
+  maxLoadingProgressFillColor: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 1}
   loadingProgressFillPulseDuration: 2
   popupContainer: {fileID: 8542221154379498201}
   popupContainerGo: {fileID: 5303856165422541960}
@@ -4327,7 +4335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   profileName: image-progress-fill
   sourceImage: full
-  color: progress-fill
+  color: progress-fill-static
   material: {fileID: 2100000, guid: 35630e38b4e5ffb40b44ec5348b4333f, type: 2}
   raycastTarget: 0
   raycastPaddingLeft: 0

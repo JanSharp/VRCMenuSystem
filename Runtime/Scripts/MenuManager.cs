@@ -43,7 +43,14 @@ namespace JanSharp.Internal
         public Slider loadingProgress;
         public Image loadingProgressFill;
         public TextMeshProUGUI loadingInfo;
+        [UIStyleColor(nameof(staticLoadingProgressFillColor))]
+        public string staticLoadingProgressFillColorName;
+        public Color staticLoadingProgressFillColor;
+        [UIStyleColor(nameof(minLoadingProgressFillColor))]
+        public string minLoadingProgressFillColorName;
         public Color minLoadingProgressFillColor;
+        [UIStyleColor(nameof(maxLoadingProgressFillColor))]
+        public string maxLoadingProgressFillColorName;
         public Color maxLoadingProgressFillColor;
         public float loadingProgressFillPulseDuration = 1f;
         private uint firstCatchUpTick;
@@ -408,7 +415,7 @@ namespace JanSharp.Internal
                     SendCustomEventDelayedFrames(nameof(LoadingPageUpdateLoop), 1);
                     return;
                 }
-                loadingProgressFill.color = Color.white;
+                loadingProgressFill.color = staticLoadingProgressFillColor;
                 int currentStep = lockstep.GameStatesBeingImportedFinishedCount + 1;
                 int totalStepsCount = lockstep.GameStatesBeingImportedCount + 1;
                 loadingProgress.value = currentStep / (float)totalStepsCount;
@@ -421,7 +428,7 @@ namespace JanSharp.Internal
             }
             if (Time.time < keepLoadingPageOpenUntil)
             {
-                loadingProgressFill.color = Color.white;
+                loadingProgressFill.color = staticLoadingProgressFillColor;
                 loadingProgress.value = 1f;
                 loadingInfo.text = importGotCancelled ? "Import Cancelled" : "Done!";
                 // Continuing to loop like this is inefficient, but another import could technically start
@@ -439,7 +446,7 @@ namespace JanSharp.Internal
             loadingTitle.text = "Loading";
             if (lockstepHiddenAPI.IsProcessingLJGameStates)
             {
-                loadingProgressFill.color = Color.white;
+                loadingProgressFill.color = staticLoadingProgressFillColor;
                 int processingGSIndex = lockstepHiddenAPI.NextLJGameStateToProcess;
                 loadingProgress.value = (processingGSIndex + 1f) / lockstep.AllGameStatesCount;
                 loadingInfo.text = $"Processing {lockstep.GetGameState(processingGSIndex).GameStateDisplayName} "
@@ -449,7 +456,7 @@ namespace JanSharp.Internal
             }
             if (lockstep.IsCatchingUp)
             {
-                loadingProgressFill.color = Color.white;
+                loadingProgressFill.color = staticLoadingProgressFillColor;
                 uint goal = lockstepHiddenAPI.LastRunnableTick - firstCatchUpTick;
                 uint current = lockstep.CurrentTick - firstCatchUpTick;
                 loadingProgress.value = current / (float)goal;

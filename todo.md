@@ -62,7 +62,7 @@
 - [x] the collapse button shows text while collapsed after changing menu position
 - [x] update the offset and scale values from testing (see screenshot)
 - [ ] move the makeDesktopCanvasWorkWhileHoldingTab logic out into its own thing, probably into the common package
-- [ ] change the 2 colors on the menu manager to use the UI styling attributes and editor scripting
+- [x] change the 2 colors on the menu manager to use the UI styling attributes and editor scripting
 - [x] mark the object with the internals script on it as editor only
 
 # Things I would like input on
