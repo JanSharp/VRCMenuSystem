@@ -58,7 +58,7 @@
 - [x] in front needs to be smaller
   - [ ] after making that change see if it still feels off with the menu not taking the side bar into consideration for centering
 - [x] maybe an "ignore show page by permission in children" script
-- [ ] revert prefab overrides before deleting page prefabs to prevent added objects from getting moved to the root
+- [x] revert prefab overrides before deleting page prefabs to prevent added objects from getting moved to the root - first of all cannot reproduce, second of all that is not how prefab override reverting works. All of the overrides are stored on the root prefab instance, there is no clean convenient way to only revert overrides in some sub tree within the prefab instance's hierarchy
 - [x] the collapse button shows text while collapsed after changing menu position
 - [x] update the offset and scale values from testing (see screenshot)
 - [ ] move the makeDesktopCanvasWorkWhileHoldingTab logic out into its own thing, probably into the common package
