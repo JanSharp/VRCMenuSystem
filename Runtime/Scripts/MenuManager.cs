@@ -19,6 +19,7 @@ namespace JanSharp.Internal
         public GameObject[] pageToggleLabels;
         public ToggleGroup pageTogglesToggleGroup;
         public Image collapseButtonImage;
+        public GameObject collapseButtonLabel;
         public Sprite collapseIcon;
         public Sprite expandIcon;
         public Transform containmentCanvas;
@@ -305,6 +306,7 @@ namespace JanSharp.Internal
 #endif
             isCollapsed = !isCollapsed;
             collapseButtonImage.sprite = isCollapsed ? expandIcon : collapseIcon;
+            collapseButtonLabel.SetActive(!isCollapsed);
             float sideSize = isCollapsed ? collapsedSideSize : expandedSideSize;
             Vector2 negatedHalfSideSizeWide = new Vector2(sideSize / -2f, 0f);
             vrRootCanvas.anchoredPosition = negatedHalfSideSizeWide;

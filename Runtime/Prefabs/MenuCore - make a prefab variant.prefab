@@ -3670,6 +3670,7 @@ MonoBehaviour:
   pageToggleLabels: []
   pageTogglesToggleGroup: {fileID: 45916931008877070}
   collapseButtonImage: {fileID: 5545636553318166425}
+  collapseButtonLabel: {fileID: 8469842761967420183}
   collapseIcon: {fileID: 21300000, guid: 7559f0ffc20cbc6b19da1d38a239d962, type: 3}
   expandIcon: {fileID: 21300000, guid: 38f1bb5a8b1699d4fb2f823437d36e98, type: 3}
   containmentCanvas: {fileID: 2952218213523834860}
@@ -3701,6 +3702,8 @@ MonoBehaviour:
   popupBackgroundImage: {fileID: 431369109924961878}
   popupBackgroundButton: {fileID: 4134814481330339569}
   onMenuManagerStartListeners: []
+  onMenuActivePageChangedListeners: []
+  onMenuOpenStateChangedListeners: []
 --- !u!114 &1295867481323116806
 MonoBehaviour:
   m_ObjectHideFlags: 0
