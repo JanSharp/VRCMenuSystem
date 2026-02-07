@@ -304,7 +304,8 @@ namespace JanSharp
                 menuManager.IsMenuOpen = isMenuOpen; // Go still inactive to prevent needless layout any custom scripts would trigger.
                 desktopCanvasGo.SetActive(true); // Intentional order of operation.
             }
-            else if (Input.GetKeyUp(KeyCode.Tab))
+            // Pretty sure from a quick search that yes both down and up can be true in the same frame.
+            if (Input.GetKeyUp(KeyCode.Tab))
             {
                 desktopCanvasGo.SetActive(false); // Intentional order of operation.
                 makeDesktopCanvasWorkWhileHoldingTab.gameObject.SetActive(false);
