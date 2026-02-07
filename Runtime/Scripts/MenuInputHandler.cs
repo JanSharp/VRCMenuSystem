@@ -37,6 +37,7 @@ namespace JanSharp
         [SerializeField] private MenuPositionType menuPosition;
         public float pixelsFromDesktopScreenEdge = 50f;
         public Transform makeDesktopCanvasWorkWhileHoldingTab;
+        private Transform makeDesktopCanvasWorkWhileHoldingTabParent;
 
         public MenuPositionType MenuPosition
         {
@@ -254,6 +255,7 @@ namespace JanSharp
 
         private void MoveMenuIntoScreenCanvas()
         {
+            makeDesktopCanvasWorkWhileHoldingTabParent = makeDesktopCanvasWorkWhileHoldingTab.parent;
             vrRootGo.SetActive(false); // Prevent needless UI layout.
             desktopCanvasGo.SetActive(false); // Ensure it's off. Also intentional order of operation.
             Transform source = menuManager.vrRootCanvas;
@@ -333,6 +335,7 @@ namespace JanSharp
             desktopCanvasGo.SetActive(false); // Intentional order of operation, reduces the amount of work UI has to do.
             makeDesktopCanvasWorkWhileHoldingTab.gameObject.SetActive(false);
             boneAttachment.DetachFromLocalTrackingData(VRCPlayerApi.TrackingDataType.Head, makeDesktopCanvasWorkWhileHoldingTab);
+            makeDesktopCanvasWorkWhileHoldingTab.SetParent(makeDesktopCanvasWorkWhileHoldingTabParent); // Do not clutter the hierarchy root.
             isMenuOpen = false;
             menuManager.IsMenuOpen = isMenuOpen;
         }
