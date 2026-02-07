@@ -55,12 +55,12 @@
 - [x] collapse button no longer works?
 - [ ] the Build Menu button undoes all prefab overrides of the root prefab?
 - [x] ensure to automatically show the top page that the local player has permission to view, rather than depending on the random order that show page by permission scripts resolve in
-- [ ] in front needs to be smaller
+- [x] in front needs to be smaller
   - [ ] after making that change see if it still feels off with the menu not taking the side bar into consideration for centering
 - [x] maybe an "ignore show page by permission in children" script
 - [ ] revert prefab overrides before deleting page prefabs to prevent added objects from getting moved to the root
 - [ ] the collapse button shows text while collapsed after changing menu position
-- [ ] update the offset and scale values from testing (see screenshot)
+- [x] update the offset and scale values from testing (see screenshot)
 - [ ] move the makeDesktopCanvasWorkWhileHoldingTab logic out into its own thing, probably into the common package
 
 # Things I would like input on

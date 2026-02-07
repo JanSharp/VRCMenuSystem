@@ -62,15 +62,15 @@ namespace JanSharp
         private VRCPlayerApi.TrackingDataType menuAttachedTrackingType;
 
         private Quaternion handRotationNormalization = Quaternion.AngleAxis(90f, Vector3.forward) * Quaternion.AngleAxis(45f, Vector3.right);
-        [System.NonSerialized] public Vector3 headOffsetPosition = new Vector3(0f, 0f, 0.9f);
+        [System.NonSerialized] public Vector3 headOffsetPosition = new Vector3(0f, -0.15f, 0.9f);
         [System.NonSerialized] public Vector3 headOffsetRotation = new Vector3(0f, 0f, 0f);
-        [System.NonSerialized] public Vector3 leftHandOffsetPosition = new Vector3(0.1f, 0.55f, 0.15f);
-        [System.NonSerialized] public Vector3 leftHandOffsetRotation = new Vector3(-35f, -15f, 0f);
-        [System.NonSerialized] public Vector3 rightHandOffsetPosition = new Vector3(-0.125f, 0.18f, 0.24f);
+        [System.NonSerialized] public Vector3 leftHandOffsetPosition = new Vector3(0.1f, 0.5f, 0.15f);
+        [System.NonSerialized] public Vector3 leftHandOffsetRotation = new Vector3(-20f, -15f, 0f);
+        [System.NonSerialized] public Vector3 rightHandOffsetPosition = new Vector3(-0.125f, 0.14f, 0.18f);
         [System.NonSerialized] public Vector3 rightHandOffsetRotation = new Vector3(55f, 5f, -10f);
-        [System.NonSerialized] public float headAttachedScale = 0.001f;
-        [System.NonSerialized] public float leftHandAttachedScale = 0.00075f;
-        [System.NonSerialized] public float rightHandAttachedScale = 0.0005f;
+        [System.NonSerialized] public float headAttachedScale = 0.00085f;
+        [System.NonSerialized] public float leftHandAttachedScale = 0.0006f;
+        [System.NonSerialized] public float rightHandAttachedScale = 0.00035f;
 
         [System.NonSerialized] public float upThreshold = 0.1f;
         [System.NonSerialized] public float downThreshold = -0.1f;
