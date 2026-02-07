@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using JanSharp.Internal;
 using TMPro;
@@ -76,9 +75,8 @@ namespace JanSharp
 
         private void BuildMenu()
         {
-            List<GameObject> pageToggleGos = GetPageToggles(target.pages.Length);
-            for (int i = 0; i < target.pages.Length; i++)
-                ConfigurePageToggle(pageToggleGos[i], target.pages[i]);
+            ClearPageToggles();
+            GameObject[] pageToggleGos = GeneratePageToggles(target.pages);
 
             ClearPageRoots();
             GameObject[] pageRootGos = GeneratePages(target.pages);
@@ -103,38 +101,38 @@ namespace JanSharp
             managerSo.ApplyModifiedProperties();
         }
 
-        private List<GameObject> GetPageToggles(int count)
+        private void ClearPageToggles()
         {
-            List<GameObject> pageToggleGos = Internals.pageTogglesContainer
+            // Cannot reuse existing toggles. In case the toggle prefab has been changed due to an update,
+            // building the menu should use that new toggle, regardless of whatever overrides there might be
+            // on a toggle already in the menu. Reverting overrides is very non trivial, as it would require
+            // looping through all the different types of overrides and only undo those that are within these
+            // page toggles.
+            GameObject[] pageToggleGos = Internals.pageTogglesContainer
                 .Cast<Transform>()
                 .Select(t => t.gameObject)
                 .Where(go => PrefabUtility.IsAnyPrefabInstanceRoot(go))
-                .ToList();
-            for (int i = pageToggleGos.Count - 1; i >= count; i--)
-            {
+                .ToArray();
+            for (int i = pageToggleGos.Length - 1; i >= 0; i--)
                 Undo.DestroyObjectImmediate(pageToggleGos[i]);
-                pageToggleGos.RemoveAt(i);
-            }
-            foreach (GameObject go in pageToggleGos)
-            {
-                // I actually don't know how you would do Undo support correctly for this. Not that it matters here.
-                // Only idea I'd have is recording that object and its entire hierarchy, which seems silly.
-                PrefabUtility.RevertPrefabInstance(go, InteractionMode.AutomatedAction);
-            }
-            while (pageToggleGos.Count < count)
-            {
-                GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(Internals.pageTogglePrefab);
-                go.name = Internals.pageTogglePrefab.name;
-                go.transform.SetParent(Internals.pageTogglesContainer, worldPositionStays: false);
-                go.transform.SetSiblingIndex(pageToggleGos.Count);
-                pageToggleGos.Add(go);
-                Undo.RegisterCreatedObjectUndo(go, "Build Menu");
-            }
+        }
+
+        private GameObject[] GeneratePageToggles(MenuPageDefinition[] pageDefs)
+        {
+            GameObject[] pageToggleGos = new GameObject[pageDefs.Length];
+            for (int i = 0; i < pageDefs.Length; i++)
+                pageToggleGos[i] = GeneratePageToggle(pageDefs[i], i);
             return pageToggleGos;
         }
 
-        private void ConfigurePageToggle(GameObject toggleGo, MenuPageDefinition pageDef)
+        private GameObject GeneratePageToggle(MenuPageDefinition pageDef, int pageIndex)
         {
+            GameObject toggleGo = (GameObject)PrefabUtility.InstantiatePrefab(Internals.pageTogglePrefab);
+            toggleGo.name = Internals.pageTogglePrefab.name;
+            toggleGo.transform.SetParent(Internals.pageTogglesContainer, worldPositionStays: false);
+            toggleGo.transform.SetSiblingIndex(pageIndex);
+            Undo.RegisterCreatedObjectUndo(toggleGo, "Build Menu");
+
             Toggle toggle = toggleGo.GetComponent<Toggle>();
             SerializedObject so = new(toggle);
             so.FindProperty("m_Group").objectReferenceValue = Internals.pageTogglesGroup;
@@ -153,6 +151,8 @@ namespace JanSharp
             so = new(toggleGo.GetComponentInChildren<TextMeshProUGUI>(includeInactive: true));
             so.FindProperty("m_text").stringValue = pageDef.displayName;
             so.ApplyModifiedProperties();
+
+            return toggleGo;
         }
 
         private void ClearPageRoots()

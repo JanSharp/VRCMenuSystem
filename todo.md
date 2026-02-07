@@ -53,7 +53,7 @@
 - [x] does on init need its own loading stage now?
 - [x] does on client begin catch up being spread out across frames affect the loading screen at all? - Nope, it is simply part of the catching up phase
 - [x] collapse button no longer works?
-- [ ] the Build Menu button undoes all prefab overrides of the root prefab?
+- [x] the Build Menu button undoes all prefab overrides of the root prefab?
 - [x] ensure to automatically show the top page that the local player has permission to view, rather than depending on the random order that show page by permission scripts resolve in
 - [x] in front needs to be smaller
   - [ ] after making that change see if it still feels off with the menu not taking the side bar into consideration for centering
