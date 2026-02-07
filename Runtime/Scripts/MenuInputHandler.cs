@@ -88,6 +88,9 @@ namespace JanSharp
         private bool holdDownActuated;
         private int ignoreJoystickInputCounter;
 
+        private float lastTabKeyDownTime = -1f;
+        private const float DoubleClickInterval = 0.4f;
+
         private bool isInVR;
 
         private bool isMenuOpen;
@@ -296,23 +299,42 @@ namespace JanSharp
             UpdateDesktopMenuScale();
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                boneAttachment.AttachToLocalTrackingData(VRCPlayerApi.TrackingDataType.Head, makeDesktopCanvasWorkWhileHoldingTab);
-                makeDesktopCanvasWorkWhileHoldingTab.localPosition = Vector3.zero;
-                makeDesktopCanvasWorkWhileHoldingTab.localRotation = Quaternion.identity;
-                makeDesktopCanvasWorkWhileHoldingTab.gameObject.SetActive(true);
-                isMenuOpen = true;
-                menuManager.IsMenuOpen = isMenuOpen; // Go still inactive to prevent needless layout any custom scripts would trigger.
-                desktopCanvasGo.SetActive(true); // Intentional order of operation.
+                float time = Time.time;
+                if (time > lastTabKeyDownTime + DoubleClickInterval) // Single "click".
+                {
+                    lastTabKeyDownTime = time;
+                    OpenMenuInDesktop();
+                }
+                else // Double "click".
+                    lastTabKeyDownTime = -1f;
             }
             // Pretty sure from a quick search that yes both down and up can be true in the same frame.
             if (Input.GetKeyUp(KeyCode.Tab))
-            {
-                desktopCanvasGo.SetActive(false); // Intentional order of operation.
-                makeDesktopCanvasWorkWhileHoldingTab.gameObject.SetActive(false);
-                boneAttachment.DetachFromLocalTrackingData(VRCPlayerApi.TrackingDataType.Head, makeDesktopCanvasWorkWhileHoldingTab);
-                isMenuOpen = false;
-                menuManager.IsMenuOpen = isMenuOpen;
-            }
+                CloseMenuInDesktop();
+        }
+
+        private void OpenMenuInDesktop()
+        {
+            if (isMenuOpen)
+                return;
+            boneAttachment.AttachToLocalTrackingData(VRCPlayerApi.TrackingDataType.Head, makeDesktopCanvasWorkWhileHoldingTab);
+            makeDesktopCanvasWorkWhileHoldingTab.localPosition = Vector3.zero;
+            makeDesktopCanvasWorkWhileHoldingTab.localRotation = Quaternion.identity;
+            makeDesktopCanvasWorkWhileHoldingTab.gameObject.SetActive(true);
+            isMenuOpen = true;
+            menuManager.IsMenuOpen = isMenuOpen; // Go still inactive to prevent needless layout any custom scripts would trigger.
+            desktopCanvasGo.SetActive(true); // Intentional order of operation, reduces the amount of work UI has to do.
+        }
+
+        private void CloseMenuInDesktop()
+        {
+            if (!isMenuOpen)
+                return;
+            desktopCanvasGo.SetActive(false); // Intentional order of operation, reduces the amount of work UI has to do.
+            makeDesktopCanvasWorkWhileHoldingTab.gameObject.SetActive(false);
+            boneAttachment.DetachFromLocalTrackingData(VRCPlayerApi.TrackingDataType.Head, makeDesktopCanvasWorkWhileHoldingTab);
+            isMenuOpen = false;
+            menuManager.IsMenuOpen = isMenuOpen;
         }
     }
 }

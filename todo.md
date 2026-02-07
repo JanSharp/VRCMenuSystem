@@ -11,7 +11,7 @@
     - [x] Surround the player's in a cube of invisible canvases to make interaction with the screen space UI possible (yes this is a hack I found by accident)
       - [ ] maybe move the dummy canvases further away so there isn't a 200 pixel dragging dead zone in VRChat
       - [ ] probably make it clamp rather than elastic, which would likely be better for desktop mousewheel scrolling
-    - [ ] maybe make it double tap hold, to allow regular usage of holding tab to interact with world UIs. Or maybe the inverse of that, hold tab to open the menu, double tap tab and hold and the menu does not open
+    - [x] maybe make it double tap hold, to allow regular usage of holding tab to interact with world UIs. Or maybe the inverse of that, hold tab to open the menu, double tap tab and hold and the menu does not open - going with double tap to not open the menu, with the assumption that anything using this menu system is using it for the vast majority of interactions in the world
   - [x] In VR, right joystick (vertical look), matching what Sylan did simply for muscle memory as it is good enough... and like what else are we supposed to use
     - [x] Down Up
     - [x] Down Down
