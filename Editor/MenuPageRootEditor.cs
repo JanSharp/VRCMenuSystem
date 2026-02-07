@@ -15,10 +15,13 @@ namespace JanSharp
         {
             SerializedObject so = new(pageRoot);
             using (new EditorUtil.BatchedEditorOnlyChecksScope())
-                so.FindProperty("hasAnyShowPageByPermissionsInChildren").boolValue
+                so.FindProperty("hasAnyShowPageByScriptsInChildren").boolValue
                     = pageRoot.GetComponentsInChildren<ShowPageByPermission>(includeInactive: true)
                         .Any(s => !EditorUtil.IsEditorOnly(s)
-                            && s.GetComponentInParent<IgnoreShowPageByPermissionInChildren>(includeInactive: true) == null);
+                            && s.GetComponentInParent<IgnoreShowPageByPermissionInChildren>(includeInactive: true) == null)
+                    || pageRoot.GetComponentsInChildren<ShowPageByPlatform>(includeInactive: true)
+                        .Any(s => !EditorUtil.IsEditorOnly(s)
+                            && s.GetComponentInParent<IgnoreShowPageByPlatformInChildren>(includeInactive: true) == null);
             so.ApplyModifiedProperties();
             return true;
         }

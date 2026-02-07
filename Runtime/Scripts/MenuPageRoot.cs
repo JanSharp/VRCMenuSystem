@@ -16,8 +16,8 @@ namespace JanSharp
         public string PageDisplayName => pageDisplayName;
         public int PageIndex => pageIndex;
 
-        [HideInInspector][SerializeField] private bool hasAnyShowPageByPermissionsInChildren;
-        private bool IsShownByDefault => !hasAnyShowPageByPermissionsInChildren;
+        [HideInInspector][SerializeField] private bool hasAnyShowPageByScriptsInChildren;
+        private bool IsShownByDefault => !hasAnyShowPageByScriptsInChildren;
         private uint shouldBeShownCounter;
         public bool ShouldBeShown => shouldBeShownCounter != 0u;
 

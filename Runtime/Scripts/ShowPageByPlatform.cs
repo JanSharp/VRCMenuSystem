@@ -1,24 +1,41 @@
 ﻿using UdonSharp;
 using UnityEngine;
+using VRC.SDKBase;
 
 namespace JanSharp
 {
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
-    public class ShowPageByPermission : PermissionResolver
+    public class ShowPageByPlatform : UdonSharpBehaviour
     {
-        public MenuPageRoot menuPageRoot;
+        [HideInInspector] public MenuPageRoot menuPageRoot;
 
-        public WhenConditionsAreMetType whenConditionsAreMet;
+        [SerializeField] private bool showInVR = false;
+        public bool ShowInVR
+        {
+            get => showInVR;
+            set
+            {
+                if (showInVR == value)
+                    return;
+                showInVR = value;
+                Resolve();
+            }
+        }
 
-        public bool[] logicalAnds;
-        public bool[] inverts;
-        [SerializeField] private string[] assetGuids;
-#if UNITY_EDITOR && !COMPILER_UDONSHARP
-        public string[] AssetGuids => assetGuids;
-#endif
-        public PermissionDefinition[] permissionDefs;
+        [SerializeField] private bool showInDesktop = false;
+        public bool ShowInDesktop
+        {
+            get => showInDesktop;
+            set
+            {
+                if (showInDesktop == value)
+                    return;
+                showInDesktop = value;
+                Resolve();
+            }
+        }
 
-        [SerializeField] private bool isIgnored;
+        [HideInInspector][SerializeField] private bool isIgnored;
         public bool IsIgnored
         {
             get => isIgnored;
@@ -52,17 +69,14 @@ namespace JanSharp
             }
         }
 
-        public override void InitializeInstantiated() { }
+        [MenuManagerEvent(MenuManagerEventType.OnMenuManagerStart)]
+        public void OnMenuManagerStart() => Resolve();
 
-        public override void Resolve()
+        public void Resolve()
         {
-#if MENU_SYSTEM_DEBUG
-            Debug.Log($"[MenuSystemDebug] ShowPageByPermission  Resolve");
-#endif
             if (isIgnored)
                 return;
-            bool conditionsMatching = PermissionsUtil.ResolveConditionsList(logicalAnds, inverts, permissionDefs);
-            PageShouldBeShown = (whenConditionsAreMet == WhenConditionsAreMetType.Show) == conditionsMatching;
+            PageShouldBeShown = Networking.LocalPlayer.IsUserInVR() ? showInVR : showInDesktop;
         }
     }
 }
