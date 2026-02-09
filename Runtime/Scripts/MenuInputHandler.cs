@@ -191,7 +191,8 @@ namespace JanSharp
         private void OpenCloseInVR()
         {
             isMenuOpen = !isMenuOpen;
-            menuManager.IsMenuOpen = isMenuOpen;
+            if (menuManager.IsMenuOpen != isMenuOpen) // Avoid recursion.
+                menuManager.IsMenuOpen = isMenuOpen;
 
             if (isMenuOpen)
             {
@@ -324,7 +325,8 @@ namespace JanSharp
             makeDesktopCanvasWorkWhileHoldingTab.localRotation = Quaternion.identity;
             makeDesktopCanvasWorkWhileHoldingTab.gameObject.SetActive(true);
             isMenuOpen = true;
-            menuManager.IsMenuOpen = isMenuOpen; // Go still inactive to prevent needless layout any custom scripts would trigger.
+            if (menuManager.IsMenuOpen != isMenuOpen) // Avoid recursion.
+                menuManager.IsMenuOpen = isMenuOpen; // Go still inactive to prevent needless layout any custom scripts would trigger.
             desktopCanvasGo.SetActive(true); // Intentional order of operation, reduces the amount of work UI has to do.
         }
 
@@ -337,7 +339,22 @@ namespace JanSharp
             boneAttachment.DetachFromLocalTrackingData(VRCPlayerApi.TrackingDataType.Head, makeDesktopCanvasWorkWhileHoldingTab);
             makeDesktopCanvasWorkWhileHoldingTab.SetParent(makeDesktopCanvasWorkWhileHoldingTabParent); // Do not clutter the hierarchy root.
             isMenuOpen = false;
-            menuManager.IsMenuOpen = isMenuOpen;
+            if (menuManager.IsMenuOpen != isMenuOpen) // Avoid recursion.
+                menuManager.IsMenuOpen = isMenuOpen;
+        }
+
+        [MenuManagerEvent(MenuManagerEventType.OnMenuOpenStateChanged)]
+        public void OnMenuOpenStateChanged()
+        {
+            if (isMenuOpen == menuManager.IsMenuOpen)
+                return;
+            // A different system changed the open state, reflect that change.
+            if (isInVR)
+                OpenCloseInVR();
+            else if (isMenuOpen)
+                CloseMenuInDesktop();
+            else
+                OpenMenuInDesktop();
         }
     }
 }
