@@ -64,6 +64,7 @@
 - [ ] move the makeDesktopCanvasWorkWhileHoldingTab logic out into its own thing, probably into the common package
 - [x] change the 2 colors on the menu manager to use the UI styling attributes and editor scripting
 - [x] mark the object with the internals script on it as editor only
+- [ ] add marker/info objects at the end of the MenuCore hierarchy, stating how any objects after that object will get deleted automatically. This is to prevent updating systems leaving zombie objects in the root of the prefab instance, due to a page having had added objects where due to the update the parent of said added objects got deleted, moving those objects to the root even though they should be deleted
 
 # Things I would like input on
 
