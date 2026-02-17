@@ -20,7 +20,11 @@ namespace JanSharp.Internal
         public ToggleGroup pageTogglesToggleGroup;
         public Image collapseButtonImage;
         public GameObject collapseButtonLabel;
+        [UIStyleSprite(nameof(collapseIcon))]
+        public string collapseIconName;
         public Sprite collapseIcon;
+        [UIStyleSprite(nameof(expandIcon))]
+        public string expandIconName;
         public Sprite expandIcon;
         public Transform containmentCanvas;
         public Transform pagesContainer;
