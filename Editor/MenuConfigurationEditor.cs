@@ -27,7 +27,8 @@ namespace JanSharp
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            EditorGUILayout.PropertyField(internalsProp);
+            using (new EditorGUI.DisabledGroupScope(internalsProp.objectReferenceValue != null))
+                EditorGUILayout.PropertyField(internalsProp);
             EditorGUILayout.PropertyField(pagesProp);
             serializedObject.ApplyModifiedProperties();
 
