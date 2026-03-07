@@ -66,6 +66,11 @@
 - [x] mark the object with the internals script on it as editor only
 - [ ] add marker/info objects at the end of the MenuCore hierarchy, stating how any objects after that object will get deleted automatically. This is to prevent updating systems leaving zombie objects in the root of the prefab instance, due to a page having had added objects where due to the update the parent of said added objects got deleted, moving those objects to the root even though they should be deleted
 - [x] exclude all layers on the collider of the menu so it doesn't collide with pickups for example
+- [ ] add a versioning system to pages
+  - [ ] keep track of what version the current prefab instance is at
+  - [ ] compare version from the prefab with the prefab instance, if they mismatch tell the user they need to rebuild the menu, or maybe do it automatically on build
+- [ ] detect a menu not having been built yet at all and either tell the user to do it or do it automatically on build
+- [ ] when building the menu, also apply the UI style in order to better support changed styling having effect instantly without the user potentially forgetting to apply their style changes
 
 # Things I would like input on
 
