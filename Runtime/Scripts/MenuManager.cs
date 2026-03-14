@@ -71,6 +71,8 @@ namespace JanSharp.Internal
         private bool importIsWaitingForData;
         private bool importGotCancelled;
 
+        private bool hasRaisedMenuManagerStart = false;
+
         /// <summary>
         /// <para>Gets set to <see langword="true"/> the first time the loading page disappears.</para>
         /// </summary>
@@ -121,7 +123,8 @@ namespace JanSharp.Internal
                 if (isMenuOpen == value)
                     return;
                 isMenuOpen = value;
-                RaiseOnMenuOpenStateChanged();
+                if (hasRaisedMenuManagerStart)
+                    RaiseOnMenuOpenStateChanged();
             }
         }
 
@@ -142,6 +145,9 @@ namespace JanSharp.Internal
             UpdateWhichPagesAreShown();
             ShowLoadingPage();
             RaiseOnMenuManagerStart();
+            hasRaisedMenuManagerStart = true;
+            RaiseOnMenuActivePageChanged();
+            RaiseOnMenuOpenStateChanged();
         }
 
         public void UpdateWhichPagesAreShown()
@@ -258,7 +264,8 @@ namespace JanSharp.Internal
             if (!loadingPageIsShown)
                 ShowActivePage();
             UpdateInfoTextOverlay();
-            RaiseOnMenuActivePageChanged();
+            if (hasRaisedMenuManagerStart)
+                RaiseOnMenuActivePageChanged();
         }
 
         private void HideActivePage()
