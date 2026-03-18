@@ -22,6 +22,7 @@ namespace JanSharp
         /// <para>It is raised instantly, do not change the active page within the raised event as that would
         /// cause recursion and break. This includes not performing any other actions which instantly raise
         /// other events too.</para>
+        /// <para>Never raised before <see cref="OnMenuManagerStart"/>.</para>
         /// <para>Only children of a <see cref="MenuManagerAPI"/> receive events of that associated
         /// manager.</para>
         /// <para>Not game state safe.</para>
@@ -32,6 +33,7 @@ namespace JanSharp
         /// <para>It is raised instantly, do not change the menu open state within the raised event as that
         /// would cause recursion and break. This includes not performing any other actions which instantly
         /// raise other events too.</para>
+        /// <para>Can be raised before <see cref="OnMenuManagerStart"/>.</para>
         /// <para>Only children of a <see cref="MenuManagerAPI"/> receive events of that associated
         /// manager.</para>
         /// <para>Not game state safe.</para>

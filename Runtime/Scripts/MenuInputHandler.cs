@@ -102,6 +102,8 @@ namespace JanSharp
         private GameObject desktopCanvasGo;
         private Vector2 lastDesktopCanvasSize = -Vector2.one;
 
+        private bool isInitialized = false;
+
         public void Start()
         {
             localPlayer = Networking.LocalPlayer;
@@ -121,6 +123,8 @@ namespace JanSharp
                 return;
             }
             MoveMenuIntoScreenCanvas();
+
+            isInitialized = true;
         }
 
         public void IgnoreJoystickInput()
@@ -346,7 +350,7 @@ namespace JanSharp
         [MenuManagerEvent(MenuManagerEventType.OnMenuOpenStateChanged)]
         public void OnMenuOpenStateChanged()
         {
-            if (isMenuOpen == menuManager.IsMenuOpen)
+            if (isMenuOpen == menuManager.IsMenuOpen || !isInitialized)
                 return;
             // A different system changed the open state, reflect that change.
             if (isInVR)

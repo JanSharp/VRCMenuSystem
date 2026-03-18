@@ -147,7 +147,6 @@ namespace JanSharp.Internal
             RaiseOnMenuManagerStart();
             hasRaisedMenuManagerStart = true;
             RaiseOnMenuActivePageChanged();
-            RaiseOnMenuOpenStateChanged();
         }
 
         public void UpdateWhichPagesAreShown()
