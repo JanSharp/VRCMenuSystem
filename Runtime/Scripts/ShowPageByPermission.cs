@@ -30,7 +30,7 @@ namespace JanSharp
                 if (isIgnored)
                     PageShouldBeShown = false;
                 else
-                    Resolve();
+                    ResolveAll();
             }
         }
 
@@ -54,7 +54,7 @@ namespace JanSharp
 
         public override void InitializeInstantiated() { }
 
-        public override void Resolve()
+        public override void ResolveAll()
         {
 #if MENU_SYSTEM_DEBUG
             Debug.Log($"[MenuSystemDebug] ShowPageByPermission  Resolve");
