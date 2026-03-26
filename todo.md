@@ -16,8 +16,10 @@
     - [x] Down Up
     - [x] Down Down
     - [x] Hold Down
+      - [ ] this is a conflicting key bind with other systems using holding down as a "modifier" key
     - [x] test in VR
     - [x] ignore joystick movement while pointing at a scroll view (use the on pointer enter/exit events)
+      - [ ] this is likely an anti feature, might be best to just remove entirely. Could leave it in and see if people adapt to it, but idk, is the gain worth the cost?
 - [x] Different types of positioning of the UI in VR
   - [x] In front - Appears in front of your face, moves with your avatar, does not rotate
     - [ ] Maybe adjustable positioning? Like distance from you head? I don't think so though, it should be positioned such that it is nicely readable and comfortably interactable, which I don't believe varies much. Or so I would hope
