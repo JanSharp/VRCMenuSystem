@@ -17,6 +17,7 @@
     - [x] Down Down
     - [x] Hold Down
       - [ ] this is a conflicting key bind with other systems using holding down as a "modifier" key
+      - [ ] add HUD, a circle that's filling up
     - [x] test in VR
     - [x] ignore joystick movement while pointing at a scroll view (use the on pointer enter/exit events)
       - [ ] this is likely an anti feature, might be best to just remove entirely. Could leave it in and see if people adapt to it, but idk, is the gain worth the cost?
@@ -73,6 +74,7 @@
   - [ ] compare version from the prefab with the prefab instance, if they mismatch tell the user they need to rebuild the menu, or maybe do it automatically on build
 - [ ] detect a menu not having been built yet at all and either tell the user to do it or do it automatically on build
 - [ ] when building the menu, also apply the UI style in order to better support changed styling having effect instantly without the user potentially forgetting to apply their style changes
+- [ ] center the menu including its side bar. it looks weird
 
 # Things I would like input on
 
