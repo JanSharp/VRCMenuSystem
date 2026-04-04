@@ -115,14 +115,14 @@ namespace JanSharp
             desktopCanvas = menuManager.desktopCanvas;
             desktopCanvasGo = desktopCanvas.gameObject;
 
-            if (isInVR)
+            if (!isInVR)
+                MoveMenuIntoScreenCanvas();
+            else
             {
                 Destroy(desktopCanvasGo);
                 isMenuOpen = true;
                 OpenCloseInVR(); // Close.
-                return;
             }
-            MoveMenuIntoScreenCanvas();
 
             isInitialized = true;
         }
