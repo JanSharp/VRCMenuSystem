@@ -120,8 +120,7 @@ namespace JanSharp
             else
             {
                 Destroy(desktopCanvasGo);
-                isMenuOpen = true;
-                OpenCloseInVR(); // Close.
+                CloseMenuInVR();
             }
 
             isInitialized = true;
@@ -165,7 +164,7 @@ namespace JanSharp
                         return;
                     holdDownActuated = true;
                     if (keyBind == MenuOpenCloseKeyBind.HoldDown)
-                        OpenCloseInVR();
+                        OpenCloseMenuInVR();
                     return;
                 }
                 isHoldingDown = false;
@@ -180,7 +179,7 @@ namespace JanSharp
                 if (keyBind == MenuOpenCloseKeyBind.DownDown && currentPressDownTime < previousPressDownTime + doubleInputTimeout)
                 {
                     currentPressDownTime = 0f; // Consume this down input, to prevent 3 downs being treated as 2 down downs.
-                    OpenCloseInVR();
+                    OpenCloseMenuInVR();
                 }
                 return;
             }
@@ -188,27 +187,35 @@ namespace JanSharp
             if (lookVerticalValue >= upThreshold && keyBind == MenuOpenCloseKeyBind.DownUp && Time.time < previousPressDownTime + doubleInputTimeout)
             {
                 previousPressDownTime = 0f; // Consume this down up input.
-                OpenCloseInVR();
+                OpenCloseMenuInVR();
             }
         }
 
-        private void OpenCloseInVR()
+        private void OpenCloseMenuInVR()
         {
-            isMenuOpen = !isMenuOpen;
-            if (menuManager.IsMenuOpen != isMenuOpen) // Avoid recursion.
-                menuManager.IsMenuOpen = isMenuOpen;
-
             if (isMenuOpen)
-            {
-                boneAttachment.AttachToLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
-                UpdateMenuLocalPosition();
-                vrRootGo.SetActive(true);
-            }
+                CloseMenuInVR();
             else
-            {
-                vrRootGo.SetActive(false);
-                boneAttachment.DetachFromLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
-            }
+                OpenMenuInVR();
+        }
+
+        private void OpenMenuInVR()
+        {
+            isMenuOpen = true;
+            if (menuManager.IsMenuOpen != true) // Avoid recursion.
+                menuManager.IsMenuOpen = true;
+            boneAttachment.AttachToLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
+            UpdateMenuLocalPosition();
+            vrRootGo.SetActive(true);
+        }
+
+        private void CloseMenuInVR()
+        {
+            isMenuOpen = false;
+            if (menuManager.IsMenuOpen != false) // Avoid recursion.
+                menuManager.IsMenuOpen = false;
+            vrRootGo.SetActive(false);
+            boneAttachment.DetachFromLocalTrackingData(menuAttachedTrackingType, vrPositioningRoot);
         }
 
         private void UpdateMenuAttachedTrackingType()
@@ -354,7 +361,7 @@ namespace JanSharp
                 return;
             // A different system changed the open state, reflect that change.
             if (isInVR)
-                OpenCloseInVR();
+                OpenCloseMenuInVR();
             else if (isMenuOpen)
                 CloseMenuInDesktop();
             else
