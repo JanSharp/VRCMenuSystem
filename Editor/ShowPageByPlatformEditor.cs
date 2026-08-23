@@ -2,10 +2,10 @@ using UnityEditor;
 
 namespace JanSharp
 {
-    [InitializeOnLoad]
     public static class ShowPageByPlatformOnBuild
     {
-        static ShowPageByPlatformOnBuild()
+        [OrderedInitializeOnLoad]
+        private static void OnAssemblyLoad()
         {
             OnBuildUtil.RegisterType<ShowPageByPlatform>(OnBuild);
         }

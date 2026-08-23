@@ -3,10 +3,10 @@ using UnityEditor;
 
 namespace JanSharp
 {
-    [InitializeOnLoad]
     public static class MenuPageRootOnBuild
     {
-        static MenuPageRootOnBuild()
+        [OrderedInitializeOnLoad]
+        private static void OnAssemblyLoad()
         {
             OnBuildUtil.RegisterType<MenuPageRoot>(OnBuild);
         }

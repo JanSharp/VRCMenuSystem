@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace JanSharp
 {
-    [InitializeOnLoad]
     public static class ShowPageByPermissionOnBuild
     {
-        static ShowPageByPermissionOnBuild()
+        [OrderedInitializeOnLoad]
+        private static void OnAssemblyLoad()
         {
             OnBuildUtil.RegisterTypeCumulative<ShowPageByPermission>(OnBuildCumulative);
         }
