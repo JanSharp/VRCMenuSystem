@@ -8,14 +8,14 @@ namespace JanSharp
     [CustomEditor(typeof(MenuManager))]
     public class MenuManagerEditor : Editor
     {
-        private bool foldedOut = false;
+        private static bool internalFoldedOut = false;
 
         public override void OnInspectorGUI()
         {
             if (UdonSharpGUI.DrawDefaultUdonSharpBehaviourHeader(targets))
                 return;
 
-            if (foldedOut = EditorGUILayout.Foldout(foldedOut, "Internal", toggleOnLabelClick: true))
+            if (internalFoldedOut = EditorGUILayout.Foldout(internalFoldedOut, "Internal", toggleOnLabelClick: true))
             {
                 serializedObject.Update();
                 DrawPropertiesExcluding(serializedObject, "m_Script");
