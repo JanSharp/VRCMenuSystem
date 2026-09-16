@@ -1,14 +1,11 @@
-﻿using JanSharp.Internal;
-using UdonSharp;
+﻿using UdonSharp;
 using UnityEngine;
 
 namespace JanSharp
 {
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
-    public class MenuPageRoot : UdonSharpBehaviour
+    public class MenuPageRoot : MenuPointerDetection
     {
-        [HideInInspector][SerializeField][FindInParent] private MenuManager menuManager;
-
         [HideInInspector][SerializeField] private string pageInternalName;
         [HideInInspector][SerializeField] private string pageDisplayName;
         [HideInInspector][SerializeField] private int pageIndex;

@@ -39,6 +39,17 @@ namespace JanSharp
         /// <para>Not game state safe.</para>
         /// </summary>
         OnMenuOpenStateChanged,
+        /// <summary>
+        /// <para>Raised whenever <see cref="MenuManagerAPI.PointerIsOnPage"/>,
+        /// <see cref="MenuManagerAPI.PointerIsOnPopups"/>, <see cref="MenuManagerAPI.PointerIsOnSidebar"/>,
+        /// <see cref="MenuManagerAPI.PointerIsOnPageOrPopups"/> or
+        /// <see cref="MenuManagerAPI.PointerIsOnMenu"/> values have changed.</para>
+        /// <para>Pointer changes are batched such that moving the pointer from the page to the side bar would
+        /// only raise this event once, with <see cref="MenuManagerAPI.PointerIsOnMenu"/> staying
+        /// <see langword="true"/>.</para>
+        /// <para>Not game state safe.</para>
+        /// </summary>
+        OnPointerStateChanged,
     }
 
     [System.AttributeUsage(System.AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
@@ -78,6 +89,21 @@ namespace JanSharp
         /// that wish to check the open state.</para>
         /// </summary>
         public abstract bool IsMenuOpen { get; set; }
+
+        public abstract bool PointerIsOnPage { get; }
+        public abstract bool PointerIsOnPopups { get; }
+        public abstract bool PointerIsOnSidebar { get; }
+        /// <summary>
+        /// <para><see langword="true"/> whenever either <see cref="PointerIsOnPage"/> or
+        /// <see cref="PointerIsOnPopups"/> is <see langword="true"/>.</para>
+        /// </summary>
+        public abstract bool PointerIsOnPageOrPopups { get; }
+        /// <summary>
+        /// <para><see langword="true"/> whenever any of <see cref="PointerIsOnPage"/>,
+        /// <see cref="PointerIsOnPopups"/> or <see cref="PointerIsOnSidebar"/> are
+        /// <see langword="true"/>.</para>
+        /// </summary>
+        public abstract bool PointerIsOnMenu { get; }
 
         /// <summary>
         /// </summary>

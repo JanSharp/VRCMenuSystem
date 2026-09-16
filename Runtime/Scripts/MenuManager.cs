@@ -26,6 +26,8 @@ namespace JanSharp.Internal
         [UIStyleSprite(nameof(expandIcon))]
         public string expandIconName;
         public Sprite expandIcon;
+        public MenuPointerDetection popupsPointerDetection;
+        public MenuPointerDetection sidebarPointerDetection;
         public Transform containmentCanvas;
         public Transform pagesContainer;
         public RectTransform vrRootCanvas;
@@ -72,6 +74,16 @@ namespace JanSharp.Internal
         private bool importGotCancelled;
 
         private bool hasRaisedMenuManagerStart = false;
+
+        private bool flaggedToUpdatePointerDetection = false;
+        private bool pointerIsOnPage;
+        private bool pointerIsOnPopups;
+        private bool pointerIsOnSidebar;
+        public override bool PointerIsOnPage => pointerIsOnPage;
+        public override bool PointerIsOnPopups => pointerIsOnPopups;
+        public override bool PointerIsOnSidebar => pointerIsOnSidebar;
+        public override bool PointerIsOnPageOrPopups => pointerIsOnPage || pointerIsOnPopups;
+        public override bool PointerIsOnMenu => pointerIsOnPage || pointerIsOnPopups || pointerIsOnSidebar;
 
         /// <summary>
         /// <para>Gets set to <see langword="true"/> the first time the loading page disappears.</para>
@@ -332,6 +344,44 @@ namespace JanSharp.Internal
             popupBackground.sizeDelta = new Vector2(sideSize, 0f);
             foreach (GameObject label in pageToggleLabels)
                 label.SetActive(!isCollapsed);
+        }
+
+        public void UpdatePointerDetection()
+        {
+            if (flaggedToUpdatePointerDetection)
+                return;
+            flaggedToUpdatePointerDetection = true;
+            SendCustomEventDelayedFrames(nameof(UpdatePointerDetectionBatched), 1);
+        }
+
+        public void UpdatePointerDetectionBatched()
+        {
+            flaggedToUpdatePointerDetection = false;
+
+            bool newPointerIsOnPage = false;
+            foreach (MenuPageRoot pageRoot in pageRoots)
+                if (pageRoot.PointerIsInDetectionArea)
+                {
+                    newPointerIsOnPage = true;
+                    break;
+                }
+            bool newPointerIsOnPopups = popupsPointerDetection.PointerIsInDetectionArea;
+            bool newPointerIsOnSidebar = sidebarPointerDetection.PointerIsInDetectionArea;
+
+            if (pointerIsOnPage == newPointerIsOnPage
+                && pointerIsOnPopups == newPointerIsOnPopups
+                && pointerIsOnSidebar == newPointerIsOnSidebar)
+            {
+                return;
+            }
+
+            pointerIsOnPage = newPointerIsOnPage;
+            pointerIsOnPopups = newPointerIsOnPopups;
+            pointerIsOnSidebar = newPointerIsOnSidebar;
+#if MENU_SYSTEM_DEBUG
+            Debug.Log($"[MenuSystemDebug] Manager {this.name}  UpdatePointerDetectionBatched (inner) - pointerIsOnPage: {pointerIsOnPage}, pointerIsOnPopups: {pointerIsOnPopups}, pointerIsOnSidebar: {pointerIsOnSidebar}");
+#endif
+            RaiseOnPointerStateChanged();
         }
 
         #region Loading Page
@@ -688,6 +738,7 @@ namespace JanSharp.Internal
         [HideInInspector][SerializeField] private UdonSharpBehaviour[] onMenuManagerStartListeners;
         [HideInInspector][SerializeField] private UdonSharpBehaviour[] onMenuActivePageChangedListeners;
         [HideInInspector][SerializeField] private UdonSharpBehaviour[] onMenuOpenStateChangedListeners;
+        [HideInInspector][SerializeField] private UdonSharpBehaviour[] onPointerStateChangedListeners;
 
         private void RaiseOnMenuManagerStart()
         {
@@ -714,6 +765,15 @@ namespace JanSharp.Internal
 #endif
             // For some reason UdonSharp needs the 'JanSharp.' namespace name here to resolve the Raise function call.
             JanSharp.CustomRaisedEvents.Raise(ref onMenuOpenStateChangedListeners, nameof(MenuManagerEventType.OnMenuOpenStateChanged));
+        }
+
+        private void RaiseOnPointerStateChanged()
+        {
+#if MENU_SYSTEM_DEBUG
+            Debug.Log($"[MenuSystemDebug] Manager {this.name}  RaiseOnPointerStateChanged");
+#endif
+            // For some reason UdonSharp needs the 'JanSharp.' namespace name here to resolve the Raise function call.
+            JanSharp.CustomRaisedEvents.Raise(ref onPointerStateChangedListeners, nameof(MenuManagerEventType.OnPointerStateChanged));
         }
 
         #endregion
