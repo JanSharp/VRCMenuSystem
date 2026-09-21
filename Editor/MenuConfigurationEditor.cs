@@ -20,8 +20,8 @@ namespace JanSharp
         public void OnEnable()
         {
             target = (MenuConfiguration)base.target;
-            internalsProp = serializedObject.FindProperty("internals");
-            pagesProp = serializedObject.FindProperty("pages");
+            internalsProp = serializedObject.FindProperty(nameof(MenuConfiguration.internals));
+            pagesProp = serializedObject.FindProperty(nameof(MenuConfiguration.pages));
         }
 
         public override void OnInspectorGUI()
@@ -84,19 +84,19 @@ namespace JanSharp
 
             SerializedObject managerSo = new(Internals.menuManager);
             EditorUtil.SetArrayProperty(
-                managerSo.FindProperty("pageInternalNames"),
+                managerSo.FindProperty(nameof(MenuManager.pageInternalNames)),
                 target.pages,
                 (p, v) => p.stringValue = v.internalName);
             EditorUtil.SetArrayProperty(
-                managerSo.FindProperty("pageRoots"),
+                managerSo.FindProperty(nameof(MenuManager.pageRoots)),
                 pageRootGos,
                 (p, v) => p.objectReferenceValue = v.GetComponent<MenuPageRoot>());
             EditorUtil.SetArrayProperty(
-                managerSo.FindProperty("pageToggles"),
+                managerSo.FindProperty(nameof(MenuManager.pageToggles)),
                 pageToggleGos,
                 (p, v) => p.objectReferenceValue = v.GetComponent<Toggle>());
             EditorUtil.SetArrayProperty(
-                managerSo.FindProperty("pageToggleLabels"),
+                managerSo.FindProperty(nameof(MenuManager.pageToggleLabels)),
                 pageToggleGos,
                 (p, v) => p.objectReferenceValue = v.GetComponentInChildren<TextMeshProUGUI>(includeInactive: true).gameObject);
             managerSo.ApplyModifiedProperties();
@@ -180,9 +180,9 @@ namespace JanSharp
 
             MenuPageRoot pageRoot = pageRootGo.GetComponent<MenuPageRoot>();
             SerializedObject so = new(pageRoot);
-            so.FindProperty("pageInternalName").stringValue = pageDef.internalName;
-            so.FindProperty("pageDisplayName").stringValue = pageDef.displayName;
-            so.FindProperty("pageIndex").intValue = pageIndex;
+            so.FindProperty(MenuPageRoot.PageInternalNamePropName).stringValue = pageDef.internalName;
+            so.FindProperty(MenuPageRoot.PageDisplayNamePropName).stringValue = pageDef.displayName;
+            so.FindProperty(MenuPageRoot.PageIndexPropName).intValue = pageIndex;
             so.ApplyModifiedProperties();
 
             GameObject pageGo = (GameObject)PrefabUtility.InstantiatePrefab(pageDef.pagePrefab);

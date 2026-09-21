@@ -7,7 +7,13 @@ namespace JanSharp
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
     public class ShowPageByPlatform : UdonSharpBehaviour
     {
-        [HideInInspector] public MenuPageRoot menuPageRoot;
+#if UNITY_EDITOR && !COMPILER_UDONSHARP
+        public const string MenuPageRootPropName = nameof(menuPageRoot);
+        public const string IsIgnoredPropName = nameof(isIgnored);
+#endif
+
+        [HideInInspector][SerializeField] private MenuPageRoot menuPageRoot;
+        public MenuPageRoot MenuPageRoot => menuPageRoot;
 
         [SerializeField] private bool showInVR = false;
         public bool ShowInVR

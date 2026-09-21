@@ -6,7 +6,12 @@ namespace JanSharp
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
     public class ShowPageByPermission : PermissionResolver
     {
-        public MenuPageRoot menuPageRoot;
+#if UNITY_EDITOR && !COMPILER_UDONSHARP
+        public const string MenuPageRootPropName = nameof(menuPageRoot);
+        public const string IsIgnoredPropName = nameof(isIgnored);
+#endif
+
+        [SerializeField] private MenuPageRoot menuPageRoot;
 
         public WhenConditionsAreMetType whenConditionsAreMet;
 
@@ -15,6 +20,7 @@ namespace JanSharp
         [SerializeField] private string[] assetGuids;
 #if UNITY_EDITOR && !COMPILER_UDONSHARP
         public string[] AssetGuids => assetGuids;
+        public const string AssetGuidsPropName = nameof(assetGuids);
 #endif
         public PermissionDefinition[] permissionDefs;
 

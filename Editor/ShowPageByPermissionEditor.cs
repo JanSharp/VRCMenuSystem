@@ -19,14 +19,14 @@ namespace JanSharp
             foreach (var showPageByPermission in showPageByPermissions)
             {
                 SerializedObject so = new(showPageByPermission);
-                so.FindProperty("menuPageRoot").objectReferenceValue = showPageByPermission.GetComponentInParent<MenuPageRoot>(includeInactive: true);
-                so.FindProperty("isIgnored").boolValue = showPageByPermission.GetComponentInParent<IgnoreShowPageByPermissionInChildren>(includeInactive: true) != null;
+                so.FindProperty(ShowPageByPermission.MenuPageRootPropName).objectReferenceValue = showPageByPermission.GetComponentInParent<MenuPageRoot>(includeInactive: true);
+                so.FindProperty(ShowPageByPermission.IsIgnoredPropName).boolValue = showPageByPermission.GetComponentInParent<IgnoreShowPageByPermissionInChildren>(includeInactive: true) != null;
                 so.ApplyModifiedProperties();
 
                 if (!PermissionSystemEditorUtil.OnPermissionConditionsListBuild(
                     showPageByPermission,
                     showPageByPermission.AssetGuids,
-                    permissionDefsFieldName: "permissionDefs",
+                    permissionDefsFieldName: nameof(ShowPageByPermission.permissionDefs),
                     conditionsHeaderName: "Conditions"))
                 {
                     result = false;
@@ -45,14 +45,14 @@ namespace JanSharp
 
         public void OnEnable()
         {
-            whenConditionsAreMetProp = serializedObject.FindProperty("whenConditionsAreMet");
+            whenConditionsAreMetProp = serializedObject.FindProperty(nameof(ShowPageByPermission.whenConditionsAreMet));
 
             conditionsList = new PermissionConditionsList(
                 targets: targets,
                 header: new GUIContent("Conditions", "Empty Conditions are treated as a match"),
-                logicalAndsFieldName: "logicalAnds",
-                invertsFieldName: "inverts",
-                assetGuidsFieldName: "assetGuids",
+                logicalAndsFieldName: nameof(ShowPageByPermission.logicalAnds),
+                invertsFieldName: nameof(ShowPageByPermission.inverts),
+                assetGuidsFieldName: ShowPageByPermission.AssetGuidsPropName,
                 getLogicalAnds: t => ((ShowPageByPermission)t).logicalAnds,
                 getInverts: t => ((ShowPageByPermission)t).inverts,
                 getAssetGuids: t => ((ShowPageByPermission)t).AssetGuids);

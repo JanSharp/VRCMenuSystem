@@ -15,7 +15,7 @@ namespace JanSharp
         {
             SerializedObject so = new(pageRoot);
             using (new EditorUtil.BatchedEditorOnlyChecksScope())
-                so.FindProperty("hasAnyShowPageByScriptsInChildren").boolValue
+                so.FindProperty(MenuPageRoot.HasAnyShowPageByScriptsInChildrenPropName).boolValue
                     = pageRoot.GetComponentsInChildren<ShowPageByPermission>(includeInactive: true)
                         .Any(s => !EditorUtil.IsEditorOnly(s)
                             && s.GetComponentInParent<IgnoreShowPageByPermissionInChildren>(includeInactive: true) == null)

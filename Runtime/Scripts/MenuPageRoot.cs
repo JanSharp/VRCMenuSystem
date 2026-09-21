@@ -18,6 +18,13 @@ namespace JanSharp
         private uint shouldBeShownCounter;
         public bool ShouldBeShown => shouldBeShownCounter != 0u;
 
+#if UNITY_EDITOR && !COMPILER_UDONSHARP
+        public const string PageInternalNamePropName = nameof(pageInternalName);
+        public const string PageDisplayNamePropName = nameof(pageDisplayName);
+        public const string PageIndexPropName = nameof(pageIndex);
+        public const string HasAnyShowPageByScriptsInChildrenPropName = nameof(hasAnyShowPageByScriptsInChildren);
+#endif
+
         private bool isInitialized;
         private bool isForcedHidden;
 
