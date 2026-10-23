@@ -1,8 +1,7 @@
-using JanSharp.Internal;
 using UdonSharpEditor;
 using UnityEditor;
 
-namespace JanSharp
+namespace JanSharp.Internal
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(MenuManager))]
